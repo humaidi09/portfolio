@@ -3,11 +3,12 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, Award, Download, GraduationCap, Mail, Zap } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
 import { api, cvUrl } from '../lib/api'
+import { useCollection } from '../hooks/useCollection'
 import GridSignal from './ui/GridSignal'
 import CodeTerminal from './ui/CodeTerminal'
 import {
   personalInfo,
-  stats,
+  stats as staticStats,
   skills,
   projects,
   experiences,
@@ -106,6 +107,9 @@ export default function Hero() {
   const phrases = FOCUS_PHRASES
   const typed = useTypewriter(phrases)
   const focusLine = reduce ? phrases[0] : typed
+
+  // Stats come from the API (admin-editable), falling back to the static list.
+  const { items: stats } = useCollection(api.listStats, staticStats)
 
   // Prefer a real uploaded PDF (managed from /admin); fall back to the
   // generated text CV if none has been uploaded yet.
@@ -218,7 +222,7 @@ export default function Hero() {
             custom={4}
             className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
-            {[stats[0], stats[3], stats[2]].map((s) => (
+            {[stats[0], stats[3], stats[2]].filter(Boolean).map((s) => (
               <div key={s.label} className="bg-void px-4 py-4">
                 <dt className="font-display text-2xl font-semibold text-gradient sm:text-3xl">
                   {s.value}

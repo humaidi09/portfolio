@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  ArrowLeft, FileText, FolderKanban, Inbox, LogOut, Mail, Pencil,
-  Plus, Trash2, Upload, X,
+  Award, ArrowLeft, BarChart3, Briefcase, FileText, FolderKanban, GraduationCap,
+  Inbox, LogOut, Mail, Pencil, Plus, Trash2, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
 import { useToast } from '../context/ToastContext'
@@ -89,9 +89,72 @@ function Login({ onAuthed }) {
 
 const TABS = [
   { id: 'projects', label: 'Projects', Icon: FolderKanban },
+  { id: 'experiences', label: 'Experience', Icon: Briefcase },
+  { id: 'certifications', label: 'Certs', Icon: Award },
+  { id: 'results', label: 'Results', Icon: GraduationCap },
+  { id: 'stats', label: 'Stats', Icon: BarChart3 },
   { id: 'messages', label: 'Messages', Icon: Inbox },
   { id: 'cv', label: 'CV', Icon: FileText },
 ]
+
+/**
+ * Field definitions for the simple content collections. Each drives a generic
+ * list + form (CollectionTab). `type: 'tags'` renders as a comma-separated
+ * input and is sent as an array; everything else is a plain text field.
+ */
+const COLLECTIONS = {
+  experiences: {
+    label: 'experience',
+    resource: 'experiences',
+    list: api.listExperiences,
+    titleKey: 'role',
+    subKey: 'organization',
+    fields: [
+      { key: 'role', label: 'Role', required: true },
+      { key: 'organization', label: 'Organization', required: true },
+      { key: 'period', label: 'Period', placeholder: 'Jul 2026 – Present' },
+      { key: 'skills', label: 'Skills', type: 'tags', placeholder: 'Leadership, Teamwork' },
+    ],
+  },
+  certifications: {
+    label: 'certification',
+    resource: 'certifications',
+    list: api.listCertifications,
+    titleKey: 'title',
+    subKey: 'issuer',
+    fields: [
+      { key: 'title', label: 'Title', required: true },
+      { key: 'issuer', label: 'Issuer' },
+      { key: 'date', label: 'Date', placeholder: 'Jul 2026' },
+      { key: 'credentialId', label: 'Credential ID', placeholder: 'optional' },
+    ],
+  },
+  results: {
+    label: 'result',
+    resource: 'results',
+    list: api.listResults,
+    titleKey: 'term',
+    subKey: 'gpa',
+    fields: [
+      { key: 'term', label: 'Term', required: true, placeholder: '3rd Semester' },
+      { key: 'gpa', label: 'GPA', placeholder: '3.85' },
+      { key: 'scale', label: 'Scale', placeholder: '4.00' },
+      { key: 'note', label: 'Note', placeholder: 'optional' },
+    ],
+  },
+  stats: {
+    label: 'stat',
+    resource: 'stats',
+    list: api.listStats,
+    titleKey: 'label',
+    subKey: 'value',
+    fields: [
+      { key: 'label', label: 'Label', required: true, placeholder: 'Current CGPA' },
+      { key: 'value', label: 'Value', placeholder: '3.85' },
+      { key: 'suffix', label: 'Suffix', placeholder: ' / 4.00' },
+    ],
+  },
+}
 
 function Dashboard({ token, onLogout }) {
   const [tab, setTab] = useState('projects')
@@ -140,6 +203,9 @@ function Dashboard({ token, onLogout }) {
 
       <div className="mt-8">
         {tab === 'projects' && <ProjectsTab token={token} onLogout={onLogout} />}
+        {COLLECTIONS[tab] && (
+          <CollectionTab key={tab} config={COLLECTIONS[tab]} token={token} onLogout={onLogout} />
+        )}
         {tab === 'messages' && <MessagesTab token={token} onLogout={onLogout} onUnread={setUnread} />}
         {tab === 'cv' && <CvTab token={token} onLogout={onLogout} />}
       </div>
@@ -307,6 +373,186 @@ function ProjectForm({ initial, onCancel, onSave }) {
           <div>
             <label className={label} htmlFor="demo">Demo URL</label>
             <input id="demo" value={form.demo} onChange={set('demo')} className={field} placeholder="https://… (optional)" />
+          </div>
+        </div>
+        <div className="flex gap-3 pt-2">
+          <button type="submit" disabled={busy} className="rounded-xl bg-neonCyan px-6 py-2.5 font-semibold text-void transition-opacity hover:opacity-90 disabled:opacity-50">
+            {busy ? 'Saving…' : 'Save'}
+          </button>
+          <button type="button" onClick={onCancel} className="rounded-xl border border-hair bg-fill px-6 py-2.5 font-semibold text-ink hover:bg-fill-strong">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+/* ───────────────────── Generic content collections ───────────────────── */
+
+/** Build an empty form object from a collection's field list. */
+function emptyOf(config) {
+  const out = { order: 0 }
+  for (const f of config.fields) out[f.key] = ''
+  return out
+}
+
+/** Turn a stored doc into form values (arrays → comma strings for tag fields). */
+function toForm(config, doc) {
+  const out = { id: doc.id, order: doc.order ?? 0 }
+  for (const f of config.fields) {
+    const v = doc[f.key]
+    out[f.key] = f.type === 'tags' ? (Array.isArray(v) ? v.join(', ') : v || '') : v ?? ''
+  }
+  return out
+}
+
+function CollectionTab({ config, token, onLogout }) {
+  const { toast } = useToast()
+  const run = useAuthedAction(onLogout)
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [editing, setEditing] = useState(null)
+
+  async function load() {
+    setLoading(true)
+    try {
+      setItems(await config.list())
+    } catch (err) {
+      toast({ type: 'error', title: 'Could not load', message: err.message })
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => { load() }, [])
+
+  async function save(form) {
+    const label = form[config.titleKey] || config.label
+    await run(async () => {
+      if (form.id) {
+        await api.update(config.resource, form.id, form, token)
+        toast({ type: 'success', title: 'Saved', message: `Updated “${label}”.` })
+      } else {
+        await api.create(config.resource, form, token)
+        toast({ type: 'success', title: 'Created', message: `Added “${label}”.` })
+      }
+      setEditing(null)
+      load()
+    }).catch(() => {})
+  }
+
+  async function remove(item) {
+    const label = item[config.titleKey] || 'this entry'
+    if (!confirm(`Delete “${label}”? This cannot be undone.`)) return
+    await run(async () => {
+      await api.remove(config.resource, item.id, token)
+      toast({ type: 'success', title: 'Deleted', message: `Removed “${label}”.` })
+      load()
+    }).catch(() => {})
+  }
+
+  if (editing) {
+    return <CollectionForm config={config} initial={editing} onCancel={() => setEditing(null)} onSave={save} />
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted">{items.length} {config.label}{items.length === 1 ? '' : 's'}</p>
+        <button
+          type="button"
+          onClick={() => setEditing(emptyOf(config))}
+          className="inline-flex items-center gap-2 rounded-xl bg-neonCyan px-4 py-2 text-sm font-semibold text-void transition-opacity hover:opacity-90"
+        >
+          <Plus className="h-4 w-4" />
+          New {config.label}
+        </button>
+      </div>
+
+      {loading ? (
+        <p className="mt-6 text-muted">Loading…</p>
+      ) : (
+        <ul className="mt-5 space-y-3">
+          {items.map((item) => (
+            <li key={item.id} className="glass flex items-center justify-between gap-4 rounded-xl p-4">
+              <div className="min-w-0">
+                <p className="truncate font-medium text-ink">{item[config.titleKey] || '—'}</p>
+                {config.subKey && (
+                  <p className="truncate font-mono text-xs text-muted">{item[config.subKey]}</p>
+                )}
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setEditing(toForm(config, item))}
+                  aria-label="Edit"
+                  className="grid h-9 w-9 place-items-center rounded-lg border border-hair bg-fill text-muted hover:text-ink"
+                >
+                  <Pencil className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => remove(item)}
+                  aria-label="Delete"
+                  className="grid h-9 w-9 place-items-center rounded-lg border border-hair bg-fill text-muted hover:text-red-400"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function CollectionForm({ config, initial, onCancel, onSave }) {
+  const [form, setForm] = useState(initial)
+  const [busy, setBusy] = useState(false)
+  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
+
+  async function submit(e) {
+    e.preventDefault()
+    setBusy(true)
+    await onSave(form)
+    setBusy(false)
+  }
+
+  const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
+  const label = 'block text-sm font-medium text-ink'
+
+  return (
+    <div>
+      <button type="button" onClick={onCancel} className="inline-flex items-center gap-1.5 font-mono text-xs text-muted hover:text-ink">
+        <ArrowLeft className="h-3.5 w-3.5" />
+        Cancel
+      </button>
+      <h2 className="mt-2 font-display text-2xl font-bold text-ink capitalize">
+        {form.id ? `Edit ${config.label}` : `New ${config.label}`}
+      </h2>
+
+      <form onSubmit={submit} className="mt-6 space-y-5">
+        <div className="grid gap-5 sm:grid-cols-2">
+          {config.fields.map((f) => (
+            <div key={f.key} className={f.type === 'tags' ? 'sm:col-span-2' : ''}>
+              <label className={label} htmlFor={f.key}>
+                {f.label}
+                {f.type === 'tags' && <span className="font-normal text-muted"> (comma-separated)</span>}
+              </label>
+              <input
+                id={f.key}
+                required={f.required}
+                value={form[f.key] ?? ''}
+                onChange={set(f.key)}
+                className={field}
+                placeholder={f.placeholder}
+              />
+            </div>
+          ))}
+          <div>
+            <label className={label} htmlFor="order">Order</label>
+            <input id="order" type="number" value={form.order} onChange={set('order')} className={field} />
           </div>
         </div>
         <div className="flex gap-3 pt-2">
