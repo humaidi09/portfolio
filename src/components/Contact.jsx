@@ -6,6 +6,7 @@ import Reveal from './ui/Reveal'
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from './ui/BrandIcons'
 import { useToast } from '../context/ToastContext'
 import { personalInfo } from '../data/portfolioData'
+import { api } from '../lib/api'
 
 // Social links rendered as icon buttons; `key` maps to a personalInfo field.
 // Only verified handles. To add Facebook / Instagram / X, add the URL to
@@ -17,11 +18,6 @@ const SOCIALS = [
 ]
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-// Optional real backend. Set VITE_FORMSPREE_ID in .env to enable direct (AJAX)
-// submissions; when it's unset the form falls back to composing a mailto: link.
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID
-const FORMSPREE_ENDPOINT = FORMSPREE_ID ? `https://formspree.io/f/${FORMSPREE_ID}` : ''
 
 /** Pure validators → error string or ''. */
 function validate({ name, email, message }) {
@@ -68,7 +64,6 @@ export default function Contact() {
 
   const errors = useMemo(() => validate(values), [values])
   const isValid = !errors.name && !errors.email && !errors.message
-  const usesBackend = Boolean(FORMSPREE_ENDPOINT)
 
   const set = (k) => (e) => setValues((v) => ({ ...v, [k]: e.target.value }))
   const blur = (k) => () => setTouched((t) => ({ ...t, [k]: true }))
@@ -104,49 +99,20 @@ export default function Contact() {
 
     const name = values.name.trim()
 
-    // Fallback: no backend configured → compose honestly via the mail client.
-    if (!FORMSPREE_ENDPOINT) {
-      setSending(true)
-      const subject = encodeURIComponent(`Portfolio message from ${name}`)
-      const body = encodeURIComponent(`${values.message.trim()}\n\n— ${name}\n${values.email.trim()}`)
-      setTimeout(() => {
-        window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`
-        setSending(false)
-        setValues({ name: '', email: '', message: '' })
-        setTouched({})
-        toast({ type: 'success', title: 'Opening your mail app', message: 'Your message is ready to send.' })
-      }, 650)
-      return
-    }
-
-    // Real backend: submit directly (AJAX) — no mail client, no page reload.
+    // Store the message in the backend so it shows up in the admin inbox.
     setSending(true)
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name,
-          email: values.email.trim(),
-          message: values.message.trim(),
-          _subject: `Portfolio message from ${name}`,
-        }),
+      await api.sendMessage({
+        name,
+        email: values.email.trim(),
+        message: values.message.trim(),
       })
-      if (res.ok) {
-        setValues({ name: '', email: '', message: '' })
-        setTouched({})
-        setSent(name)
-        toast({ type: 'success', title: 'Message sent!', message: 'Thanks — I’ll reply as soon as I can.' })
-      } else {
-        const data = await res.json().catch(() => null)
-        const msg =
-          data?.errors?.map((x) => x.message).join(', ') ||
-          'Something went wrong on the server. Please try again, or email me directly.'
-        setSubmitError(msg)
-        toast({ type: 'error', title: 'Could not send', message: msg })
-      }
-    } catch {
-      const msg = 'Network error — check your connection, or email me directly.'
+      setValues({ name: '', email: '', message: '' })
+      setTouched({})
+      setSent(name)
+      toast({ type: 'success', title: 'Message sent!', message: 'Thanks — I’ll reply as soon as I can.' })
+    } catch (err) {
+      const msg = err.message || 'Network error — check your connection, or email me directly.'
       setSubmitError(msg)
       toast({ type: 'error', title: 'Could not send', message: msg })
     } finally {
@@ -291,7 +257,7 @@ export default function Contact() {
                 {sending ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    {usesBackend ? 'Sending…' : 'Preparing…'}
+                    Sending…
                   </>
                 ) : (
                   <>
@@ -301,9 +267,7 @@ export default function Contact() {
                 )}
               </button>
               <p className="mt-3 font-mono text-[11px] text-muted">
-                {usesBackend
-                  ? 'Sends straight to my inbox — I usually reply within a day.'
-                  : 'Opens your mail app with the message pre-filled — no data leaves your device.'}
+                Sends straight to my inbox — I usually reply within a day.
               </p>
             </form>
           )}

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, Award, Download, GraduationCap, Mail, Zap } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
+import { api, cvUrl } from '../lib/api'
 import GridSignal from './ui/GridSignal'
 import CodeTerminal from './ui/CodeTerminal'
 import {
@@ -106,7 +107,21 @@ export default function Hero() {
   const typed = useTypewriter(phrases)
   const focusLine = reduce ? phrases[0] : typed
 
-  const downloadCV = () => {
+  // Prefer a real uploaded PDF (managed from /admin); fall back to the
+  // generated text CV if none has been uploaded yet.
+  const [hasPdf, setHasPdf] = useState(false)
+  useEffect(() => {
+    let alive = true
+    api
+      .cvMeta()
+      .then((meta) => alive && setHasPdf(Boolean(meta?.exists)))
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  const downloadTextCV = () => {
     const blob = new Blob([buildResume()], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -184,10 +199,17 @@ export default function Hero() {
               <Mail className="h-4 w-4" />
               Get in touch
             </a>
-            <button type="button" onClick={downloadCV} className={ghostBtn}>
-              <Download className="h-4 w-4" />
-              Download CV
-            </button>
+            {hasPdf ? (
+              <a href={cvUrl} target="_blank" rel="noreferrer" className={ghostBtn}>
+                <Download className="h-4 w-4" />
+                Download CV
+              </a>
+            ) : (
+              <button type="button" onClick={downloadTextCV} className={ghostBtn}>
+                <Download className="h-4 w-4" />
+                Download CV
+              </button>
+            )}
           </motion.div>
 
           {/* Stats, typeset as a hairline record — not floating chips */}

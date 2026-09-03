@@ -28,9 +28,14 @@ async function request(path, { method = 'GET', body, token } = {}) {
   return data
 }
 
+// Absolute URL to the CV download — used directly as an href/src.
+export const cvUrl = `${BASE}/api/cv`
+
 export const api = {
   // Public
   listProjects: () => request('/api/projects'),
+  sendMessage: (msg) => request('/api/messages', { method: 'POST', body: msg }),
+  cvMeta: () => request('/api/cv/meta'),
 
   // Admin
   login: (password) => request('/api/auth/login', { method: 'POST', body: { password } }),
@@ -40,4 +45,15 @@ export const api = {
     request(`/api/projects/${id}`, { method: 'PUT', body: project, token }),
   deleteProject: (id, token) =>
     request(`/api/projects/${id}`, { method: 'DELETE', token }),
+
+  // Admin — messages
+  listMessages: (token) => request('/api/messages', { token }),
+  markMessage: (id, read, token) =>
+    request(`/api/messages/${id}`, { method: 'PATCH', body: { read }, token }),
+  deleteMessage: (id, token) =>
+    request(`/api/messages/${id}`, { method: 'DELETE', token }),
+
+  // Admin — CV
+  uploadCv: (payload, token) => request('/api/cv', { method: 'PUT', body: payload, token }),
+  deleteCv: (token) => request('/api/cv', { method: 'DELETE', token }),
 }
