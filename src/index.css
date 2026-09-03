@@ -211,6 +211,24 @@
     );
   }
 
+  /* Raised glass panel — a soft lift + deeper shadow on hover (3D feel) */
+  .tilt-card {
+    box-shadow: 0 20px 45px -24px rgba(0, 0, 0, 0.65);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tilt-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 70px -28px rgba(0, 0, 0, 0.75);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tilt-card,
+    .tilt-card:hover {
+      transform: none;
+      transition: none;
+    }
+  }
+
   /* Section eyebrow — mono, quiet, sentence case (no ALL-CAPS tell) */
   .eyebrow {
     font-family: var(--font-mono);

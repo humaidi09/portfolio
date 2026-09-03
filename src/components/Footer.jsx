@@ -78,13 +78,12 @@ export default function Footer() {
           <p className="text-center font-mono text-xs text-muted sm:text-left">
             © {year} {personalInfo.name}
           </p>
-          <p className="font-mono text-xs text-muted">
-            Designed &amp; built by me — React · Tailwind
-            <span className="mx-2 text-hair-strong">·</span>
-            <a href="/admin" className="text-muted/70 transition-colors hover:text-neonCyan">
-              Admin
-            </a>
-          </p>
+          <a
+            href="/admin"
+            className="font-mono text-xs text-muted/60 transition-colors hover:text-neonCyan"
+          >
+            Admin
+          </a>
         </div>
       </div>
 

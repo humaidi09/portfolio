@@ -266,9 +266,6 @@ export default function Contact() {
                   </>
                 )}
               </button>
-              <p className="mt-3 font-mono text-[11px] text-muted">
-                Sends straight to my inbox — I usually reply within a day.
-              </p>
             </form>
           )}
         </Reveal>

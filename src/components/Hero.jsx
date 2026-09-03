@@ -172,8 +172,8 @@ export default function Hero() {
             custom={1}
             className="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl"
           >
-            {personalInfo.role}. I write clean, correct software — from
-            competitive-programming solutions in C++ to modern web applications.
+            CSE undergraduate at Leading University, Sylhet. I solve problems with
+            C++ and data structures, and turn that into clean, working software.
           </motion.p>
 
           {/* Typed focus line — a single running caret, mono */}
