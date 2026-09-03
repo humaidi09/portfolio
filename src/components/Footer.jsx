@@ -15,7 +15,7 @@ const QUICK_NAV = [
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
-  { id: 'terminal', label: 'Terminal' },
+  { id: 'results', label: 'Results' },
   { id: 'contact', label: 'Contact' },
 ]
 

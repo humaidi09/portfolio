@@ -124,7 +124,7 @@ export default function Contact() {
     'grid h-11 w-11 place-items-center rounded-xl border border-hair bg-fill text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-neonCyan/40 hover:text-neonCyan hover:shadow-[0_0_22px_-6px_rgba(242,180,61,0.5)]'
 
   return (
-    <section id="contact" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6 md:py-28">
+    <section id="contact" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-16 sm:px-6 md:py-20">
       <SectionHeading
         index="06"
         eyebrow="// contact"

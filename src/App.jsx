@@ -7,7 +7,6 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Results from './components/Results'
-import Terminal from './components/Terminal'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Admin from './components/Admin'
@@ -38,7 +37,6 @@ export default function App() {
               <Projects />
               <Experience />
               <Results />
-              <Terminal />
               <Contact />
             </main>
             <Footer />
