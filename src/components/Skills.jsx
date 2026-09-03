@@ -64,7 +64,7 @@ function SkillIcon({ name, className }) {
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6 md:py-28">
+    <section id="skills" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-16 sm:px-6 md:py-20">
       <SectionHeading
         index="02"
         eyebrow="// skills"

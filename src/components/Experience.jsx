@@ -43,7 +43,7 @@ export default function Experience() {
   ]
 
   return (
-    <section id="experience" className="relative mx-auto max-w-5xl scroll-mt-24 px-4 py-24 sm:px-6 md:py-28">
+    <section id="experience" className="relative mx-auto max-w-5xl scroll-mt-24 px-4 py-16 sm:px-6 md:py-20">
       <SectionHeading
         index="04"
         eyebrow="// journey"

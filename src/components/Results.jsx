@@ -11,7 +11,7 @@ export default function Results() {
   if (!results.length) return null
 
   return (
-    <section id="results" className="relative mx-auto max-w-5xl scroll-mt-24 px-4 py-24 sm:px-6 md:py-28">
+    <section id="results" className="relative mx-auto max-w-5xl scroll-mt-24 px-4 py-16 sm:px-6 md:py-20">
       <SectionHeading
         index="05"
         eyebrow="// academics"
