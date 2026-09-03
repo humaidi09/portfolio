@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Hussain Ahmed Humaidi — CSE student & aspiring software engineer. Competitive programmer building clean, correct software with C++, Python, DSA and modern web tech."
+    />
+    <meta name="theme-color" content="#0e0e10" />
+
+    <!-- Set the theme class before first paint to avoid a flash of the wrong theme. -->
+    <script>
+      (function () {
+        try {
+          // Dark-mode-first portfolio: default to dark unless the visitor
+          // has explicitly chosen light before.
+          var stored = localStorage.getItem('theme');
+          var theme = stored || 'dark';
+          document.documentElement.classList.add(theme);
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+
+    <!-- Fonts: Fraunces (display serif), Inter (body/UI), JetBrains Mono (structure/code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Critical inline styles: paint the warm charcoal background and a branded
+      splash INSTANTLY, before the CSS bundle or the JS (React + framer-motion)
+      finish loading. Without this the first paint is an empty screen ("black
+      flash") while the app compiles. The splash lives inside #root, so React
+      removes it automatically the moment it mounts.
+    -->
+    <style>
+      html { background: #0e0e10; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: #eae7df;
+        background:
+          radial-gradient(60rem 40rem at 50% -10%, rgba(242, 180, 61, 0.08), transparent 60%),
+          #0e0e10;
+        font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      }
+      .light body {
+        background:
+          radial-gradient(60rem 40rem at 50% -10%, rgba(184, 120, 20, 0.10), transparent 60%),
+          #f4f2ea;
+        color: #1c1a15;
+      }
+
+      #app-splash {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        z-index: 9999;
+      }
+      #app-splash .wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      #app-splash .ring {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 2px solid rgba(234, 231, 223, 0.12);
+        border-top-color: #f2b43d;
+        border-right-color: #cf9038;
+        animation: splash-spin 0.85s linear infinite;
+      }
+      #app-splash .mark {
+        font-family: "Fraunces", Georgia, serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 24px;
+        letter-spacing: -0.01em;
+        color: #f2b43d;
+      }
+      #app-splash .sub {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        color: #8c897f;
+      }
+      @keyframes splash-spin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) {
+        #app-splash .ring { animation: none; }
+      }
+    </style>
+
+    <title>Hussain Ahmed Humaidi — CSE Student & Aspiring Software Engineer</title>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Instant branded splash; React replaces #root's contents on mount. -->
+      <div id="app-splash" aria-hidden="true">
+        <div class="wrap">
+          <div class="ring"></div>
+          <div class="mark">humaidi.dev</div>
+          <div class="sub">compiling</div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
