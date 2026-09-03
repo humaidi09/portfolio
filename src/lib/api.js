@@ -56,4 +56,18 @@ export const api = {
   // Admin — CV
   uploadCv: (payload, token) => request('/api/cv', { method: 'PUT', body: payload, token }),
   deleteCv: (token) => request('/api/cv', { method: 'DELETE', token }),
+
+  // Public — content collections
+  listExperiences: () => request('/api/experiences'),
+  listCertifications: () => request('/api/certifications'),
+  listStats: () => request('/api/stats'),
+  listResults: () => request('/api/results'),
+
+  // Admin — content collections (generic create/update/delete)
+  create: (resource, body, token) =>
+    request(`/api/${resource}`, { method: 'POST', body, token }),
+  update: (resource, id, body, token) =>
+    request(`/api/${resource}/${id}`, { method: 'PUT', body, token }),
+  remove: (resource, id, token) =>
+    request(`/api/${resource}/${id}`, { method: 'DELETE', token }),
 }
