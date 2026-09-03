@@ -86,34 +86,49 @@ export default function About() {
       />
 
       <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-8">
-        {/* Narrative + education */}
+        {/* Narrative + education — a raised glass panel */}
         <Reveal>
-          <div className="flex h-full flex-col gap-5">
-            <p className="text-lg leading-relaxed text-muted">
-              I&rsquo;m a Computer Science undergraduate at{' '}
-              <span className="font-medium text-ink">{personalInfo.university}</span>, drawn to the
-              parts of software where clean thinking pays off — data structures, algorithms and
-              object-oriented design. I sharpen those skills through competitive programming and
-              turn them into real, modular projects.
-            </p>
-            <p className="leading-relaxed text-muted">
-              Outside the editor I stay active in the tech community — leading events with my
-              university computer club, volunteering, and teaching mathematics part-time.
-            </p>
+          <div className="tilt-card group relative flex h-full flex-col overflow-hidden rounded-3xl">
+            {/* layered glass body */}
+            <div className="glass-strong absolute inset-0 rounded-3xl" aria-hidden="true" />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 [background:linear-gradient(150deg,rgba(255,255,255,0.10),transparent_34%)]"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-px rounded-3xl bg-[radial-gradient(420px_circle_at_20%_0%,color-mix(in_oklab,var(--color-neon-cyan)_14%,transparent),transparent_60%)] opacity-70"
+            />
 
-            <div className="mt-auto rounded-2xl glass p-5">
-              <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-hair bg-fill text-neonCyan">
-                  <GraduationCap className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="font-semibold text-ink">{personalInfo.degree}</p>
-                  <p className="text-sm text-muted">{personalInfo.university}</p>
+            <div className="relative flex h-full flex-col gap-6 p-6 sm:p-7">
+              <p className="text-lg leading-relaxed text-ink/90">
+                I&rsquo;m a Computer Science undergraduate at{' '}
+                <span className="font-semibold text-ink">{personalInfo.university}</span>, drawn to
+                the parts of software where clean thinking pays off — data structures, algorithms,
+                and object-oriented design.
+              </p>
+              <p className="leading-relaxed text-muted">
+                I sharpen those skills through competitive programming and turn them into real,
+                modular projects. Outside the editor I stay active in the tech community — leading
+                events with my university computer club, volunteering, and teaching mathematics
+                part-time.
+              </p>
+
+              {/* Education plate */}
+              <div className="mt-auto rounded-2xl border border-hair bg-fill/60 p-5 backdrop-blur-sm">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-neonCyan/30 bg-neonCyan/10 text-neonCyan">
+                    <GraduationCap className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-ink">{personalInfo.degree}</p>
+                    <p className="truncate text-sm text-muted">{personalInfo.university}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-4 flex items-center gap-2 rounded-xl border border-hair bg-fill px-4 py-2.5 font-mono text-sm">
-                <span className="text-muted">CGPA</span>
-                <span className="ml-auto font-semibold text-neonCyan">{personalInfo.gpa}</span>
+                <div className="mt-4 flex items-center gap-2 rounded-xl border border-hair bg-void/40 px-4 py-2.5 font-mono text-sm">
+                  <span className="text-muted">CGPA</span>
+                  <span className="ml-auto font-semibold text-gradient">{personalInfo.gpa}</span>
+                </div>
               </div>
             </div>
           </div>

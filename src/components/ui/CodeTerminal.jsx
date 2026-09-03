@@ -18,7 +18,7 @@ const LINES = [
   { p: '$', t: 'ls projects/ | wc -l' },
   { t: '6', c: 'text-neonCyan' },
   { p: '$', t: 'status --now' },
-  { t: 'open to internships ▹', c: 'text-neonCyan' },
+  { t: 'learning daily · building for real ▹', c: 'text-neonCyan' },
 ]
 
 const TYPE = 42 // ms per typed char
