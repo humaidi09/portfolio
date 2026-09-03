@@ -1,4 +1,4 @@
-import { ArrowUp, Heart, Mail } from 'lucide-react'
+import { ArrowUp, Mail } from 'lucide-react'
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from './ui/BrandIcons'
 import { personalInfo } from '../data/portfolioData'
 
@@ -76,10 +76,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col-reverse items-center gap-4 border-t border-hair pt-6 sm:flex-row sm:justify-between">
           <p className="text-center font-mono text-xs text-muted sm:text-left">
-            © {year} {personalInfo.name}. All rights reserved.
+            © {year} {personalInfo.name}
           </p>
-          <p className="inline-flex items-center gap-1.5 font-mono text-xs text-muted">
-            Built with <Heart className="h-3.5 w-3.5 text-neon-magenta" /> using React, Tailwind &amp; Framer Motion
+          <p className="font-mono text-xs text-muted">
+            Designed &amp; built by me — React · Tailwind
           </p>
         </div>
       </div>

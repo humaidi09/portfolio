@@ -1,0 +1,22 @@
+# Render Blueprint for the portfolio backend API.
+# In Render: New → Blueprint → pick this repo. It reads this file and creates
+# the service below. Fill the four env vars marked sync:false in the dashboard
+# (they hold secrets, so they are not stored in git).
+services:
+  - type: web
+    name: portfolio-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false

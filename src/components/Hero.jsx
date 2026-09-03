@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowUpRight, Download, Mail } from 'lucide-react'
+import { ArrowUpRight, Award, Download, GraduationCap, Mail, Zap } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
 import GridSignal from './ui/GridSignal'
+import CodeTerminal from './ui/CodeTerminal'
 import {
   personalInfo,
   stats,
@@ -88,13 +89,6 @@ function buildResume() {
   return parts.join('\n')
 }
 
-// Right-column "specimen": a typeset index of facts, like a journal's author card.
-const spec = [
-  { k: 'focus', v: 'Algorithms, DSA, OOP' },
-  { k: 'stack', v: 'C++, Python, JavaScript' },
-  { k: 'cgpa', v: '3.85 / 4.00' },
-]
-
 // Short, self-contained phrases for the typed focus line — each reads cleanly
 // even mid-animation (unlike splitting the long marketing tagline).
 const FOCUS_PHRASES = [
@@ -143,21 +137,11 @@ export default function Hero() {
       <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         {/* ---- Left: the pitch, set like a page ---- */}
         <motion.div initial="hidden" animate="show" className="max-w-2xl">
-          {/* Availability — mono, quiet, led by a short amber rule */}
-          <motion.p
-            variants={fadeUp}
-            custom={0}
-            className="flex items-center gap-3 font-mono text-sm text-muted"
-          >
-            <span className="inline-block h-px w-8 bg-neonCyan/70" />
-            Open to internships
-          </motion.p>
-
           {/* The signature: the name at display scale, serif carries the identity */}
           <motion.h1
             variants={fadeUp}
-            custom={1}
-            className="mt-6 font-display text-[3.1rem] font-bold leading-[0.95] tracking-[-0.03em] text-ink sm:text-[4.25rem] md:text-[5.5rem]"
+            custom={0}
+            className="font-display text-[3.1rem] font-bold leading-[0.95] tracking-[-0.03em] text-ink sm:text-[4.25rem] md:text-[5.5rem]"
           >
             Hussain Ahmed
             <br />
@@ -166,7 +150,7 @@ export default function Hero() {
 
           <motion.p
             variants={fadeUp}
-            custom={2}
+            custom={1}
             className="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl"
           >
             {personalInfo.role}. I write clean, correct software — from
@@ -176,7 +160,7 @@ export default function Hero() {
           {/* Typed focus line — a single running caret, mono */}
           <motion.p
             variants={fadeUp}
-            custom={3}
+            custom={2}
             className="mt-6 flex items-center font-mono text-sm text-ink/85"
           >
             <span className="text-neonCyan">focus:&nbsp;</span>
@@ -186,7 +170,7 @@ export default function Hero() {
 
           <motion.div
             variants={fadeUp}
-            custom={4}
+            custom={3}
             className="mt-9 flex flex-wrap items-center gap-3 sm:flex-nowrap"
           >
             <a
@@ -209,7 +193,7 @@ export default function Hero() {
           {/* Stats, typeset as a hairline record — not floating chips */}
           <motion.dl
             variants={fadeUp}
-            custom={5}
+            custom={4}
             className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
             {[stats[0], stats[3], stats[2]].map((s) => (
@@ -224,56 +208,125 @@ export default function Hero() {
           </motion.dl>
         </motion.div>
 
-        {/* ---- Right: the specimen — framed portrait + typeset index ---- */}
+        {/* ---- Right: portrait + "currently" card, then a live terminal ---- */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:pt-2"
+          className="flex flex-col gap-5 lg:pt-2"
         >
-          <Portrait />
-
-          <dl className="mx-auto mt-8 max-w-[260px] divide-y divide-hair border-y border-hair font-mono text-sm lg:mx-0 lg:max-w-none">
-            {spec.map((row) => (
-              <div key={row.k} className="flex items-baseline justify-between gap-4 py-2.5">
-                <dt className="text-muted">{row.k}</dt>
-                <dd className="text-right text-ink">{row.v}</dd>
-              </div>
-            ))}
-            <div className="flex items-baseline justify-between gap-4 py-2.5">
-              <dt className="text-muted">status</dt>
-              <dd className="text-right text-neonCyan">Open to internships</dd>
-            </div>
-          </dl>
+          <div className="flex items-stretch gap-5">
+            <Portrait reduce={reduce} />
+            <NowCard />
+          </div>
+          <CodeTerminal className="w-full" />
         </motion.div>
       </div>
     </section>
   )
 }
 
-/** Framed headshot set as a figure. Smaller on phones, with a graceful monogram
-    fallback if /profile.jpg is unavailable. */
-function Portrait() {
+/** Framed headshot as a glassy 3D card that tilts toward the cursor, with a
+    moving specular sheen. Falls back to a monogram if /profile.jpg is missing,
+    and stays perfectly still under prefers-reduced-motion. */
+function Portrait({ reduce }) {
   const [ok, setOk] = useState(true)
+  const ref = useRef(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
+
+  const onMove = (e) => {
+    if (reduce || !ref.current) return
+    const r = ref.current.getBoundingClientRect()
+    const px = (e.clientX - r.left) / r.width // 0..1
+    const py = (e.clientY - r.top) / r.height
+    setTilt({
+      rx: (0.5 - py) * 12, // rotateX: up when cursor high
+      ry: (px - 0.5) * 14, // rotateY: right when cursor right
+      gx: px * 100,
+      gy: py * 100,
+      active: true,
+    })
+  }
+  const onLeave = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
+
   return (
-    <figure className="mx-auto w-full max-w-[150px] sm:max-w-[190px] lg:mx-0 lg:max-w-[250px]">
-      <div className="overflow-hidden rounded-xl border border-hair-strong bg-fill">
+    <figure className="w-[150px] shrink-0 [perspective:1200px] sm:w-[175px] lg:w-[190px]">
+      <div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        style={{
+          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+          transition: tilt.active ? 'transform 120ms ease-out' : 'transform 500ms ease-out',
+        }}
+        className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-fill shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] [transform-style:preserve-3d] will-change-transform"
+      >
         {ok ? (
           <img
             src={personalInfo.photo}
             alt={`Portrait of ${personalInfo.name}`}
             onError={() => setOk(false)}
-            className="aspect-[4/5] w-full object-cover object-top"
+            className="h-full w-full object-cover object-top"
           />
         ) : (
-          <div className="grid aspect-[4/5] w-full place-items-center font-display text-5xl font-semibold text-neonCyan">
+          <div className="grid h-full w-full place-items-center font-display text-7xl font-semibold text-neonCyan">
             HAH
           </div>
         )}
+
+        {/* Glass sheen — a specular highlight that follows the cursor */}
+        <div
+          aria-hidden="true"
+          style={{
+            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,0.28), transparent 45%)`,
+          }}
+          className="pointer-events-none absolute inset-0 z-10 mix-blend-soft-light transition-opacity duration-300"
+        />
+        {/* Frosted top edge + inner ring for the "glass" body */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 rounded-3xl ring-1 ring-inset ring-white/15 [background:linear-gradient(150deg,rgba(255,255,255,0.14),transparent_30%)]"
+        />
+        {/* Warm amber wash at the base, keyed to the signal color */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(to_top,color-mix(in_oklab,var(--color-neon-cyan)_20%,transparent),transparent_42%)]"
+        />
       </div>
-      <figcaption className="mt-3 font-mono text-xs text-muted">
-        Hussain Ahmed Humaidi, Leading University
-      </figcaption>
     </figure>
+  )
+}
+
+/** A compact "currently" card that sits beside the portrait — quick facts that
+    tie the hero to the rest of the portfolio (education, location, focus). */
+function NowCard() {
+  const rows = [
+    { Icon: GraduationCap, label: 'Studying', value: 'B.Sc. CSE' },
+    { Icon: Award, label: 'CGPA', value: '3.85 / 4.00' },
+    { Icon: Zap, label: 'Focus', value: 'DSA · OOP' },
+  ]
+  return (
+    <div className="glass flex min-w-0 flex-1 flex-col justify-between rounded-2xl p-4">
+      <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neonCyan/70" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-neonCyan" />
+        </span>
+        currently
+      </div>
+      <dl className="mt-3 space-y-3">
+        {rows.map(({ Icon, label, value }) => (
+          <div key={label} className="flex items-center gap-2.5">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-hair bg-fill text-neonCyan">
+              <Icon className="h-3.5 w-3.5" />
+            </span>
+            <div className="min-w-0">
+              <dt className="font-mono text-[10px] uppercase tracking-wide text-muted">{label}</dt>
+              <dd className="truncate text-sm font-medium text-ink">{value}</dd>
+            </div>
+          </div>
+        ))}
+      </dl>
+    </div>
   )
 }

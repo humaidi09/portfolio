@@ -5,7 +5,7 @@ import SectionHeading from './ui/SectionHeading'
 import SpotlightCard from './ui/SpotlightCard'
 import Reveal from './ui/Reveal'
 import { GithubIcon } from './ui/BrandIcons'
-import { projects } from '../data/portfolioData'
+import { useProjects } from '../hooks/useProjects'
 
 // Representative source snippets shown in each project's detail modal.
 const CODE_PREVIEWS = {
@@ -161,9 +161,10 @@ const BANNER = {
 const TAG_TEXT = { cyan: 'text-neonCyan', violet: 'text-neonPurple' }
 
 export default function Projects() {
+  const { projects } = useProjects()
   const categories = useMemo(
     () => ['All', ...Array.from(new Set(projects.map((p) => p.category)))],
-    [],
+    [projects],
   )
   const [filter, setFilter] = useState('All')
   const [selected, setSelected] = useState(null)
@@ -207,10 +208,10 @@ export default function Projects() {
       <motion.div layout className="mt-8 grid gap-5 sm:grid-cols-2">
         <AnimatePresence mode="popLayout">
           {visible.map((p, i) => {
-            const accent = ACCENTS[projects.indexOf(p) % ACCENTS.length]
+            const accent = ACCENTS[i % ACCENTS.length]
             return (
               <motion.div
-                key={p.id}
+                key={p.key}
                 layout
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -348,7 +349,7 @@ function ProjectModal({ project, onClose }) {
                 ))}
               </ul>
 
-              {CODE_PREVIEWS[project.id] && (
+              {CODE_PREVIEWS[project.key] && (
                 <>
                   <h4 className="mt-6 flex items-center gap-2.5 font-mono text-xs text-muted">
                     <span aria-hidden="true" className="inline-block h-px w-6 bg-neonCyan/70" />
@@ -365,7 +366,7 @@ function ProjectModal({ project, onClose }) {
                       </span>
                     </div>
                     <pre className="overflow-x-auto p-4 font-mono text-[12.5px] leading-relaxed text-emerald-200/90">
-                      <code>{CODE_PREVIEWS[project.id]}</code>
+                      <code>{CODE_PREVIEWS[project.key]}</code>
                     </pre>
                   </div>
                 </>
