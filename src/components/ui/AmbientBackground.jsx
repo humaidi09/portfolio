@@ -16,12 +16,9 @@ export default function AmbientBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      {/* The living graph — kept very faint so it's a whisper of amber inside
-          the black, never a colour wash competing with the content. */}
-      <NetworkCanvas className="absolute inset-0 h-full w-full opacity-40" />
-
-      {/* Barely-there ruled plane, faded at the edges so it never boxes in */}
-      <div className="absolute inset-0 bg-grid-lines opacity-[0.08] mask-radial-fade" />
+      {/* The living graph — a faint amber shimmer, the only colour in the
+          black. Kept low so it reads as a slight golden glow, not a wash. */}
+      <NetworkCanvas className="absolute inset-0 h-full w-full opacity-45" />
     </div>
   )
 }

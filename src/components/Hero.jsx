@@ -142,11 +142,11 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative mx-auto max-w-6xl px-4 pt-24 pb-10 sm:px-6 md:pt-28 md:pb-12">
-      {/* Quiet backdrop: just the faintest ruled plane. The page-wide
-          AmbientBackground network shows through, so the hero reads as the
-          computation running behind a near-black page — no colour wash. */}
+      {/* Quiet backdrop: the faintest ruled plane. The page-wide
+          AmbientBackground network (faint gold) shows through, so the hero
+          reads as pure black with a slight golden shimmer — no gray, no wash. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-lines opacity-[0.12] mask-radial-fade" />
+        <div className="absolute inset-0 bg-grid-lines opacity-[0.05] mask-radial-fade" />
       </div>
 
       <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
