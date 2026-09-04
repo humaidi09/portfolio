@@ -268,11 +268,8 @@ export default function CodeTerminal({ className = '' }) {
 
       {/* Body — snippet on the left, the answers on the right (desktop) */}
       <div className="grid gap-4 px-4 py-4 lg:grid-cols-2 lg:items-start lg:gap-8 lg:px-5 lg:py-5">
-        {/* Left: the prompt + snippet, with the output shown right below it */}
+        {/* Left: the snippet, with the output shown right below it */}
         <div className="flex flex-col gap-3">
-          <p className="text-muted">
-            <span className="text-neonCyan">$</span> ./guess — what does it print?
-          </p>
           <pre className="min-h-28 overflow-x-auto rounded-lg border border-hair bg-fill/50 px-3.5 py-3 text-ink/90">
             {p.code}
           </pre>
