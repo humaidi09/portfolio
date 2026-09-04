@@ -62,6 +62,7 @@ export const api = {
   listCertifications: () => request('/api/certifications'),
   listStats: () => request('/api/stats'),
   listResults: () => request('/api/results'),
+  listEvents: () => request('/api/events'),
 
   // Admin — content collections (generic create/update/delete)
   create: (resource, body, token) =>

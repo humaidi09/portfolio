@@ -4,7 +4,7 @@ import Project from './models/Project.js'
 import Experience from './models/Experience.js'
 import Certification from './models/Certification.js'
 import Stat from './models/Stat.js'
-import Result from './models/Result.js'
+import Event from './models/Event.js'
 
 /**
  * One-time (idempotent) seed: pull the static content from the frontend's data
@@ -81,17 +81,29 @@ async function main() {
     },
   }))
 
-  // Results — no static source; seed a sensible starting row from the current GPA.
-  const results = [
-    { term: '3rd Semester', gpa: '3.85', scale: '4.00', note: 'Current' },
+  // Events — two starter rows (drawn from real participation). Photos are left
+  // empty; upload them from /admin → Events. Cards show a placeholder until then.
+  const events = [
+    {
+      title: 'ILUPC 2026 Team Programming Contest',
+      date: 'Aug 2026',
+      location: 'Leading University, Sylhet',
+      description: 'Competed as part of Team Code Phoenix in the inter-LU programming contest.',
+    },
+    {
+      title: 'HackFusion 2026',
+      date: 'Apr 2025',
+      location: 'IEEE CS LU SB',
+      description: 'Volunteered at the HackFusion hackathon, helping run the event on the day.',
+    },
   ]
-  await upsertMany(Result, results, (r, i) => ({
-    match: { term: r.term },
+  await upsertMany(Event, events, (e, i) => ({
+    match: { title: e.title },
     doc: {
-      term: r.term,
-      gpa: r.gpa || '',
-      scale: r.scale || '4.00',
-      note: r.note || '',
+      title: e.title,
+      date: e.date || '',
+      location: e.location || '',
+      description: e.description || '',
       order: i,
     },
   }))
