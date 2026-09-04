@@ -154,9 +154,8 @@ export default function Hero() {
       </div>
 
       <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
-        {/* ---- Left: the pitch, set like a page. On mobile it drops below the
-             portrait + terminal (order-2) so the visual lands first. ---- */}
-        <motion.div initial="hidden" animate="show" className="order-2 max-w-2xl lg:order-none">
+        {/* ---- Left: the pitch, set like a page ---- */}
+        <motion.div initial="hidden" animate="show" className="max-w-2xl">
           {/* The signature: the name at display scale, serif carries the identity */}
           <motion.h1
             variants={fadeUp}
@@ -232,13 +231,12 @@ export default function Hero() {
           </motion.dl>
         </motion.div>
 
-        {/* ---- Right: portrait + "currently" card, then the terminal. On mobile
-             this comes first (order-1) so the photo greets the visitor. ---- */}
+        {/* ---- Right: portrait + "currently" card, then the terminal ---- */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="order-1 flex flex-col gap-5 lg:order-none"
+          className="flex flex-col gap-5"
         >
           <div className="flex items-stretch gap-5">
             <Portrait reduce={reduce} />
