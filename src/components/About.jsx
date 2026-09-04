@@ -103,13 +103,13 @@ export default function About() {
             />
 
             <div className="relative flex h-full flex-col justify-center gap-6 p-6 sm:p-8">
-              <p className="text-lg leading-relaxed text-ink/90">
+              <p className="hyphens-auto text-justify text-lg leading-relaxed text-ink/90">
                 I&rsquo;m a Computer Science undergraduate at{' '}
                 <span className="font-semibold text-ink">{personalInfo.university}</span>, drawn to
                 the parts of software where clean thinking pays off data structures, algorithms,
                 and object-oriented design.
               </p>
-              <p className="leading-relaxed text-muted">
+              <p className="hyphens-auto text-justify leading-relaxed text-muted">
                 I sharpen those skills through competitive programming and turn them into real,
                 modular projects. Outside the editor I stay active in the tech community leading
                 events with my university computer club, volunteering, and teaching mathematics

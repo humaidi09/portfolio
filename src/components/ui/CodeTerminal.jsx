@@ -8,54 +8,54 @@ import { Check, RotateCcw, X } from 'lucide-react'
  * there's exactly one right answer, with a one-line why after each guess.
  */
 
-// Each puzzle: `code` (the snippet, may span lines), three `options`, the index
+// Each puzzle: `code` (the snippet, may span lines), two `options`, the index
 // of the right one, and a short `note` explaining it.
 const PUZZLES = [
   {
     code: 'cout << 7 / 2 << " " << 7 % 2;',
-    options: ['3 1', '3.5 1', '3 0'],
+    options: ['3 1', '3.5 1'],
     answer: 0,
     note: 'Integer division truncates: 7/2 = 3, 7%2 = 1.',
   },
   {
     code: "char c = 'A';\ncout << (int)c << char(c + 1);",
-    options: ['65B', 'AB', '66B'],
-    answer: 0,
+    options: ['AB', '65B'],
+    answer: 1,
     note: "'A' is 65; c + 1 promotes then prints as 'B'.",
   },
   {
     code: 'vector<int> v = {3, 1, 2};\nsort(v.begin(), v.end());\ncout << v[0] << v[1] << v[2];',
-    options: ['123', '321', '132'],
+    options: ['123', '321'],
     answer: 0,
     note: 'sort() orders ascending → 1, 2, 3.',
   },
   {
     code: 'cout << (1 << 4);',
-    options: ['16', '8', '14'],
-    answer: 0,
+    options: ['8', '16'],
+    answer: 1,
     note: '1 shifted left 4 bits = 2⁴ = 16.',
   },
   {
     code: "map<char,int> m;\nm['a']++;\ncout << m['a'] << m['b'];",
-    options: ['10', '11', '1'],
+    options: ['10', '1'],
     answer: 0,
     note: "operator[] default-inserts 0, so m['b'] is 0.",
   },
   {
     code: 'int n = 10;\ncout << (n & 1 ? "odd" : "even");',
-    options: ['even', 'odd', '0'],
-    answer: 0,
+    options: ['odd', 'even'],
+    answer: 1,
     note: '10 & 1 = 0 → the "even" branch.',
   },
   {
     code: 'cout << 5 / 2.0;',
-    options: ['2.5', '2', '2.50000'],
+    options: ['2.5', '2'],
     answer: 0,
     note: 'One double operand → floating division; default prints 2.5.',
   },
 ]
 
-const LETTERS = ['a', 'b', 'c']
+const LETTERS = ['a', 'b']
 
 export default function CodeTerminal({ className = '' }) {
   // Start on a random puzzle so it feels fresh on every load.
@@ -136,7 +136,7 @@ export default function CodeTerminal({ className = '' }) {
         </div>
 
         {/* Feedback + next */}
-        {revealed ? (
+        {revealed && (
           <div className="flex items-start justify-between gap-3 border-t border-hair pt-3">
             <p className="text-[12px] leading-relaxed text-muted">
               <span className={correct ? 'text-neonCyan' : 'text-red-300'}>
@@ -153,8 +153,6 @@ export default function CodeTerminal({ className = '' }) {
               next
             </button>
           </div>
-        ) : (
-          <p className="border-t border-hair pt-3 text-[12px] text-muted/70">pick an answer to check ▸</p>
         )}
       </div>
     </section>
