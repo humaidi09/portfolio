@@ -139,10 +139,10 @@ export default function Hero() {
   }
 
   const primaryBtn =
-    'group inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-neonCyan px-6 py-3 text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90'
+    'group inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-neonCyan px-6 py-3 text-sm font-semibold text-void transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:glow-cyan'
 
   return (
-    <section id="top" className="relative mx-auto max-w-6xl px-4 pt-28 pb-10 sm:px-6 md:pt-32 md:pb-12">
+    <section id="top" className="relative mx-auto max-w-6xl px-4 pt-24 pb-10 sm:px-6 md:pt-28 md:pb-12">
       {/* Quiet backdrop: a competitive-programmer's ruled plane + one warm wash */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-grid-lines opacity-50 mask-radial-fade" />
@@ -156,20 +156,29 @@ export default function Hero() {
       <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         {/* ---- Left: the pitch, set like a page ---- */}
         <motion.div initial="hidden" animate="show" className="max-w-2xl">
+          {/* Warm greeting — sets the human tone before the display name */}
+          <motion.p
+            variants={fadeUp}
+            custom={0}
+            className="font-mono text-sm text-neonCyan"
+          >
+            Hi, I'm
+          </motion.p>
+
           {/* The signature: the name at display scale, serif carries the identity */}
           <motion.h1
             variants={fadeUp}
-            custom={0}
-            className="font-display text-[2.25rem] font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-[3.25rem] md:text-[4rem]"
+            custom={1}
+            className="mt-2 font-display text-[2.25rem] font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-[3.25rem] md:text-[4rem]"
           >
-            Hussain <span className="text-gradient">Ahmed</span>
+            Hussain <span className="text-gradient-animate">Ahmed</span>
           </motion.h1>
 
           {/* Typed focus line — a single running caret, mono */}
           <motion.p
             variants={fadeUp}
             custom={2}
-            className="mt-6 flex items-center font-mono text-sm text-ink/85"
+            className="mt-5 flex items-center font-mono text-sm text-ink/85"
           >
             <span className="text-neonCyan">focus:&nbsp;</span>
             <span>{focusLine}</span>
