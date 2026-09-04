@@ -179,14 +179,14 @@ export default function Projects() {
         title="Things I've built"
       />
 
-      {/* Filter tabs */}
-      <div className="mt-8 flex flex-wrap gap-2">
+      {/* Filter tabs — a single swipeable row on mobile, wraps on larger screens */}
+      <div className="mt-8 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
         {categories.map((cat) => (
           <button
             key={cat}
             type="button"
             onClick={() => setFilter(cat)}
-            className={`relative rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+            className={`relative shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
               filter === cat
                 ? 'border-transparent text-void'
                 : 'border-hair bg-fill text-muted hover:text-ink'
