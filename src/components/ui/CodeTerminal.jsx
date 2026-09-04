@@ -64,8 +64,14 @@ export default function CodeTerminal({ className = '' }) {
         <span className="h-2.5 w-2.5 rounded-full bg-neonPurple/70" />
         <span className="ml-2 text-[11px] text-muted">guess.cpp</span>
         <span className="ml-auto text-[11px] text-muted">
-          solved <span className="text-neonCyan">{solved}</span>
-          <span className="text-muted/60">/{attempts}</span>
+          {attempts === 0 ? (
+            <>{list.length} snippets</>
+          ) : (
+            <>
+              solved <span className="text-neonCyan">{solved}</span>
+              <span className="text-muted/60">/{attempts}</span>
+            </>
+          )}
         </span>
       </div>
 

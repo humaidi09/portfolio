@@ -1,5 +1,5 @@
 export const personalInfo = {
-  name: "Hussain Ahmed Humaidi",
+  name: "Hussain Ahmed",
   // Hero headshot — save your photo as public/profile.jpg (served at /profile.jpg)
   photo: "/profile.jpg",
   role: "CSE Student & Aspiring Software Engineer",
@@ -24,15 +24,22 @@ export const personalInfo = {
 
 export const stats = [
   { label: "Current CGPA", value: 3.85, suffix: " / 4.00" },
-  { label: "Total Credit", value: 39, suffix: "" },
+  { label: "Problems Solved", value: 500, suffix: "+" },
   { label: "Contests & Events", value: 3, suffix: "+" },
   { label: "Projects Built", value: 6, suffix: "" }
 ];
 
 export const skills = {
   languages: ["C", "C++", "Python", "JavaScript", "HTML5", "CSS3"],
-  coreCS: ["Data Structures", "Algorithms", "Object-Oriented Programming (OOP)", "Intermediate SQL", "Problem Solving"],
-  toolsAndDB: ["Git", "GitHub", "VS Code", "MySQL", "React.js", "Tailwind CSS"]
+  coreCS: ["Data Structures", "Algorithms", "Object-Oriented Programming (OOP)", "Intermediate SQL", "Problem Solving", "Competitive Programming"],
+  toolsAndDB: ["Git", "GitHub", "VS Code", "MySQL", "React.js", "Tailwind CSS"],
+  softSkills: ["Teamwork", "Communication", "Time Management", "Collaboration"],
+  // Spoken languages — shown as a small proficiency row under the skill grid.
+  spokenLanguages: [
+    { name: "Bengali", level: "Native" },
+    { name: "English", level: "Professional" },
+    { name: "Arabic", level: "Basic" }
+  ]
 };
 
 export const projects = [

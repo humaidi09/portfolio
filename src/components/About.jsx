@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
-import { GraduationCap, Layers, Rocket, Trophy } from 'lucide-react'
+import { GraduationCap, Rocket, Target, Trophy } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import TiltCard from './ui/TiltCard'
@@ -45,8 +45,8 @@ function useCountUp(target, { duration = 1600 } = {}) {
 }
 
 const ACCENTS = ['cyan', 'violet', 'magenta', 'cyan']
-// Icons keyed to the stat order: CGPA, Total Credit, Contests, Projects.
-const ICONS = [GraduationCap, Layers, Trophy, Rocket]
+// Icons keyed to the stat order: CGPA, Problems Solved, Contests, Projects.
+const ICONS = [GraduationCap, Target, Trophy, Rocket]
 const ICON_COLOR = {
   cyan: 'text-neonCyan',
   violet: 'text-neonPurple',
@@ -106,7 +106,7 @@ export default function About() {
               <p className="hyphens-auto text-justify text-lg leading-relaxed text-ink/90">
                 I&rsquo;m a Computer Science undergraduate at{' '}
                 <span className="font-semibold text-ink">{personalInfo.university}</span>, drawn to
-                the parts of software where clean thinking pays off data structures, algorithms,
+                the parts of software where clean thinking pays off: data structures, algorithms,
                 and object-oriented design.
               </p>
               <p className="hyphens-auto text-justify leading-relaxed text-muted">

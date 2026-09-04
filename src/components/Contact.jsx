@@ -128,7 +128,8 @@ export default function Contact() {
       <SectionHeading
         index="08"
         eyebrow="// contact"
-        title="Let's build something"
+        title="Let's build something useful."
+        kicker="Have a project or opportunity? Whether it's a collaboration, a question, or just to say hi — my inbox is open."
       />
 
       <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-8">

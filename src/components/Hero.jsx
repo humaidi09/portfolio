@@ -129,12 +129,12 @@ export default function Hero() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'Hussain_Ahmed_Humaidi_CV.txt'
+    a.download = 'Hussain_Ahmed_CV.txt'
     document.body.appendChild(a)
     a.click()
     a.remove()
     URL.revokeObjectURL(url)
-    toast({ type: 'success', title: 'CV downloaded', message: 'Saved Hussain_Ahmed_Humaidi_CV.txt' })
+    toast({ type: 'success', title: 'CV downloaded', message: 'Saved Hussain_Ahmed_CV.txt' })
   }
 
   const primaryBtn =
@@ -170,10 +170,20 @@ export default function Hero() {
             Hussain <span className="text-gradient-animate">Ahmed</span>
           </motion.h1>
 
-          {/* Typed focus line — a single running caret, mono */}
+          {/* Role line — the three hats, stated plainly */}
           <motion.p
             variants={fadeUp}
             custom={2}
+            className="mt-4 text-base font-medium text-ink/85 sm:text-lg"
+          >
+            CSE Student <span className="text-neonCyan">•</span> Competitive Programmer{' '}
+            <span className="text-neonCyan">•</span> Python Developer
+          </motion.p>
+
+          {/* Typed focus line — a single running caret, mono */}
+          <motion.p
+            variants={fadeUp}
+            custom={3}
             className="mt-5 flex items-center font-mono text-sm text-ink/85"
           >
             <span className="text-neonCyan">focus:&nbsp;</span>
@@ -183,7 +193,7 @@ export default function Hero() {
 
           <motion.div
             variants={fadeUp}
-            custom={3}
+            custom={4}
             className="mt-8 grid max-w-md grid-cols-2 gap-3"
           >
             <a href="#projects" className={primaryBtn}>
@@ -206,16 +216,16 @@ export default function Hero() {
           {/* Stats, typeset as a hairline record — not floating chips */}
           <motion.dl
             variants={fadeUp}
-            custom={4}
+            custom={5}
             className="mt-10 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
             {[
-              // Lead the strip with a CP identity cell in place of the
-              // "Projects Built" stat — the number row opens with what defines
-              // him. (About still shows the full Projects Built count.)
+              // The number row opens with a CP identity cell, then contests, then
+              // the real problems-solved total (a literal so the live DB's older
+              // "Total Credit" record can't override it).
               { label: 'Competitive Programming', value: 'CP', suffix: '' },
               stats[2],
-              stats[1],
+              { label: 'Problems Solved', value: '500', suffix: '+' },
             ]
               .filter(Boolean)
               .map((s) => (
@@ -235,7 +245,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-stretch gap-5"
+          className="flex flex-col items-center gap-5 sm:flex-row sm:items-stretch"
         >
           <Portrait reduce={reduce} />
           <NowCard />
@@ -299,7 +309,7 @@ function Portrait({ reduce }) {
           />
         ) : (
           <div className="grid h-full w-full place-items-center font-display text-7xl font-semibold text-neonCyan">
-            HAH
+            HA
           </div>
         )}
 
@@ -330,18 +340,18 @@ function Portrait({ reduce }) {
     tie the hero to the rest of the portfolio (education, location, focus). */
 function NowCard() {
   const rows = [
-    { Icon: GraduationCap, label: 'Studying', value: 'B.Sc. CSE' },
+    { Icon: GraduationCap, label: 'Studying', value: 'B.Sc. in CSE' },
     { Icon: Award, label: 'CGPA', value: '3.85 / 4.00' },
-    { Icon: Zap, label: 'Focus', value: 'DSA · OOP' },
+    { Icon: Zap, label: 'Focus', value: 'DSA · OOP · CP' },
   ]
   return (
-    <div className="glass flex min-w-0 flex-1 flex-col justify-between rounded-2xl p-4">
+    <div className="glass flex w-full min-w-0 flex-1 flex-col justify-between rounded-2xl p-4 sm:w-auto">
       <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neonCyan/70" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-neonCyan" />
         </span>
-        currently
+        current status
       </div>
       <dl className="mt-3 space-y-3">
         {rows.map(({ Icon, label, value }) => (
