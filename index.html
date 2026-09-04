@@ -41,16 +41,13 @@
       removes it automatically the moment it mounts.
     -->
     <style>
-      /* Base colour + warm wash live on <html> so they paint BEHIND the fixed
-         -z-10 ambient canvas. <body> must stay transparent — an opaque body
-         background paints above negative-z-index children (CSS paint order) and
-         would hide the live network. This is the authoritative rule: it is
-         unlayered and so wins over Tailwind's @layer base in index.css. */
-      html {
-        background:
-          radial-gradient(60rem 40rem at 50% -10%, rgba(242, 180, 61, 0.08), transparent 60%),
-          #0e0e10;
-      }
+      /* Base colour lives on <html> so it paints BEHIND the fixed -z-10 ambient
+         canvas. <body> must stay transparent — an opaque body background paints
+         above negative-z-index children (CSS paint order) and would hide the
+         live network. This is the authoritative rule: it is unlayered and so
+         wins over Tailwind's @layer base in index.css. Flat near-black (no wash)
+         so the backdrop matches the dark card surfaces. */
+      html { background: #0e0e10; }
       body {
         margin: 0;
         min-height: 100vh;
@@ -58,11 +55,7 @@
         background: transparent;
         font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
       }
-      html.light {
-        background:
-          radial-gradient(60rem 40rem at 50% -10%, rgba(184, 120, 20, 0.10), transparent 60%),
-          #f4f2ea;
-      }
+      html.light { background: #f4f2ea; }
       .light body {
         background: transparent;
         color: #1c1a15;

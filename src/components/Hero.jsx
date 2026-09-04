@@ -142,12 +142,11 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative mx-auto max-w-6xl px-4 pt-24 pb-10 sm:px-6 md:pt-28 md:pb-12">
-      {/* Quiet backdrop: a faint ruled plane + one warm wash. The live network
-          (page-wide AmbientBackground canvas) shows through this, so the hero
-          reads as the computation running behind the page. */}
+      {/* Quiet backdrop: just the faintest ruled plane. The page-wide
+          AmbientBackground network shows through, so the hero reads as the
+          computation running behind a near-black page — no colour wash. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-lines opacity-[0.22] mask-radial-fade" />
-        <div className="absolute -top-24 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-cyan)_12%,transparent),transparent_62%)]" />
+        <div className="absolute inset-0 bg-grid-lines opacity-[0.12] mask-radial-fade" />
       </div>
 
       <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
