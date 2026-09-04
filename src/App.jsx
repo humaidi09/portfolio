@@ -5,6 +5,7 @@ import AmbientBackground from './components/ui/AmbientBackground'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
+import CompetitiveProgramming from './components/CompetitiveProgramming'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Events from './components/Events'
@@ -37,6 +38,7 @@ export default function App() {
               <Hero />
               <About />
               <Skills />
+              <CompetitiveProgramming />
               <Projects />
               <Experience />
               <Events />

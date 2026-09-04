@@ -174,7 +174,7 @@ export default function Projects() {
   return (
     <section id="projects" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
-        index="03"
+        index="04"
         eyebrow="// projects"
         title="Things I've built"
       />

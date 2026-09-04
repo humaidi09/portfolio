@@ -21,7 +21,7 @@ export default function Events() {
   return (
     <section id="events" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
-        index="05"
+        index="06"
         eyebrow="// events"
         title="Events & moments"
       />
