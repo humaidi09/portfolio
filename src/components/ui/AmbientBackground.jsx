@@ -1,11 +1,11 @@
 /**
- * A single, page-wide ambient layer: two slow amber glows drifting behind all
- * content, plus the faintest ruled plane. Fixed to the viewport so it shows
+ * A single, page-wide ambient layer: slow violet/indigo glows drifting behind
+ * all content, plus the faintest ruled plane. Fixed to the viewport so it shows
  * through every section below the hero (the hero paints its own grid + signal
- * on top). Deliberately low-opacity — atmosphere, not decoration — keyed to the
- * one signal color so it re-themes with light/dark. aria-hidden + GPU-cheap,
- * and completely still under prefers-reduced-motion (the drift animations are
- * frozen by the reduced-motion rule in index.css).
+ * on top). Keyed to the signal color so it re-themes with light/dark, and kept
+ * low-opacity — atmosphere, not decoration. aria-hidden + GPU-cheap, and
+ * completely still under prefers-reduced-motion (the drift/aurora/pulse
+ * animations are frozen by the reduced-motion rule in index.css).
  */
 export default function AmbientBackground() {
   return (
@@ -13,10 +13,13 @@ export default function AmbientBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      {/* Warm glow, top-left — the primary signal wash */}
-      <div className="absolute -left-[10%] -top-[12%] h-[42rem] w-[42rem] animate-drift rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-cyan)_10%,transparent),transparent_60%)] blur-2xl" />
-      {/* Bronze companion, bottom-right — drifts on a slower, reversed cycle */}
-      <div className="absolute -bottom-[15%] -right-[8%] h-[38rem] w-[38rem] animate-drift-slow rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-violet)_8%,transparent),transparent_62%)] blur-2xl" />
+      {/* Violet glow, top-left — the primary signal wash */}
+      <div className="absolute -left-[10%] -top-[12%] h-[42rem] w-[42rem] animate-drift rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-cyan)_14%,transparent),transparent_60%)] blur-2xl" />
+      {/* Indigo companion, bottom-right — drifts on a slower, reversed cycle */}
+      <div className="absolute -bottom-[15%] -right-[8%] h-[38rem] w-[38rem] animate-drift-slow rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-violet)_12%,transparent),transparent_62%)] blur-2xl" />
+      {/* Lavender aurora, center-right — a third slow wash that breathes so the
+          backdrop reads alive on both mobile and desktop */}
+      <div className="absolute top-1/3 left-1/2 h-[34rem] w-[34rem] -translate-x-1/4 animate-aurora rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-magenta)_10%,transparent),transparent_64%)] blur-2xl" />
       {/* Barely-there ruled plane, faded at the edges so it never boxes in */}
       <div className="absolute inset-0 bg-grid-lines opacity-[0.18] mask-radial-fade" />
     </div>

@@ -7,10 +7,11 @@
 /* ------------------------------------------------------------------ */
 /*  "The Editorial" — design tokens (Tailwind v4).                     */
 /*  A competitive programmer writes editorials: precise, authoritative */
-/*  solution write-ups. This site is typeset like one — warm charcoal, */
-/*  paper ink, a single amber signal, Fraunces serif + JetBrains Mono. */
-/*  Colors compile to var(--color-*); overriding them under .light      */
-/*  re-themes the whole UI at runtime with no dark: prefixes.          */
+/*  solution write-ups. This site is typeset like one — night ink,     */
+/*  warm paper text, a single amber signal, Fraunces serif +           */
+/*  JetBrains Mono. Colors compile to var(--color-*); overriding them   */
+/*  under .light re-themes the whole UI at runtime with no dark:        */
+/*  prefixes.                                                          */
 /* ------------------------------------------------------------------ */
 @theme {
   /* Base surfaces */
@@ -32,7 +33,7 @@
   --color-muted: #8c897f;      /* warm grey — secondary text */
 
   /* Theme-aware translucent overlays → bg-fill / border-hair utilities.
-     Tinted with the paper ink so surfaces read warm, not cold white. */
+     Tinted with the paper ink so surfaces read cohesive, not cold white. */
   --color-hair: color-mix(in oklab, #eae7df 12%, transparent);
   --color-fill: color-mix(in oklab, #eae7df 5%, transparent);
   --color-fill-2: color-mix(in oklab, #eae7df 8%, transparent);
@@ -145,7 +146,7 @@
 /*  Reusable pieces                                                    */
 /* ------------------------------------------------------------------ */
 @layer components {
-  /* Amber ink — warm two-tone, never a rainbow. Used on figures/stats. */
+  /* Violet ink — cool two-tone, never a rainbow. Used on figures/stats. */
   .text-gradient {
     background-image: linear-gradient(
       100deg,
