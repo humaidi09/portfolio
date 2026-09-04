@@ -82,10 +82,9 @@ export default function About() {
         index="01"
         eyebrow="// about"
         title="A bit about me"
-        kicker={personalInfo.bio}
       />
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-8">
+      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:gap-8">
         {/* Narrative + education — a raised glass panel */}
         <Reveal>
           <div className="tilt-card group relative flex h-full flex-col overflow-hidden rounded-3xl">

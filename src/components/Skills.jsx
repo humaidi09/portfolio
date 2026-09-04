@@ -69,10 +69,9 @@ export default function Skills() {
         index="02"
         eyebrow="// skills"
         title="Tools I build with"
-        kicker="The languages I reach for, the computer-science foundations under everything, and the everyday tooling and databases I use to ship."
       />
 
-      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {GROUPS.map((group, gi) => (
           <Reveal key={group.key} delay={gi * 0.1}>
             <SpotlightCard accent={group.accent} className="h-full p-6">
