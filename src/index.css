@@ -15,8 +15,8 @@
 /* ------------------------------------------------------------------ */
 @theme {
   /* Base surfaces — the page stays one true black; the cards float above it as
-     warm "glassy black" panels (a near-black obsidian film edged with a faint
-     gold hairline — defined in @layer base). The only colour is the amber. */
+     black "glassy" panels (a near-black frosted film with a faint neutral
+     hairline — defined in @layer base). The only colour is the amber signal. */
   --color-bgDark: #000000;
   --color-cardDark: #000000;
 
@@ -86,15 +86,14 @@
 /* ------------------------------------------------------------------ */
 @layer base {
   :root {
-    /* "Glassy black" cards: a near-black obsidian film (a hair warm, toward the
-       gold) that mostly covers the page so the card reads black — not the old
-       near-transparent film that let the amber network glow through. A little
-       translucency + the backdrop blur keep it glass, not flat paint; the edge
-       is a faint gold (sonali) hairline. */
-    --glass-bg: color-mix(in oklab, #0c0a05 74%, transparent);
-    --glass-border: color-mix(in oklab, #f2b43d 20%, transparent);
-    --glass-strong-bg: color-mix(in oklab, #0c0a05 88%, transparent);
-    --glass-strong-border: color-mix(in oklab, #f2b43d 26%, transparent);
+    /* "Glassy black" cards: a near-black frosted film that mostly covers the
+       page so the card reads black — not the old near-transparent film that let
+       the amber network glow through. A little translucency + the backdrop blur
+       keep it glass, not flat paint; the edge is a faint neutral hairline. */
+    --glass-bg: color-mix(in oklab, #0a0a0a 72%, transparent);
+    --glass-border: color-mix(in oklab, #eae7df 11%, transparent);
+    --glass-strong-bg: color-mix(in oklab, #0a0a0a 88%, transparent);
+    --glass-strong-border: color-mix(in oklab, #eae7df 12%, transparent);
     --dot: color-mix(in oklab, #eae7df 8%, transparent);
     color-scheme: dark;
   }
@@ -184,15 +183,10 @@
     animation: var(--animate-gradient);
   }
 
-  /* Quiet "glassy black" surface — a near-black obsidian fill with a faint gold
-     top-sheen (light catching the glass) and a hairline gold edge. */
+  /* Quiet "glassy black" surface — a near-black frosted fill with a faint
+     neutral hairline. The blur does the glass; no colour on the box itself. */
   .glass {
-    background-color: var(--glass-bg);
-    background-image: linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--color-neon-cyan) 7%, transparent),
-      transparent 42%
-    );
+    background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(9px) saturate(115%);
     -webkit-backdrop-filter: blur(9px) saturate(115%);
@@ -200,12 +194,7 @@
   }
 
   .glass-strong {
-    background-color: var(--glass-strong-bg);
-    background-image: linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--color-neon-cyan) 8%, transparent),
-      transparent 44%
-    );
+    background: var(--glass-strong-bg);
     border: 1px solid var(--glass-strong-border);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
@@ -278,18 +267,9 @@
     --color-neon-cyan: #f2b43d;
     --color-neon-violet: #cf9038;
     --color-neon-magenta: #f6d18c;
-    --glass-bg: rgba(0, 0, 0, 0.55);
-    --glass-border: rgba(255, 255, 255, 0.10);
     --glass-strong-bg: rgba(0, 0, 0, 0.86);
     --glass-strong-border: rgba(255, 255, 255, 0.10);
     color: var(--color-ink);
-  }
-
-  /* The terminal is a neutral dark editor — drop the warm glass top-sheen. */
-  .code-surface,
-  .code-surface .glass,
-  .code-surface .glass-strong {
-    background-image: none;
   }
 }
 
