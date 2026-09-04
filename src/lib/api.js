@@ -36,6 +36,9 @@ export const api = {
   listProjects: () => request('/api/projects'),
   sendMessage: (msg) => request('/api/messages', { method: 'POST', body: msg }),
   cvMeta: () => request('/api/cv/meta'),
+  listPuzzles: () => request('/api/puzzles'),
+  // Log a wrong guess from the hero game (public, rate-limited, fire-and-forget).
+  logWrongAnswer: (body) => request('/api/wrong-answers', { method: 'POST', body }),
 
   // Admin
   login: (password) => request('/api/auth/login', { method: 'POST', body: { password } }),
@@ -56,6 +59,12 @@ export const api = {
   // Admin — CV
   uploadCv: (payload, token) => request('/api/cv', { method: 'PUT', body: payload, token }),
   deleteCv: (token) => request('/api/cv', { method: 'DELETE', token }),
+
+  // Admin — wrong-answer log (from the hero game)
+  listWrongAnswers: (token) => request('/api/wrong-answers', { token }),
+  deleteWrongAnswer: (id, token) =>
+    request(`/api/wrong-answers/${id}`, { method: 'DELETE', token }),
+  clearWrongAnswers: (token) => request('/api/wrong-answers', { method: 'DELETE', token }),
 
   // Public — content collections
   listExperiences: () => request('/api/experiences'),
