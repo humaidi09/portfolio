@@ -154,3 +154,70 @@ export const events = [
     images: []
   }
 ];
+
+// --- Competitive programming ---------------------------------------------
+// Codeforces fetches live stats in the browser (rating, problems solved and
+// the day-by-day activity heatmap). AtCoder, LeetCode and CodeChef show a
+// solved-problem count from `stats` and link out to the full profile — set
+// each `handle` to the real username so the profile link is correct (an empty
+// handle shows the count without a link). AtCoder can fetch live instead
+// (source: "atcoder") if you'd rather show its heatmap — just add the handle.
+//
+// `logo` is each judge's real brand mark (public/logos/*), shown on a white
+// tile so the full-colour marks read on the black cards. `logoClass` tunes the
+// fit — AtCoder's only official mark is a crest with an "AtCoder" wordmark
+// baked in, so it's scaled from the top to crop the wordmark out of the tile.
+export const competitiveProgramming = [
+  {
+    key: "codeforces",
+    name: "Codeforces",
+    mono: "CF",
+    source: "codeforces",
+    accent: "#4f8cff",
+    handle: "Humaidi_10",
+    logo: "/logos/codeforces.png",
+    logoClass: "p-1.5",
+    // Rating, heatmap and streak stay live from the CF API; the solved count is
+    // shown as this lifetime figure ("132+") instead of the live tally.
+    solvedOverride: 132,
+    profile: (h) => `https://codeforces.com/profile/${h}`
+  },
+  {
+    key: "leetcode",
+    name: "LeetCode",
+    mono: "LC",
+    source: "link",
+    accent: "#ffa116",
+    handle: "Humaidi_25",
+    logo: "/logos/leetcode.png",
+    logoClass: "p-1",
+    profile: (h) => `https://leetcode.com/u/${h}/`,
+    // From the LeetCode profile's submission heatmap (LeetCode has no
+    // browser-readable API, so these are entered by hand, not fetched live).
+    stats: { submissions: 21, activeDays: 7, maxStreak: 1 }
+  },
+  {
+    key: "atcoder",
+    name: "AtCoder",
+    mono: "AC",
+    source: "link",
+    accent: "#c3c5cb",
+    handle: "",
+    logo: "/logos/atcoder.png",
+    logoClass: "origin-top scale-[1.32] p-0.5",
+    profile: (h) => `https://atcoder.jp/users/${h}`,
+    stats: { solved: 165 } // live heatmap available if you add a real handle + source:"atcoder"
+  },
+  {
+    key: "codechef",
+    name: "CodeChef",
+    mono: "CC",
+    source: "link",
+    accent: "#c08457",
+    handle: "",
+    logo: "/logos/codechef.svg",
+    logoClass: "p-1.5",
+    profile: (h) => `https://www.codechef.com/users/${h}`,
+    stats: { solved: 213 }
+  }
+];

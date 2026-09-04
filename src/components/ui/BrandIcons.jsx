@@ -1,7 +1,9 @@
 /**
- * Brand marks for GitHub, LinkedIn, WhatsApp, Facebook, Instagram and X (Twitter).
- * Lucide removed its brand glyphs (trademark policy), so we ship our own.
- * All take a `className` and inherit color via `fill="currentColor"`.
+ * Brand marks for GitHub, LinkedIn, WhatsApp, Facebook, Instagram and X
+ * (Twitter). Lucide removed its brand glyphs (trademark policy), so we ship our
+ * own. All inherit color via `fill="currentColor"` and take a `className`.
+ * (The competitive-programming judges use their real logo images instead — see
+ * public/logos and CompetitiveProgramming.jsx.)
  */
 
 export function GithubIcon({ className }) {

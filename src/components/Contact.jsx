@@ -126,12 +126,12 @@ export default function Contact() {
   return (
     <section id="contact" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
-        index="07"
+        index="08"
         eyebrow="// contact"
         title="Let's build something"
       />
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
+      <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-8">
         {/* ---- Direct channels ---- */}
         <Reveal>
           <div className="flex h-full flex-col gap-4">

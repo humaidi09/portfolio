@@ -17,7 +17,7 @@ export default function Gallery() {
   return (
     <section id="gallery" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
-        index="06"
+        index="07"
         eyebrow="// gallery"
         title="Gallery"
       />

@@ -46,7 +46,7 @@ export default function Experience() {
   return (
     <section id="experience" className="relative mx-auto max-w-5xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
-        index="04"
+        index="05"
         eyebrow="// journey"
         title="Experience & credentials"
       />
