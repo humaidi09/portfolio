@@ -153,7 +153,7 @@ export default function Hero() {
         <div className="absolute -top-24 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-cyan)_12%,transparent),transparent_62%)]" />
       </div>
 
-      <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
+      <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         {/* ---- Left: the pitch, set like a page ---- */}
         <motion.div initial="hidden" animate="show" className="max-w-2xl">
           {/* The signature: the name at display scale, serif carries the identity */}
@@ -239,7 +239,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col gap-5 lg:pt-2"
+          className="flex flex-col gap-5"
         >
           <div className="flex items-stretch gap-5">
             <Portrait reduce={reduce} />
