@@ -51,7 +51,6 @@
   --animate-gradient: gradient-pan 8s ease infinite;
   --animate-aurora: aurora 20s ease-in-out infinite;
   --animate-spin-slow: spin-slow 16s linear infinite;
-  --animate-rise: rise linear infinite;
 
   @keyframes blink {
     0%, 50% { opacity: 1; }
@@ -78,14 +77,6 @@
   @keyframes spin-slow {
     to { transform: rotate(360deg); }
   }
-  /* Slow signal particle: rises the full viewport, drifting sideways, fading
-     in near the bottom and out near the top so it never pops. */
-  @keyframes rise {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    8% { opacity: 1; }
-    92% { opacity: 1; }
-    100% { transform: translateY(-105vh) translateX(var(--drift, 0)); opacity: 0; }
-  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -106,10 +97,14 @@
     scroll-padding-top: 6rem;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
+    /* Base colour lives on <html> so the fixed -z-10 ambient layer paints
+       above it. body stays transparent — an opaque body background would
+       cover negative-z-index children (they paint below the body box). */
+    background-color: var(--color-void);
   }
 
   body {
-    background-color: var(--color-void);
+    background-color: transparent;
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-optical-sizing: auto;
