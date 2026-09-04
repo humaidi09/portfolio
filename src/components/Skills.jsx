@@ -15,7 +15,7 @@ import {
   Wrench,
 } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
-import SpotlightCard from './ui/SpotlightCard'
+import TiltCard from './ui/TiltCard'
 import Reveal from './ui/Reveal'
 import { GithubIcon } from './ui/BrandIcons'
 import { skills } from '../data/portfolioData'
@@ -71,31 +71,33 @@ export default function Skills() {
         title="Tools I build with"
       />
 
-      <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
         {GROUPS.map((group, gi) => (
-          <Reveal key={group.key} delay={gi * 0.1}>
-            <SpotlightCard accent={group.accent} className="h-full p-6">
-              <div className="flex items-center gap-3">
-                <span className={`grid h-11 w-11 place-items-center rounded-xl border border-hair bg-fill ${ACCENT_TEXT[group.accent]}`}>
-                  <group.Icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-ink">{group.label}</h3>
-                  <p className="font-mono text-xs text-muted">{group.items.length} skills</p>
+          <Reveal key={group.key} className="h-full" delay={gi * 0.1}>
+            <TiltCard accent={group.accent} max={7} className="h-full p-6">
+              <div className="relative [transform:translateZ(24px)]">
+                <div className="flex items-center gap-3">
+                  <span className={`grid h-11 w-11 place-items-center rounded-xl border border-hair bg-fill shadow-lg shadow-black/20 ${ACCENT_TEXT[group.accent]}`}>
+                    <group.Icon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-ink">{group.label}</h3>
+                    <p className="font-mono text-xs text-muted">{group.items.length} skills</p>
+                  </div>
                 </div>
-              </div>
 
-              <ul className="mt-6 space-y-2.5">
-                {group.items.map((item) => (
-                  <li key={item} className={CHIP}>
-                    <span className={`${ACCENT_TEXT[group.accent]} transition-colors group-hover/chip:text-neon-magenta`}>
-                      <SkillIcon name={item} className="h-4 w-4" />
-                    </span>
-                    <span className="text-sm font-medium text-ink">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </SpotlightCard>
+                <ul className="mt-6 space-y-2.5">
+                  {group.items.map((item) => (
+                    <li key={item} className={CHIP}>
+                      <span className={`${ACCENT_TEXT[group.accent]} transition-colors group-hover/chip:text-neon-magenta`}>
+                        <SkillIcon name={item} className="h-4 w-4" />
+                      </span>
+                      <span className="text-sm font-medium text-ink">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </TiltCard>
           </Reveal>
         ))}
       </div>

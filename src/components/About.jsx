@@ -3,6 +3,7 @@ import { useReducedMotion } from 'framer-motion'
 import { GraduationCap, Layers, Rocket, Trophy } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
+import TiltCard from './ui/TiltCard'
 import { personalInfo, stats } from '../data/portfolioData'
 
 /** Animates 0 → target once the element scrolls into view (rAF, eased). */
@@ -52,73 +53,29 @@ const ICON_COLOR = {
   magenta: 'text-neon-magenta',
 }
 
-/** A 3D glass stat card: frosted body that tilts toward the cursor, with a
-    moving specular sheen and the number/icon lifted on their own plane.
-    Sits perfectly still under prefers-reduced-motion. */
+/** A 3D glass stat card built on the shared TiltCard: the number and icon are
+    lifted onto their own plane so they float above the frosted body. */
 function StatCard({ stat, accent, Icon }) {
-  const reduce = useReducedMotion()
   const isFloat = !Number.isInteger(stat.value)
   const [countRef, val] = useCountUp(stat.value)
   const display = isFloat ? val.toFixed(2) : Math.round(val).toString()
 
-  const tiltRef = useRef(null)
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
-
-  const onMove = (e) => {
-    if (reduce || !tiltRef.current) return
-    const r = tiltRef.current.getBoundingClientRect()
-    const px = (e.clientX - r.left) / r.width
-    const py = (e.clientY - r.top) / r.height
-    setTilt({ rx: (0.5 - py) * 10, ry: (px - 0.5) * 12, gx: px * 100, gy: py * 100, active: true })
-  }
-  const onLeave = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
-
   return (
-    <div className="[perspective:1000px]">
-      <div
-        ref={tiltRef}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        style={{
-          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-          transition: tilt.active ? 'transform 120ms ease-out' : 'transform 500ms ease-out',
-        }}
-        className="group/stat glass-strong relative flex h-full flex-col justify-between overflow-hidden rounded-2xl p-6 shadow-[0_24px_50px_-24px_rgba(0,0,0,0.7)] [transform-style:preserve-3d] will-change-transform"
-      >
-        {/* Cursor-tracking specular sheen */}
-        <div
-          aria-hidden="true"
-          style={{ background: `radial-gradient(340px circle at ${tilt.gx}% ${tilt.gy}%, ${GLOW[accent] ?? GLOW.cyan}, transparent 60%)` }}
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/stat:opacity-100"
-        />
-        {/* Frosted top edge for the glass body */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 [background:linear-gradient(150deg,rgba(255,255,255,0.10),transparent_32%)]"
-        />
-
-        <div ref={countRef} className="relative flex items-start justify-between [transform:translateZ(28px)]">
-          <div>
-            <div className="flex items-baseline font-display text-4xl font-bold text-ink sm:text-5xl">
-              <span className="tabular-nums">{display}</span>
-              <span className={`text-xl font-semibold sm:text-2xl ${ICON_COLOR[accent]}`}>{stat.suffix}</span>
-            </div>
-            <p className="mt-2 font-mono text-xs text-muted">{stat.label}</p>
+    <TiltCard accent={accent} className="h-full p-6">
+      <div ref={countRef} className="relative flex items-start justify-between [transform:translateZ(28px)]">
+        <div>
+          <div className="flex items-baseline font-display text-4xl font-bold text-ink sm:text-5xl">
+            <span className="tabular-nums">{display}</span>
+            <span className={`text-xl font-semibold sm:text-2xl ${ICON_COLOR[accent]}`}>{stat.suffix}</span>
           </div>
-          <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-hair bg-fill shadow-lg shadow-black/20 ${ICON_COLOR[accent]}`}>
-            <Icon className="h-5 w-5" />
-          </span>
+          <p className="mt-2 font-mono text-xs text-muted">{stat.label}</p>
         </div>
+        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-hair bg-fill shadow-lg shadow-black/20 ${ICON_COLOR[accent]}`}>
+          <Icon className="h-5 w-5" />
+        </span>
       </div>
-    </div>
+    </TiltCard>
   )
-}
-
-// Accent glows for the stat cards' cursor sheen (matches SpotlightCard).
-const GLOW = {
-  cyan: 'rgba(242, 180, 61, 0.20)',
-  violet: 'rgba(207, 144, 56, 0.20)',
-  magenta: 'rgba(246, 209, 140, 0.20)',
 }
 
 export default function About() {
@@ -179,10 +136,12 @@ export default function About() {
           </div>
         </Reveal>
 
-        {/* Animated stats */}
-        <div className="grid gap-5 sm:grid-cols-2">
+        {/* Animated stats — all four cards share one size. self-start keeps the
+            grid from stretching to the tall narrative panel beside it, so the
+            cards stay compact; auto-rows-fr equalizes their heights. */}
+        <div className="grid auto-rows-fr gap-5 self-start sm:grid-cols-2">
           {stats.map((stat, i) => (
-            <Reveal key={stat.label} delay={(i % 2) * 0.08 + Math.floor(i / 2) * 0.08}>
+            <Reveal key={stat.label} className="h-full" delay={(i % 2) * 0.08 + Math.floor(i / 2) * 0.08}>
               <StatCard stat={stat} accent={ACCENTS[i]} Icon={ICONS[i]} />
             </Reveal>
           ))}
