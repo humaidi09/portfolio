@@ -133,3 +133,24 @@ export const certifications = [
   { title: "Web Development with Python Career Launchpad", issuer: "Ostad", date: "Mar 2026", id: "C32383" },
   { title: "HackFusion 2026 Volunteer Certificate", issuer: "IEEE CS LU SB", date: "Apr 2025", id: "IEEE CS LU SB - 0447" }
 ];
+
+// Real events, mirrored from the DB so the Events section renders even when the
+// API is asleep or unreachable (local dev, Render cold starts). When the live
+// API responds it overrides this with the same records. Attach photos to each
+// event from /admin → Events to replace the placeholder card art.
+export const events = [
+  {
+    title: "ILUPC 2026 Team Programming Contest",
+    date: "Aug 2026",
+    location: "Leading University, Sylhet",
+    description: "Competed as part of Team Code Phoenix in the inter-LU programming contest.",
+    images: []
+  },
+  {
+    title: "HackFusion 2026",
+    date: "Apr 2025",
+    location: "IEEE CS LU SB",
+    description: "Volunteered at the HackFusion hackathon, helping run the event on the day.",
+    images: []
+  }
+];

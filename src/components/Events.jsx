@@ -5,12 +5,15 @@ import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import { api } from '../lib/api'
 import { useCollection } from '../hooks/useCollection'
+import { events as staticEvents } from '../data/portfolioData'
 
-// Events come entirely from the DB (managed in /admin). No static fallback —
-// the section hides itself until at least one event has been added. Each event
-// can carry several photos, browsed in a lightbox.
+// Events are managed in /admin (each can carry several photos, browsed in a
+// lightbox). A static list of the real events ships as a fallback so the
+// section still renders when the API is asleep or unreachable (local dev,
+// cold starts); the live API overrides it with the same records when it
+// responds. It only hides if there are genuinely no events at all.
 export default function Events() {
-  const { items: events } = useCollection(api.listEvents, [])
+  const { items: events } = useCollection(api.listEvents, staticEvents)
   const [active, setActive] = useState(null) // { event, index } for the open photo
 
   if (!events.length) return null
