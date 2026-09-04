@@ -1,6 +1,7 @@
 import { Award, Briefcase, Hash } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
+import TiltCard from './ui/TiltCard'
 import { api } from '../lib/api'
 import { useCollection } from '../hooks/useCollection'
 import {
@@ -82,32 +83,34 @@ export default function Experience() {
                 </span>
 
                 <Reveal>
-                  <div className="rounded-2xl glass p-5 transition-colors hover:border-hair-strong">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className={`font-mono text-xs ${CHIP[node.type]}`}>{node.period}</span>
-                      {node.id && (
-                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted">
-                          <Hash className="h-3 w-3" />
-                          {node.id}
-                        </span>
+                  <TiltCard accent={node.type === 'role' ? 'cyan' : 'violet'} max={6} lift={3} className="p-5">
+                    <div className="relative [transform:translateZ(22px)]">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className={`font-mono text-xs ${CHIP[node.type]}`}>{node.period}</span>
+                        {node.id && (
+                          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted">
+                            <Hash className="h-3 w-3" />
+                            {node.id}
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="mt-2 font-display text-lg font-semibold text-ink">{node.title}</h4>
+                      <p className="mt-0.5 text-sm text-muted">{node.org}</p>
+
+                      {node.tags && (
+                        <ul className="mt-3 flex flex-wrap gap-2">
+                          {node.tags.map((t) => (
+                            <li
+                              key={t}
+                              className="rounded-md border border-hair bg-fill px-2.5 py-1 font-mono text-[11px] text-ink"
+                            >
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
                       )}
                     </div>
-                    <h4 className="mt-2 font-display text-lg font-semibold text-ink">{node.title}</h4>
-                    <p className="mt-0.5 text-sm text-muted">{node.org}</p>
-
-                    {node.tags && (
-                      <ul className="mt-3 flex flex-wrap gap-2">
-                        {node.tags.map((t) => (
-                          <li
-                            key={t}
-                            className="rounded-md border border-hair bg-fill px-2.5 py-1 font-mono text-[11px] text-ink"
-                          >
-                            {t}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+                  </TiltCard>
                 </Reveal>
               </li>
             )
