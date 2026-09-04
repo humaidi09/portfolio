@@ -51,6 +51,7 @@
   --animate-gradient: gradient-pan 8s ease infinite;
   --animate-aurora: aurora 20s ease-in-out infinite;
   --animate-spin-slow: spin-slow 16s linear infinite;
+  --animate-rise: rise linear infinite;
 
   @keyframes blink {
     0%, 50% { opacity: 1; }
@@ -76,6 +77,14 @@
   }
   @keyframes spin-slow {
     to { transform: rotate(360deg); }
+  }
+  /* Slow signal particle: rises the full viewport, drifting sideways, fading
+     in near the bottom and out near the top so it never pops. */
+  @keyframes rise {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(-100vh) translateX(var(--drift, 0)); opacity: 0; }
   }
 }
 
