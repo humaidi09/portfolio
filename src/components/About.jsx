@@ -102,7 +102,7 @@ export default function About() {
               className="pointer-events-none absolute -inset-px rounded-3xl bg-[radial-gradient(420px_circle_at_20%_0%,color-mix(in_oklab,var(--color-neon-cyan)_14%,transparent),transparent_60%)] opacity-70"
             />
 
-            <div className="relative flex h-full flex-col gap-6 p-6 sm:p-7">
+            <div className="relative flex h-full flex-col justify-center gap-6 p-6 sm:p-8">
               <p className="text-lg leading-relaxed text-ink/90">
                 I&rsquo;m a Computer Science undergraduate at{' '}
                 <span className="font-semibold text-ink">{personalInfo.university}</span>, drawn to
@@ -116,22 +116,6 @@ export default function About() {
                 part-time.
               </p>
 
-              {/* Education plate */}
-              <div className="mt-auto rounded-2xl border border-hair bg-fill/60 p-5 backdrop-blur-sm">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-neonCyan/30 bg-neonCyan/10 text-neonCyan">
-                    <GraduationCap className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="font-semibold text-ink">{personalInfo.degree}</p>
-                    <p className="truncate text-sm text-muted">{personalInfo.university}</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center gap-2 rounded-xl border border-hair bg-void/40 px-4 py-2.5 font-mono text-sm">
-                  <span className="text-muted">Semester</span>
-                  <span className="ml-auto font-semibold text-gradient">{personalInfo.semester}</span>
-                </div>
-              </div>
             </div>
           </div>
         </Reveal>
