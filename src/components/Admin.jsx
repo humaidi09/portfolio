@@ -141,7 +141,7 @@ const COLLECTIONS = {
       { key: 'date', label: 'Date', placeholder: 'Aug 2026' },
       { key: 'location', label: 'Location', placeholder: 'Leading University, Sylhet' },
       { key: 'description', label: 'Description', type: 'textarea', placeholder: 'A short line about the event.' },
-      { key: 'image', label: 'Photo', type: 'image' },
+      { key: 'images', label: 'Photos', type: 'images' },
     ],
   },
   gallery: {
@@ -150,9 +150,12 @@ const COLLECTIONS = {
     list: api.listGallery,
     titleKey: 'caption',
     subKey: null,
+    thumbKey: 'image',
+    // Bulk add: pick many photos at once → one record each (see CollectionTab).
+    bulkImageKey: 'image',
     fields: [
       { key: 'image', label: 'Photo', type: 'image', required: true },
-      { key: 'caption', label: 'Caption', placeholder: 'Optional — shown on hover / in the viewer' },
+      { key: 'caption', label: 'Caption', type: 'textarea', placeholder: 'Optional — shown on hover / in the viewer' },
     ],
   },
   stats: {
@@ -406,7 +409,7 @@ function ProjectForm({ initial, onCancel, onSave }) {
 /** Build an empty form object from a collection's field list. */
 function emptyOf(config) {
   const out = { order: 0 }
-  for (const f of config.fields) out[f.key] = ''
+  for (const f of config.fields) out[f.key] = f.type === 'images' ? [] : ''
   return out
 }
 
@@ -415,7 +418,9 @@ function toForm(config, doc) {
   const out = { id: doc.id, order: doc.order ?? 0 }
   for (const f of config.fields) {
     const v = doc[f.key]
-    out[f.key] = f.type === 'tags' ? (Array.isArray(v) ? v.join(', ') : v || '') : v ?? ''
+    if (f.type === 'tags') out[f.key] = Array.isArray(v) ? v.join(', ') : v || ''
+    else if (f.type === 'images') out[f.key] = Array.isArray(v) ? v : v ? [v] : []
+    else out[f.key] = v ?? ''
   }
   return out
 }
@@ -451,6 +456,8 @@ function CollectionTab({ config, token, onLogout }) {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState(null)
+  const [bulk, setBulk] = useState(null) // { done, total } while a bulk upload runs
+  const bulkRef = useRef(null)
 
   async function load() {
     setLoading(true)
@@ -463,6 +470,33 @@ function CollectionTab({ config, token, onLogout }) {
     }
   }
   useEffect(() => { load() }, [])
+
+  // Bulk photo upload (Gallery): each selected image becomes its own record,
+  // appended after the existing ones. Compresses client-side before sending.
+  async function onBulkPick(e) {
+    const files = [...(e.target.files || [])].filter((f) => f.type.startsWith('image/'))
+    e.target.value = ''
+    if (!files.length) return
+    const baseOrder = items.reduce((m, it) => Math.max(m, it.order ?? 0), 0)
+    setBulk({ done: 0, total: files.length })
+    let ok = 0
+    try {
+      for (let i = 0; i < files.length; i += 1) {
+        try {
+          const dataUrl = await imageToDataUrl(files[i])
+          await api.create(config.resource, { [config.bulkImageKey]: dataUrl, order: baseOrder + i + 1 }, token)
+          ok += 1
+        } catch (err) {
+          if (/401|unauth|token|expired/i.test(err.message)) { onLogout(); return }
+        }
+        setBulk({ done: i + 1, total: files.length })
+      }
+      toast({ type: 'success', title: 'Photos added', message: `Uploaded ${ok} of ${files.length}.` })
+      load()
+    } finally {
+      setBulk(null)
+    }
+  }
 
   async function save(form) {
     const label = form[config.titleKey] || config.label
@@ -495,16 +529,34 @@ function CollectionTab({ config, token, onLogout }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted">{items.length} {config.label}{items.length === 1 ? '' : 's'}</p>
-        <button
-          type="button"
-          onClick={() => setEditing(emptyOf(config))}
-          className="inline-flex items-center gap-2 rounded-xl bg-neonCyan px-4 py-2 text-sm font-semibold text-void transition-opacity hover:opacity-90"
-        >
-          <Plus className="h-4 w-4" />
-          New {config.label}
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted">
+          {bulk ? `Uploading ${bulk.done}/${bulk.total}…` : `${items.length} ${config.label}${items.length === 1 ? '' : 's'}`}
+        </p>
+        <div className="flex gap-2">
+          {config.bulkImageKey && (
+            <>
+              <input ref={bulkRef} type="file" accept="image/*" multiple onChange={onBulkPick} className="hidden" />
+              <button
+                type="button"
+                onClick={() => bulkRef.current?.click()}
+                disabled={Boolean(bulk)}
+                className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-4 py-2 text-sm font-semibold text-ink transition-opacity hover:bg-fill-strong disabled:opacity-50"
+              >
+                <Upload className="h-4 w-4" />
+                {bulk ? 'Uploading…' : 'Upload photos'}
+              </button>
+            </>
+          )}
+          <button
+            type="button"
+            onClick={() => setEditing(emptyOf(config))}
+            className="inline-flex items-center gap-2 rounded-xl bg-neonCyan px-4 py-2 text-sm font-semibold text-void transition-opacity hover:opacity-90"
+          >
+            <Plus className="h-4 w-4" />
+            New {config.label}
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -513,11 +565,20 @@ function CollectionTab({ config, token, onLogout }) {
         <ul className="mt-5 space-y-3">
           {items.map((item) => (
             <li key={item.id} className="glass flex items-center justify-between gap-4 rounded-xl p-4">
-              <div className="min-w-0">
-                <p className="truncate font-medium text-ink">{item[config.titleKey] || '—'}</p>
-                {config.subKey && (
-                  <p className="truncate font-mono text-xs text-muted">{item[config.subKey]}</p>
+              <div className="flex min-w-0 items-center gap-3">
+                {config.thumbKey && item[config.thumbKey] && (
+                  <img
+                    src={item[config.thumbKey]}
+                    alt=""
+                    className="h-11 w-14 shrink-0 rounded-lg border border-hair object-cover"
+                  />
                 )}
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-ink">{item[config.titleKey] || (config.thumbKey ? 'Untitled photo' : '—')}</p>
+                  {config.subKey && (
+                    <p className="truncate font-mono text-xs text-muted">{item[config.subKey]}</p>
+                  )}
+                </div>
               </div>
               <div className="flex shrink-0 gap-2">
                 <button
@@ -578,9 +639,26 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
     }
   }
 
+  // Append one or more chosen images to an array field (compressed).
+  async function onAddImages(key, e) {
+    const files = [...(e.target.files || [])].filter((f) => f.type.startsWith('image/'))
+    e.target.value = ''
+    if (!files.length) return
+    setImgBusy(true)
+    try {
+      const urls = []
+      for (const file of files) urls.push(await imageToDataUrl(file))
+      setForm((f) => ({ ...f, [key]: [...(f[key] || []), ...urls] }))
+    } catch {
+      toast({ type: 'error', title: 'Could not read image', message: 'Try a different photo.' })
+    } finally {
+      setImgBusy(false)
+    }
+  }
+
   const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
   const label = 'block text-sm font-medium text-ink'
-  const wide = (f) => f.type === 'tags' || f.type === 'textarea' || f.type === 'image'
+  const wide = (f) => f.type === 'tags' || f.type === 'textarea' || f.type === 'image' || f.type === 'images'
 
   return (
     <div>
@@ -617,6 +695,13 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
                   busy={imgBusy}
                   onPick={(e) => onPickImage(f.key, e)}
                   onClear={() => setForm((s) => ({ ...s, [f.key]: '' }))}
+                />
+              ) : f.type === 'images' ? (
+                <MultiImageField
+                  values={form[f.key] || []}
+                  busy={imgBusy}
+                  onAdd={(e) => onAddImages(f.key, e)}
+                  onRemove={(idx) => setForm((s) => ({ ...s, [f.key]: (s[f.key] || []).filter((_, i) => i !== idx) }))}
                 />
               ) : (
                 <input
@@ -689,6 +774,44 @@ function ImageField({ value, busy, onPick, onClear }) {
           <span className="font-mono text-[11px] text-muted">JPG or PNG · auto-resized</span>
         </button>
       )}
+    </div>
+  )
+}
+
+/** A multi-photo picker: a grid of thumbnails (each removable) plus an "add"
+    tile that accepts several files at once. Stores an array of data URLs. */
+function MultiImageField({ values, busy, onAdd, onRemove }) {
+  const ref = useRef(null)
+  return (
+    <div className="mt-1.5">
+      <input ref={ref} type="file" accept="image/*" multiple onChange={onAdd} className="hidden" />
+      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+        {values.map((src, i) => (
+          <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-hair bg-fill">
+            <img src={src} alt={`Photo ${i + 1}`} className="h-full w-full object-cover" />
+            <button
+              type="button"
+              onClick={() => onRemove(i)}
+              aria-label={`Remove photo ${i + 1}`}
+              className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/70 text-white opacity-0 transition-opacity hover:bg-red-500 group-hover:opacity-100"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => ref.current?.click()}
+          disabled={busy}
+          className="grid aspect-square place-items-center gap-1 rounded-lg border border-dashed border-hair-strong bg-fill text-muted transition-colors hover:border-neonCyan/50 hover:text-ink disabled:opacity-50"
+        >
+          <ImagePlus className="h-5 w-5" />
+          <span className="text-[11px]">{busy ? 'Processing…' : 'Add'}</span>
+        </button>
+      </div>
+      <p className="mt-2 font-mono text-[11px] text-muted">
+        {values.length} photo{values.length === 1 ? '' : 's'} · pick several at once · auto-resized
+      </p>
     </div>
   )
 }

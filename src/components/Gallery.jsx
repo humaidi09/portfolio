@@ -40,7 +40,7 @@ export default function Gallery() {
                 className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               />
               {photo.caption && (
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 pt-10 text-left text-sm font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 line-clamp-2 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 pt-10 text-left text-sm font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   {photo.caption}
                 </span>
               )}
@@ -56,6 +56,28 @@ export default function Gallery() {
         onNav={(d) => setActive((n) => (n + d + photos.length) % photos.length)}
       />
     </section>
+  )
+}
+
+/** Caption in the lightbox: clamps a long caption to 3 lines with a see-more
+    toggle. Short captions render plainly with no button. */
+function Caption({ text }) {
+  const [expanded, setExpanded] = useState(false)
+  const long = text.length > 140
+
+  return (
+    <figcaption className="border-t border-hair p-4 text-center text-sm text-ink">
+      <p className={!expanded && long ? 'line-clamp-3' : ''}>{text}</p>
+      {long && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-1.5 font-mono text-xs font-medium text-neonCyan hover:underline"
+        >
+          {expanded ? 'See less' : 'See more'}
+        </button>
+      )}
+    </figcaption>
   )
 }
 
@@ -132,11 +154,7 @@ function Lightbox({ photos, index, onClose, onNav }) {
             className="relative z-[5] flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl glass-strong"
           >
             <img src={photo.image} alt={photo.caption || 'Gallery photo'} className="max-h-[80vh] w-full object-contain bg-black/40" />
-            {photo.caption && (
-              <figcaption className="border-t border-hair p-4 text-center text-sm text-ink">
-                {photo.caption}
-              </figcaption>
-            )}
+            {photo.caption && <Caption text={photo.caption} />}
           </motion.figure>
         </motion.div>
       )}

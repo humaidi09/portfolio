@@ -6,7 +6,7 @@ import { requireAdmin } from '../middleware/auth.js'
  * delete. Ordered by `order` then newest-first. `fields` names the writable
  * string fields; `arrayFields` are coerced from a comma string or array.
  */
-export function crudRouter(Model, { fields = [], arrayFields = [] } = {}) {
+export function crudRouter(Model, { fields = [], arrayFields = [], listFields = [] } = {}) {
   const router = Router()
 
   const sanitize = (body = {}) => {
@@ -14,11 +14,20 @@ export function crudRouter(Model, { fields = [], arrayFields = [] } = {}) {
     for (const key of fields) {
       if (body[key] !== undefined) out[key] = String(body[key]).trim()
     }
+    // Comma-separated tag fields (e.g. "React, Node") → trimmed string array.
     for (const key of arrayFields) {
       if (body[key] !== undefined) {
         out[key] = Array.isArray(body[key])
           ? body[key].map((t) => String(t).trim()).filter(Boolean)
           : String(body[key]).split(',').map((t) => t.trim()).filter(Boolean)
+      }
+    }
+    // Verbatim string arrays (e.g. base64 image data URLs) — never split on
+    // commas, since data URLs contain them. Only drop empty entries.
+    for (const key of listFields) {
+      if (body[key] !== undefined) {
+        const arr = Array.isArray(body[key]) ? body[key] : [body[key]]
+        out[key] = arr.map((v) => String(v)).filter(Boolean)
       }
     }
     if (body.order !== undefined) out.order = Number(body.order) || 0
