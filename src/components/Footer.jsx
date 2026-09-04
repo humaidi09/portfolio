@@ -10,16 +10,6 @@ const SOCIALS = [
   { key: 'whatsapp', label: 'WhatsApp', Icon: WhatsappIcon },
 ]
 
-const QUICK_NAV = [
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'events', label: 'Events' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'contact', label: 'Contact' },
-]
-
 export default function Footer() {
   const year = new Date().getFullYear()
 
@@ -27,62 +17,42 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
 
   const socialBtn =
-    'grid h-10 w-10 place-items-center rounded-lg border border-hair bg-fill text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-neonCyan/40 hover:text-neonCyan'
+    'grid h-11 w-11 place-items-center rounded-xl border border-hair bg-fill text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-neonCyan/40 hover:text-neonCyan'
 
   return (
     <footer className="relative mt-10 border-t border-hair">
       <span aria-hidden="true" className="absolute inset-x-0 top-0 h-px rule-gradient" />
 
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
-          {/* Identity */}
-          <div className="max-w-sm">
-            <a href="#top" className="font-display text-xl font-bold text-gradient">
-              {personalInfo.name}
-            </a>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{personalInfo.role}</p>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              {SOCIALS.map(({ key, label, Icon }) => (
-                <a
-                  key={key}
-                  href={personalInfo[key]}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className={socialBtn}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-              <a href={`mailto:${personalInfo.email}`} aria-label="Email" className={socialBtn}>
-                <Mail className="h-4 w-4" />
-              </a>
-            </div>
-          </div>
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-14 text-center sm:px-6">
+        {/* Wordmark */}
+        <a href="#top" className="font-display text-2xl font-bold text-gradient">
+          {personalInfo.name}
+        </a>
 
-          {/* Quick nav */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-2.5 sm:grid-cols-3 md:grid-cols-2">
-            {QUICK_NAV.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="text-sm text-muted transition-colors hover:text-neonCyan"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+        {/* Socials */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {SOCIALS.map(({ key, label, Icon }) => (
+            <a
+              key={key}
+              href={personalInfo[key]}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={label}
+              className={socialBtn}
+            >
+              <Icon className="h-[18px] w-[18px]" />
+            </a>
+          ))}
+          <a href={`mailto:${personalInfo.email}`} aria-label="Email" className={socialBtn}>
+            <Mail className="h-[18px] w-[18px]" />
+          </a>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-10 flex flex-col-reverse items-center gap-4 border-t border-hair pt-6 sm:flex-row sm:justify-between">
-          <p className="text-center font-mono text-xs text-muted sm:text-left">
-            © {year} {personalInfo.name}
-          </p>
-          <a
-            href="/admin"
-            className="font-mono text-xs text-muted/60 transition-colors hover:text-neonCyan"
-          >
+        {/* Bottom line */}
+        <div className="mt-2 flex items-center gap-3 font-mono text-xs text-muted">
+          <span>© {year} {personalInfo.name}</span>
+          <span aria-hidden="true" className="text-hair-strong">·</span>
+          <a href="/admin" className="text-muted/60 transition-colors hover:text-neonCyan">
             Admin
           </a>
         </div>
