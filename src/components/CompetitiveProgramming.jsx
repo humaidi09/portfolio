@@ -5,6 +5,8 @@ import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import Heatmap from './ui/Heatmap'
 import { getCpStats } from '../lib/cp'
+import { api } from '../lib/api'
+import { useCollection } from '../hooks/useCollection'
 import { competitiveProgramming } from '../data/portfolioData'
 
 /**
@@ -14,7 +16,9 @@ import { competitiveProgramming } from '../data/portfolioData'
  * problems-solved counts and longest streaks.
  */
 export default function CompetitiveProgramming() {
-  const platforms = competitiveProgramming
+  // Judges are managed in /admin and served from the API; the static list ships
+  // as a fallback so the section still renders when the API is asleep.
+  const { items: platforms } = useCollection(api.listCp, competitiveProgramming)
   const data = useCpData(platforms)
   const [selected, setSelected] = useState(null)
 
@@ -29,7 +33,7 @@ export default function CompetitiveProgramming() {
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
         {platforms.map((p, i) => (
-          <Reveal key={p.key} delay={(i % 2) * 0.06}>
+          <Reveal key={p.key || p.id} delay={(i % 2) * 0.06}>
             <CpCard platform={p} state={data[p.key]} onOpen={() => setSelected(p)} />
           </Reveal>
         ))}
@@ -338,6 +342,12 @@ function StatBlock({ label, values }) {
   )
 }
 
+/** Build the "view profile" URL from the stored `{handle}` template. */
+function profileHref(platform) {
+  if (!platform?.handle || !platform.profileUrl) return null
+  return platform.profileUrl.replace('{handle}', platform.handle)
+}
+
 function CpModal({ platform, state, onClose }) {
   const closeRef = useRef(null)
 
@@ -354,7 +364,7 @@ function CpModal({ platform, state, onClose }) {
   }, [platform, onClose])
 
   const d = state?.data
-  const href = platform && platform.handle ? platform.profile(platform.handle) : null
+  const href = profileHref(platform)
   const solvedAllTime =
     platform?.solvedOverride != null
       ? `${platform.solvedOverride}+`

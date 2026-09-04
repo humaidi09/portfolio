@@ -73,6 +73,7 @@ export const api = {
   listResults: () => request('/api/results'),
   listEvents: () => request('/api/events'),
   listGallery: () => request('/api/gallery'),
+  listCp: () => request('/api/competitive-programming'),
 
   // Admin — content collections (generic create/update/delete)
   create: (resource, body, token) =>
