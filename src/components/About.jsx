@@ -106,12 +106,12 @@ export default function About() {
               <p className="text-lg leading-relaxed text-ink/90">
                 I&rsquo;m a Computer Science undergraduate at{' '}
                 <span className="font-semibold text-ink">{personalInfo.university}</span>, drawn to
-                the parts of software where clean thinking pays off — data structures, algorithms,
+                the parts of software where clean thinking pays off data structures, algorithms,
                 and object-oriented design.
               </p>
               <p className="leading-relaxed text-muted">
                 I sharpen those skills through competitive programming and turn them into real,
-                modular projects. Outside the editor I stay active in the tech community — leading
+                modular projects. Outside the editor I stay active in the tech community leading
                 events with my university computer club, volunteering, and teaching mathematics
                 part-time.
               </p>
