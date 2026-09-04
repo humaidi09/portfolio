@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
-  ImagePlus, Images, Inbox, LogOut, Mail, Pencil, Plus, Trash2, Upload, X,
+  ImagePlus, Images, Inbox, LogOut, Mail, Pencil, Plus, Terminal, Trash2,
+  TriangleAlert, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
+import { LETTERS } from '../data/puzzles'
 import { useToast } from '../context/ToastContext'
 
 /**
@@ -94,6 +96,8 @@ const TABS = [
   { id: 'events', label: 'Events', Icon: CalendarDays },
   { id: 'gallery', label: 'Gallery', Icon: Images },
   { id: 'stats', label: 'Stats', Icon: BarChart3 },
+  { id: 'puzzles', label: 'Puzzles', Icon: Terminal },
+  { id: 'wrong', label: 'Wrong answers', Icon: TriangleAlert },
   { id: 'messages', label: 'Messages', Icon: Inbox },
   { id: 'cv', label: 'CV', Icon: FileText },
 ]
@@ -170,6 +174,19 @@ const COLLECTIONS = {
       { key: 'suffix', label: 'Suffix', placeholder: ' / 4.00' },
     ],
   },
+  puzzles: {
+    label: 'puzzle',
+    resource: 'puzzles',
+    list: api.listPuzzles,
+    titleKey: 'code',
+    subKey: 'note',
+    fields: [
+      { key: 'code', label: 'C++ snippet', type: 'textarea', required: true, placeholder: 'cout << 7 / 2;' },
+      // The options + which one is correct are edited together (see OptionsField).
+      { key: 'options', label: 'Answer options', type: 'options', required: true },
+      { key: 'note', label: 'Explanation', type: 'textarea', placeholder: 'One line on why that is the output.' },
+    ],
+  },
 }
 
 function Dashboard({ token, onLogout }) {
@@ -222,6 +239,7 @@ function Dashboard({ token, onLogout }) {
         {COLLECTIONS[tab] && (
           <CollectionTab key={tab} config={COLLECTIONS[tab]} token={token} onLogout={onLogout} />
         )}
+        {tab === 'wrong' && <WrongAnswersTab token={token} onLogout={onLogout} />}
         {tab === 'messages' && <MessagesTab token={token} onLogout={onLogout} onUnread={setUnread} />}
         {tab === 'cv' && <CvTab token={token} onLogout={onLogout} />}
       </div>
@@ -409,7 +427,11 @@ function ProjectForm({ initial, onCancel, onSave }) {
 /** Build an empty form object from a collection's field list. */
 function emptyOf(config) {
   const out = { order: 0 }
-  for (const f of config.fields) out[f.key] = f.type === 'images' ? [] : ''
+  for (const f of config.fields) {
+    if (f.type === 'images') out[f.key] = []
+    else if (f.type === 'options') { out[f.key] = ['', '', '']; out.answer = 0 }
+    else out[f.key] = ''
+  }
   return out
 }
 
@@ -420,7 +442,10 @@ function toForm(config, doc) {
     const v = doc[f.key]
     if (f.type === 'tags') out[f.key] = Array.isArray(v) ? v.join(', ') : v || ''
     else if (f.type === 'images') out[f.key] = Array.isArray(v) ? v : v ? [v] : []
-    else out[f.key] = v ?? ''
+    else if (f.type === 'options') {
+      out[f.key] = Array.isArray(v) && v.length ? v : ['', '', '']
+      out.answer = Number(doc.answer) || 0
+    } else out[f.key] = v ?? ''
   }
   return out
 }
@@ -658,7 +683,8 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
 
   const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
   const label = 'block text-sm font-medium text-ink'
-  const wide = (f) => f.type === 'tags' || f.type === 'textarea' || f.type === 'image' || f.type === 'images'
+  const wide = (f) =>
+    f.type === 'tags' || f.type === 'textarea' || f.type === 'image' || f.type === 'images' || f.type === 'options'
 
   return (
     <div>
@@ -702,6 +728,12 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
                   busy={imgBusy}
                   onAdd={(e) => onAddImages(f.key, e)}
                   onRemove={(idx) => setForm((s) => ({ ...s, [f.key]: (s[f.key] || []).filter((_, i) => i !== idx) }))}
+                />
+              ) : f.type === 'options' ? (
+                <OptionsField
+                  options={form[f.key] || ['', '', '']}
+                  answer={Number(form.answer) || 0}
+                  onChange={(options, answer) => setForm((s) => ({ ...s, [f.key]: options, answer }))}
                 />
               ) : (
                 <input
@@ -812,6 +844,166 @@ function MultiImageField({ values, busy, onAdd, onRemove }) {
       <p className="mt-2 font-mono text-[11px] text-muted">
         {values.length} photo{values.length === 1 ? '' : 's'} · pick several at once · auto-resized
       </p>
+    </div>
+  )
+}
+
+/** Editor for a puzzle's answer options: a row per option (text + a radio to
+    mark it correct), add/remove controls, and the correct-answer index kept in
+    sync. 2–6 options; the marked option is the one revealed as right. */
+function OptionsField({ options, answer, onChange }) {
+  const setText = (idx, text) => {
+    const next = options.map((o, i) => (i === idx ? text : o))
+    onChange(next, answer)
+  }
+  const add = () => {
+    if (options.length >= 6) return
+    onChange([...options, ''], answer)
+  }
+  const remove = (idx) => {
+    if (options.length <= 2) return
+    const next = options.filter((_, i) => i !== idx)
+    // Keep the correct-answer pointer valid after a removal.
+    let a = answer
+    if (idx === answer) a = 0
+    else if (idx < answer) a = answer - 1
+    onChange(next, a)
+  }
+
+  return (
+    <div className="mt-1.5 space-y-2">
+      {options.map((opt, idx) => (
+        <div key={idx} className="flex items-center gap-2">
+          <label className="flex shrink-0 items-center gap-1.5 rounded-lg border border-hair bg-fill px-2.5 py-2 text-xs text-muted">
+            <input
+              type="radio"
+              name="correct-option"
+              checked={answer === idx}
+              onChange={() => onChange(options, idx)}
+              className="accent-neonCyan"
+            />
+            correct
+          </label>
+          <input
+            value={opt}
+            onChange={(e) => setText(idx, e.target.value)}
+            placeholder={`Option ${LETTERS[idx]}`}
+            className="w-full rounded-xl border border-hair bg-fill px-4 py-2.5 font-mono text-ink outline-none transition-colors focus:border-neonCyan"
+          />
+          <button
+            type="button"
+            onClick={() => remove(idx)}
+            disabled={options.length <= 2}
+            aria-label={`Remove option ${LETTERS[idx]}`}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hair bg-fill text-muted hover:text-red-400 disabled:opacity-40"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      ))}
+      {options.length < 6 && (
+        <button
+          type="button"
+          onClick={add}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-hair bg-fill px-3 py-1.5 text-xs font-medium text-muted hover:text-ink"
+        >
+          <Plus className="h-3.5 w-3.5" />
+          Add option
+        </button>
+      )}
+      <p className="font-mono text-[11px] text-muted">
+        Pick the radio next to the option that is the correct output.
+      </p>
+    </div>
+  )
+}
+
+/* ─────────────────────────── Wrong answers ─────────────────────────── */
+
+/** Read-only log of wrong guesses from the hero game: which snippet, what the
+    player picked vs. the right answer, and when. Clear one or all. */
+function WrongAnswersTab({ token, onLogout }) {
+  const { toast } = useToast()
+  const run = useAuthedAction(onLogout)
+  const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  async function load() {
+    setLoading(true)
+    try {
+      setRows(await api.listWrongAnswers(token))
+    } catch (err) {
+      if (/401|unauth|token|expired/i.test(err.message)) onLogout()
+      else toast({ type: 'error', title: 'Could not load', message: err.message })
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => { load() }, [])
+
+  async function remove(row) {
+    await run(async () => {
+      await api.deleteWrongAnswer(row.id, token)
+      load()
+    }).catch(() => {})
+  }
+
+  async function clearAll() {
+    if (!rows.length) return
+    if (!confirm(`Clear all ${rows.length} logged wrong answers? This cannot be undone.`)) return
+    await run(async () => {
+      await api.clearWrongAnswers(token)
+      toast({ type: 'success', title: 'Cleared', message: 'Wrong-answer log emptied.' })
+      load()
+    }).catch(() => {})
+  }
+
+  if (loading) return <p className="text-muted">Loading…</p>
+  if (!rows.length) {
+    return (
+      <div className="glass grid place-items-center rounded-2xl p-12 text-center">
+        <TriangleAlert className="h-8 w-8 text-muted" />
+        <p className="mt-3 font-medium text-ink">No wrong answers yet</p>
+        <p className="mt-1 text-sm text-muted">When a visitor picks the wrong output in the hero game, it shows up here.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm text-muted">{rows.length} wrong guess{rows.length === 1 ? '' : 'es'} logged</p>
+        <button
+          type="button"
+          onClick={clearAll}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-hair bg-fill px-3 py-1.5 text-sm font-medium text-muted hover:text-red-400"
+        >
+          <Trash2 className="h-4 w-4" />
+          Clear all
+        </button>
+      </div>
+      <ul className="mt-5 space-y-3">
+        {rows.map((r) => (
+          <li key={r.id} className="glass rounded-xl p-4">
+            <div className="flex items-start justify-between gap-3">
+              <pre className="min-w-0 flex-1 overflow-x-auto whitespace-pre-wrap font-mono text-xs text-ink/90">{r.code}</pre>
+              <button
+                type="button"
+                onClick={() => remove(r)}
+                aria-label="Delete entry"
+                className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-hair bg-fill text-muted hover:text-red-400"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs">
+              <span className="text-red-300">picked: {r.chosen || '—'}</span>
+              <span className="text-neonCyan">correct: {r.correct || '—'}</span>
+              <span className="text-muted">{new Date(r.createdAt).toLocaleString()}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

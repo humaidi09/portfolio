@@ -5,6 +5,7 @@ import Experience from './models/Experience.js'
 import Certification from './models/Certification.js'
 import Stat from './models/Stat.js'
 import Event from './models/Event.js'
+import Puzzle from './models/Puzzle.js'
 
 /**
  * One-time (idempotent) seed: pull the static content from the frontend's data
@@ -19,6 +20,8 @@ async function main() {
   // Import the frontend data file directly so there is one source of truth.
   const dataUrl = new URL('../../src/data/portfolioData.js', import.meta.url)
   const { projects, experiences, certifications, stats } = await import(dataUrl.href)
+  const puzzleUrl = new URL('../../src/data/puzzles.js', import.meta.url)
+  const { PUZZLES } = await import(puzzleUrl.href)
 
   // Projects — match on slug (the old `id`).
   let pCreated = 0
@@ -104,6 +107,18 @@ async function main() {
       date: e.date || '',
       location: e.location || '',
       description: e.description || '',
+      order: i,
+    },
+  }))
+
+  // Puzzles — match on the code snippet (its natural key here).
+  await upsertMany(Puzzle, PUZZLES, (p, i) => ({
+    match: { code: p.code },
+    doc: {
+      code: p.code,
+      options: p.options || [],
+      answer: p.answer ?? 0,
+      note: p.note || '',
       order: i,
     },
   }))
