@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  Award, ArrowLeft, BarChart3, Briefcase, FileText, FolderKanban, GraduationCap,
-  Inbox, LogOut, Mail, Pencil, Plus, Trash2, Upload, X,
+  Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
+  GraduationCap, ImagePlus, Inbox, LogOut, Mail, Pencil, Plus, Trash2, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
 import { useToast } from '../context/ToastContext'
@@ -91,7 +91,7 @@ const TABS = [
   { id: 'projects', label: 'Projects', Icon: FolderKanban },
   { id: 'experiences', label: 'Experience', Icon: Briefcase },
   { id: 'certifications', label: 'Certs', Icon: Award },
-  { id: 'results', label: 'Results', Icon: GraduationCap },
+  { id: 'events', label: 'Events', Icon: CalendarDays },
   { id: 'stats', label: 'Stats', Icon: BarChart3 },
   { id: 'messages', label: 'Messages', Icon: Inbox },
   { id: 'cv', label: 'CV', Icon: FileText },
@@ -129,17 +129,18 @@ const COLLECTIONS = {
       { key: 'credentialId', label: 'Credential ID', placeholder: 'optional' },
     ],
   },
-  results: {
-    label: 'result',
-    resource: 'results',
-    list: api.listResults,
-    titleKey: 'term',
-    subKey: 'gpa',
+  events: {
+    label: 'event',
+    resource: 'events',
+    list: api.listEvents,
+    titleKey: 'title',
+    subKey: 'date',
     fields: [
-      { key: 'term', label: 'Term', required: true, placeholder: '3rd Semester' },
-      { key: 'gpa', label: 'GPA', placeholder: '3.85' },
-      { key: 'scale', label: 'Scale', placeholder: '4.00' },
-      { key: 'note', label: 'Note', placeholder: 'optional' },
+      { key: 'title', label: 'Title', required: true, placeholder: 'ILUPC 2026 Programming Contest' },
+      { key: 'date', label: 'Date', placeholder: 'Aug 2026' },
+      { key: 'location', label: 'Location', placeholder: 'Leading University, Sylhet' },
+      { key: 'description', label: 'Description', type: 'textarea', placeholder: 'A short line about the event.' },
+      { key: 'image', label: 'Photo', type: 'image' },
     ],
   },
   stats: {
@@ -407,6 +408,31 @@ function toForm(config, doc) {
   return out
 }
 
+/** Read an image File into a compressed base64 data URL (long edge ≤ 1400px,
+    JPEG q0.82) so photos stay small enough to store inline in the document. */
+function imageToDataUrl(file, max = 1400, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onerror = reject
+    reader.onload = () => {
+      const img = new Image()
+      img.onerror = reject
+      img.onload = () => {
+        const scale = Math.min(1, max / Math.max(img.width, img.height))
+        const w = Math.round(img.width * scale)
+        const h = Math.round(img.height * scale)
+        const canvas = document.createElement('canvas')
+        canvas.width = w
+        canvas.height = h
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h)
+        resolve(canvas.toDataURL('image/jpeg', quality))
+      }
+      img.src = reader.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
 function CollectionTab({ config, token, onLogout }) {
   const { toast } = useToast()
   const run = useAuthedAction(onLogout)
@@ -508,8 +534,10 @@ function CollectionTab({ config, token, onLogout }) {
 }
 
 function CollectionForm({ config, initial, onCancel, onSave }) {
+  const { toast } = useToast()
   const [form, setForm] = useState(initial)
   const [busy, setBusy] = useState(false)
+  const [imgBusy, setImgBusy] = useState(false)
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
 
   async function submit(e) {
@@ -519,8 +547,28 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
     setBusy(false)
   }
 
+  async function onPickImage(key, e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      toast({ type: 'error', title: 'Image only', message: 'Please choose an image file.' })
+      return
+    }
+    setImgBusy(true)
+    try {
+      const dataUrl = await imageToDataUrl(file)
+      setForm((f) => ({ ...f, [key]: dataUrl }))
+    } catch {
+      toast({ type: 'error', title: 'Could not read image', message: 'Try a different photo.' })
+    } finally {
+      setImgBusy(false)
+      e.target.value = ''
+    }
+  }
+
   const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
   const label = 'block text-sm font-medium text-ink'
+  const wide = (f) => f.type === 'tags' || f.type === 'textarea' || f.type === 'image'
 
   return (
     <div>
@@ -535,19 +583,39 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
       <form onSubmit={submit} className="mt-6 space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
           {config.fields.map((f) => (
-            <div key={f.key} className={f.type === 'tags' ? 'sm:col-span-2' : ''}>
+            <div key={f.key} className={wide(f) ? 'sm:col-span-2' : ''}>
               <label className={label} htmlFor={f.key}>
                 {f.label}
                 {f.type === 'tags' && <span className="font-normal text-muted"> (comma-separated)</span>}
               </label>
-              <input
-                id={f.key}
-                required={f.required}
-                value={form[f.key] ?? ''}
-                onChange={set(f.key)}
-                className={field}
-                placeholder={f.placeholder}
-              />
+
+              {f.type === 'textarea' ? (
+                <textarea
+                  id={f.key}
+                  rows={3}
+                  required={f.required}
+                  value={form[f.key] ?? ''}
+                  onChange={set(f.key)}
+                  className={field}
+                  placeholder={f.placeholder}
+                />
+              ) : f.type === 'image' ? (
+                <ImageField
+                  value={form[f.key]}
+                  busy={imgBusy}
+                  onPick={(e) => onPickImage(f.key, e)}
+                  onClear={() => setForm((s) => ({ ...s, [f.key]: '' }))}
+                />
+              ) : (
+                <input
+                  id={f.key}
+                  required={f.required}
+                  value={form[f.key] ?? ''}
+                  onChange={set(f.key)}
+                  className={field}
+                  placeholder={f.placeholder}
+                />
+              )}
             </div>
           ))}
           <div>
@@ -556,7 +624,7 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
           </div>
         </div>
         <div className="flex gap-3 pt-2">
-          <button type="submit" disabled={busy} className="rounded-xl bg-neonCyan px-6 py-2.5 font-semibold text-void transition-opacity hover:opacity-90 disabled:opacity-50">
+          <button type="submit" disabled={busy || imgBusy} className="rounded-xl bg-neonCyan px-6 py-2.5 font-semibold text-void transition-opacity hover:opacity-90 disabled:opacity-50">
             {busy ? 'Saving…' : 'Save'}
           </button>
           <button type="button" onClick={onCancel} className="rounded-xl border border-hair bg-fill px-6 py-2.5 font-semibold text-ink hover:bg-fill-strong">
@@ -564,6 +632,51 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
           </button>
         </div>
       </form>
+    </div>
+  )
+}
+
+/** A photo picker: shows a preview thumbnail + replace/remove once a photo is
+    chosen, or an upload dropzone when empty. Stores a base64 data URL in form. */
+function ImageField({ value, busy, onPick, onClear }) {
+  const ref = useRef(null)
+  return (
+    <div className="mt-1.5">
+      <input ref={ref} type="file" accept="image/*" onChange={onPick} className="hidden" />
+      {value ? (
+        <div className="flex items-center gap-4 rounded-xl border border-hair bg-fill p-3">
+          <img src={value} alt="Event preview" className="h-20 w-28 shrink-0 rounded-lg object-cover" />
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => ref.current?.click()}
+              disabled={busy}
+              className="rounded-lg border border-hair bg-void/40 px-3 py-1.5 text-sm text-ink hover:bg-fill-strong disabled:opacity-50"
+            >
+              {busy ? 'Processing…' : 'Replace'}
+            </button>
+            <button
+              type="button"
+              onClick={onClear}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-hair bg-void/40 px-3 py-1.5 text-sm text-muted hover:text-red-400"
+            >
+              <X className="h-4 w-4" />
+              Remove
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => ref.current?.click()}
+          disabled={busy}
+          className="flex w-full flex-col items-center gap-2 rounded-xl border border-dashed border-hair-strong bg-fill px-4 py-8 text-muted transition-colors hover:border-neonCyan/50 hover:text-ink disabled:opacity-50"
+        >
+          <ImagePlus className="h-6 w-6" />
+          <span className="text-sm">{busy ? 'Processing…' : 'Choose a photo'}</span>
+          <span className="font-mono text-[11px] text-muted">JPG or PNG · auto-resized</span>
+        </button>
+      )}
     </div>
   )
 }

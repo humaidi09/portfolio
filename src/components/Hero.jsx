@@ -234,7 +234,7 @@ export default function Hero() {
           </motion.dl>
         </motion.div>
 
-        {/* ---- Right: portrait + "currently" card, then a live terminal ---- */}
+        {/* ---- Right: portrait + "currently" card, then the terminal ---- */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}

@@ -6,7 +6,7 @@ import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
-import Results from './components/Results'
+import Events from './components/Events'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Admin from './components/Admin'
@@ -36,7 +36,7 @@ export default function App() {
               <Skills />
               <Projects />
               <Experience />
-              <Results />
+              <Events />
               <Contact />
             </main>
             <Footer />
