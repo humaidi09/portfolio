@@ -177,7 +177,6 @@ export default function Projects() {
         index="03"
         eyebrow="// projects"
         title="Things I've built"
-        kicker="Projects where I leaned into object-oriented design and clean, modular Python. Open one for the architecture and a peek at the code."
       />
 
       {/* Filter tabs */}

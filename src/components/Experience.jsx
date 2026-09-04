@@ -48,7 +48,6 @@ export default function Experience() {
         index="04"
         eyebrow="// journey"
         title="Experience & credentials"
-        kicker="Community leadership, teaching, and the certifications and contests that mark the path so far."
       />
 
       <div className="relative mt-12">
