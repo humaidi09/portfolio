@@ -222,6 +222,130 @@ const PUZZLES = [
     answer: 0,
     note: 'true || false is true, which prints as 1.',
   },
+
+  // ---- STL & competitive-programming toolkit ----
+  // The "magic" functions CP relies on: builtins, binary search, heaps,
+  // permutations, prefix sums. Every output verified and unambiguous.
+  {
+    code: 'cout << __builtin_popcount(11);',
+    options: ['2', '3', '4'],
+    answer: 1,
+    note: '11 = 1011 in binary → 3 set bits.',
+  },
+  {
+    code: 'cout << __gcd(12, 18);',
+    options: ['6', '3', '36'],
+    answer: 0,
+    note: '__gcd returns the greatest common divisor: gcd(12,18) = 6.',
+  },
+  {
+    code: 'cout << __builtin_popcount(1 << 5);',
+    options: ['1', '5', '32'],
+    answer: 0,
+    note: '1 << 5 = 32 = 100000, which has exactly one set bit.',
+  },
+  {
+    code: 'cout << __builtin_popcount(255);',
+    options: ['8', '7', '255'],
+    answer: 0,
+    note: '255 = 11111111 → all 8 bits set.',
+  },
+  {
+    code: 'vector<int> v = {1, 2, 3};\nnext_permutation(v.begin(), v.end());\ncout << v[0] << v[1] << v[2];',
+    options: ['132', '123', '213'],
+    answer: 0,
+    note: 'The next lexicographic permutation after 123 is 132.',
+  },
+  {
+    code: 'vector<int> v = {1, 3, 5, 7};\ncout << (lower_bound(v.begin(), v.end(), 5) - v.begin());',
+    options: ['1', '2', '3'],
+    answer: 1,
+    note: 'lower_bound finds the first element ≥ 5 → index 2.',
+  },
+  {
+    code: 'vector<int> v = {1, 3, 5, 5, 7};\ncout << (upper_bound(v.begin(), v.end(), 5) - v.begin());',
+    options: ['2', '4', '3'],
+    answer: 1,
+    note: 'upper_bound finds the first element > 5 (the 7) → index 4.',
+  },
+  {
+    code: 'vector<int> v = {1, 3, 5, 7};\ncout << binary_search(v.begin(), v.end(), 4);',
+    options: ['1', '0', '4'],
+    answer: 1,
+    note: '4 is not in the sorted vector, so binary_search returns false → 0.',
+  },
+  {
+    code: 'vector<int> v = {1, 2, 3, 4};\ncout << accumulate(v.begin(), v.end(), 0);',
+    options: ['10', '24', '0'],
+    answer: 0,
+    note: 'accumulate sums from the seed 0: 0+1+2+3+4 = 10.',
+  },
+  {
+    code: 'priority_queue<int> pq;\npq.push(3); pq.push(1); pq.push(4);\ncout << pq.top();',
+    options: ['1', '4', '3'],
+    answer: 1,
+    note: 'A priority_queue is a max-heap by default, so top() is the largest, 4.',
+  },
+  {
+    code: 'priority_queue<int, vector<int>, greater<int>> pq;\npq.push(3); pq.push(1); pq.push(4);\ncout << pq.top();',
+    options: ['4', '1', '3'],
+    answer: 1,
+    note: 'greater<int> makes a min-heap, so top() is the smallest, 1.',
+  },
+  {
+    code: 'vector<int> v = {2, 4, 1};\nsort(v.begin(), v.end(), greater<int>());\ncout << v[0] << v[1] << v[2];',
+    options: ['124', '421', '142'],
+    answer: 1,
+    note: 'greater<int> sorts descending → 4, 2, 1.',
+  },
+  {
+    code: 'vector<int> v = {1, 1, 2, 3, 3};\nv.erase(unique(v.begin(), v.end()), v.end());\ncout << v.size();',
+    options: ['5', '3', '2'],
+    answer: 1,
+    note: 'unique collapses adjacent duplicates; erase drops the tail → {1,2,3}, size 3.',
+  },
+  {
+    code: 'vector<int> v = {1, 2, 2, 3, 2};\ncout << count(v.begin(), v.end(), 2);',
+    options: ['2', '3', '1'],
+    answer: 1,
+    note: 'count tallies every element equal to 2 → three of them.',
+  },
+  {
+    code: 'vector<int> v = {4, 9, 2, 7};\ncout << *max_element(v.begin(), v.end());',
+    options: ['9', '7', '2'],
+    answer: 0,
+    note: 'max_element returns an iterator to the largest value; dereferenced → 9.',
+  },
+  {
+    code: 'cout << min({4, 2, 7, 1});',
+    options: ['1', '2', '7'],
+    answer: 0,
+    note: 'min over an initializer list scans them all → 1.',
+  },
+  {
+    code: 'int a = 4, b = 6;\ncout << a * b / __gcd(a, b);',
+    options: ['12', '24', '2'],
+    answer: 0,
+    note: 'LCM = a·b / gcd: 24 / 2 = 12.',
+  },
+  {
+    code: 'cout << bitset<4>(5);',
+    options: ['0101', '101', '5'],
+    answer: 0,
+    note: 'bitset<4> prints 5 as a fixed 4-bit string → 0101.',
+  },
+  {
+    code: 'map<int,int> m;\nm[3] = 1; m[1] = 1; m[2] = 1;\ncout << m.begin()->first;',
+    options: ['3', '1', '2'],
+    answer: 1,
+    note: 'std::map keeps keys sorted, so begin() is the smallest key, 1.',
+  },
+  {
+    code: 'string s = "competitive";\ncout << s.substr(0, 4);',
+    options: ['comp', 'ompe', 'competi'],
+    answer: 0,
+    note: 'substr(0, 4) takes 4 characters from index 0 → "comp".',
+  },
 ]
 
 const LETTERS = ['a', 'b', 'c']
