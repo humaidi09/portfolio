@@ -161,11 +161,9 @@ export default function Hero() {
           <motion.h1
             variants={fadeUp}
             custom={0}
-            className="font-display text-[2.5rem] font-bold leading-[0.98] tracking-[-0.03em] text-ink sm:text-[4.25rem] md:text-[5.5rem]"
+            className="font-display text-[2.25rem] font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-[3.25rem] md:text-[4rem]"
           >
-            Hussain Ahmed
-            <br />
-            <span className="text-gradient">Humaidi</span>
+            Hussain <span className="text-gradient">Ahmed</span>
           </motion.h1>
 
           <motion.p
