@@ -154,13 +154,14 @@ export default function Hero() {
       </div>
 
       <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
-        {/* ---- Left: the pitch, set like a page ---- */}
-        <motion.div initial="hidden" animate="show" className="max-w-2xl">
+        {/* ---- Left: the pitch, set like a page. On mobile it drops below the
+             portrait + terminal (order-2) so the visual lands first. ---- */}
+        <motion.div initial="hidden" animate="show" className="order-2 max-w-2xl lg:order-none">
           {/* The signature: the name at display scale, serif carries the identity */}
           <motion.h1
             variants={fadeUp}
             custom={0}
-            className="font-display text-[3.1rem] font-bold leading-[0.95] tracking-[-0.03em] text-ink sm:text-[4.25rem] md:text-[5.5rem]"
+            className="font-display text-[2.5rem] font-bold leading-[0.98] tracking-[-0.03em] text-ink sm:text-[4.25rem] md:text-[5.5rem]"
           >
             Hussain Ahmed
             <br />
@@ -170,7 +171,7 @@ export default function Hero() {
           <motion.p
             variants={fadeUp}
             custom={1}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl"
+            className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:mt-6 sm:text-xl"
           >
             CSE undergraduate at Leading University, Sylhet. I solve problems with
             C++ and data structures, and turn that into clean, working software.
@@ -234,12 +235,13 @@ export default function Hero() {
           </motion.dl>
         </motion.div>
 
-        {/* ---- Right: portrait + "currently" card, then the terminal ---- */}
+        {/* ---- Right: portrait + "currently" card, then the terminal. On mobile
+             this comes first (order-1) so the photo greets the visitor. ---- */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col gap-5"
+          className="order-1 flex flex-col gap-5 lg:order-none"
         >
           <div className="flex items-stretch gap-5">
             <Portrait reduce={reduce} />
