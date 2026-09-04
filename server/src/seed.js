@@ -6,6 +6,7 @@ import Certification from './models/Certification.js'
 import Stat from './models/Stat.js'
 import Event from './models/Event.js'
 import Puzzle from './models/Puzzle.js'
+import CpProfile from './models/CpProfile.js'
 
 /**
  * One-time (idempotent) seed: pull the static content from the frontend's data
@@ -19,7 +20,7 @@ async function main() {
 
   // Import the frontend data file directly so there is one source of truth.
   const dataUrl = new URL('../../src/data/portfolioData.js', import.meta.url)
-  const { projects, experiences, certifications, stats } = await import(dataUrl.href)
+  const { projects, experiences, certifications, stats, competitiveProgramming } = await import(dataUrl.href)
   const puzzleUrl = new URL('../../src/data/puzzles.js', import.meta.url)
   const { PUZZLES } = await import(puzzleUrl.href)
 
@@ -119,6 +120,26 @@ async function main() {
       options: p.options || [],
       answer: p.answer ?? 0,
       note: p.note || '',
+      order: i,
+    },
+  }))
+
+  // Competitive-programming judges — match on the stable `key`. The data file's
+  // `profileUrl` template is stored verbatim (the old profile() function is gone).
+  await upsertMany(CpProfile, competitiveProgramming, (p, i) => ({
+    match: { key: p.key },
+    doc: {
+      key: p.key,
+      name: p.name,
+      mono: p.mono || '',
+      source: p.source || 'link',
+      accent: p.accent || '',
+      handle: p.handle || '',
+      logo: p.logo || '',
+      logoClass: p.logoClass || '',
+      profileUrl: p.profileUrl || '',
+      solvedOverride: p.solvedOverride ?? null,
+      stats: p.stats ?? undefined,
       order: i,
     },
   }))

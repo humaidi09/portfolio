@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
-  ImagePlus, Images, Inbox, LogOut, Mail, Pencil, Plus, Terminal, Trash2,
+  ImagePlus, Images, Inbox, LogOut, Mail, Pencil, Plus, Swords, Terminal, Trash2,
   TriangleAlert, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
@@ -96,6 +96,7 @@ const TABS = [
   { id: 'events', label: 'Events', Icon: CalendarDays },
   { id: 'gallery', label: 'Gallery', Icon: Images },
   { id: 'stats', label: 'Stats', Icon: BarChart3 },
+  { id: 'competitiveProgramming', label: 'Competitive', Icon: Swords },
   { id: 'puzzles', label: 'Puzzles', Icon: Terminal },
   { id: 'wrong', label: 'Wrong answers', Icon: TriangleAlert },
   { id: 'messages', label: 'Messages', Icon: Inbox },
@@ -172,6 +173,35 @@ const COLLECTIONS = {
       { key: 'label', label: 'Label', required: true, placeholder: 'Current CGPA' },
       { key: 'value', label: 'Value', placeholder: '3.85' },
       { key: 'suffix', label: 'Suffix', placeholder: ' / 4.00' },
+    ],
+  },
+  competitiveProgramming: {
+    label: 'CP profile',
+    resource: 'competitive-programming',
+    list: api.listCp,
+    titleKey: 'name',
+    subKey: 'handle',
+    fields: [
+      { key: 'name', label: 'Platform', required: true, placeholder: 'Codeforces' },
+      { key: 'handle', label: 'Handle', placeholder: 'Humaidi_10 (blank = not linked)' },
+      {
+        key: 'source',
+        label: 'Live source',
+        type: 'select',
+        options: [
+          { value: 'link', label: 'Link only — show the manual stats below' },
+          { value: 'codeforces', label: 'Codeforces — fetch live rating & heatmap' },
+          { value: 'atcoder', label: 'AtCoder — fetch live problems & heatmap' },
+        ],
+      },
+      { key: 'solvedOverride', label: 'Solved override', type: 'number', placeholder: 'e.g. 132 — blank uses the live count' },
+      { key: 'stats', label: 'Manual stats', type: 'cpstats' },
+      { key: 'profileUrl', label: 'Profile URL', placeholder: 'https://codeforces.com/profile/{handle}' },
+      { key: 'logo', label: 'Logo path', placeholder: '/logos/codeforces.png' },
+      { key: 'logoClass', label: 'Logo CSS classes', placeholder: 'p-1.5' },
+      { key: 'mono', label: 'Monogram', placeholder: 'CF' },
+      { key: 'accent', label: 'Accent colour', placeholder: '#4f8cff' },
+      { key: 'key', label: 'Key (unique id)', required: true, placeholder: 'codeforces' },
     ],
   },
   puzzles: {
@@ -430,6 +460,8 @@ function emptyOf(config) {
   for (const f of config.fields) {
     if (f.type === 'images') out[f.key] = []
     else if (f.type === 'options') { out[f.key] = ['', '', '']; out.answer = 0 }
+    else if (f.type === 'cpstats') out[f.key] = {}
+    else if (f.type === 'select') out[f.key] = f.options?.[0]?.value ?? ''
     else out[f.key] = ''
   }
   return out
@@ -445,7 +477,8 @@ function toForm(config, doc) {
     else if (f.type === 'options') {
       out[f.key] = Array.isArray(v) && v.length ? v : ['', '', '']
       out.answer = Number(doc.answer) || 0
-    } else out[f.key] = v ?? ''
+    } else if (f.type === 'cpstats') out[f.key] = v && typeof v === 'object' ? v : {}
+    else out[f.key] = v ?? ''
   }
   return out
 }
@@ -684,7 +717,7 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
   const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
   const label = 'block text-sm font-medium text-ink'
   const wide = (f) =>
-    f.type === 'tags' || f.type === 'textarea' || f.type === 'image' || f.type === 'images' || f.type === 'options'
+    f.type === 'tags' || f.type === 'textarea' || f.type === 'image' || f.type === 'images' || f.type === 'options' || f.type === 'cpstats'
 
   return (
     <div>
@@ -734,6 +767,32 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
                   options={form[f.key] || ['', '', '']}
                   answer={Number(form.answer) || 0}
                   onChange={(options, answer) => setForm((s) => ({ ...s, [f.key]: options, answer }))}
+                />
+              ) : f.type === 'cpstats' ? (
+                <CpStatsField
+                  value={form[f.key] || {}}
+                  onChange={(stats) => setForm((s) => ({ ...s, [f.key]: stats }))}
+                />
+              ) : f.type === 'select' ? (
+                <select id={f.key} value={form[f.key] ?? ''} onChange={set(f.key)} className={field}>
+                  {f.options.map((o) => {
+                    const value = o.value ?? o
+                    return (
+                      <option key={value} value={value}>
+                        {o.label ?? o}
+                      </option>
+                    )
+                  })}
+                </select>
+              ) : f.type === 'number' ? (
+                <input
+                  id={f.key}
+                  type="number"
+                  required={f.required}
+                  value={form[f.key] ?? ''}
+                  onChange={set(f.key)}
+                  className={field}
+                  placeholder={f.placeholder}
                 />
               ) : (
                 <input
@@ -913,6 +972,58 @@ function OptionsField({ options, answer, onChange }) {
       )}
       <p className="font-mono text-[11px] text-muted">
         Pick the radio next to the option that is the correct output.
+      </p>
+    </div>
+  )
+}
+
+/** Manual stats for a CP judge without a live API (LeetCode, CodeChef, AtCoder…).
+    Each field is optional; blank ones are dropped so the card only shows what's set. */
+function CpStatsField({ value, onChange }) {
+  const NUMS = [
+    { k: 'rating', label: 'Rating' },
+    { k: 'solved', label: 'Solved' },
+    { k: 'submissions', label: 'Submissions' },
+    { k: 'activeDays', label: 'Active days' },
+    { k: 'maxStreak', label: 'Max streak' },
+  ]
+  const setNum = (k) => (e) => {
+    const next = { ...value }
+    const raw = e.target.value
+    if (raw === '') delete next[k]
+    else next[k] = Number(raw)
+    onChange(next)
+  }
+  const setNote = (e) => {
+    const next = { ...value }
+    if (e.target.value.trim() === '') delete next.note
+    else next.note = e.target.value
+    onChange(next)
+  }
+  const cell =
+    'w-full rounded-xl border border-hair bg-fill px-3 py-2 text-ink outline-none transition-colors focus:border-neonCyan'
+  return (
+    <div className="mt-1.5 rounded-xl border border-hair bg-fill/40 p-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {NUMS.map(({ k, label }) => (
+          <label key={k} className="block">
+            <span className="font-mono text-[11px] text-muted">{label}</span>
+            <input
+              type="number"
+              value={value?.[k] ?? ''}
+              onChange={setNum(k)}
+              className={cell}
+              placeholder="—"
+            />
+          </label>
+        ))}
+      </div>
+      <label className="mt-3 block">
+        <span className="font-mono text-[11px] text-muted">Note (optional)</span>
+        <input value={value?.note ?? ''} onChange={setNote} className={cell} placeholder="e.g. 4★ on CodeChef" />
+      </label>
+      <p className="mt-2 font-mono text-[11px] text-muted">
+        Blank fields are hidden. Used for judges without a live API (LeetCode, CodeChef…).
       </p>
     </div>
   )

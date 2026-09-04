@@ -14,6 +14,7 @@ import eventRoutes from './routes/events.js'
 import galleryRoutes from './routes/gallery.js'
 import puzzleRoutes from './routes/puzzles.js'
 import wrongAnswerRoutes from './routes/wrongAnswers.js'
+import cpRoutes from './routes/competitiveProgramming.js'
 
 const app = express()
 
@@ -40,6 +41,7 @@ app.use('/api/events', eventRoutes)
 app.use('/api/gallery', galleryRoutes)
 app.use('/api/puzzles', puzzleRoutes)
 app.use('/api/wrong-answers', wrongAnswerRoutes)
+app.use('/api/competitive-programming', cpRoutes)
 
 // Fallback 404 for unknown API routes.
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found.' }))

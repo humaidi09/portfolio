@@ -180,7 +180,9 @@ export const competitiveProgramming = [
     // Rating, heatmap and streak stay live from the CF API; the solved count is
     // shown as this lifetime figure ("132+") instead of the live tally.
     solvedOverride: 132,
-    profile: (h) => `https://codeforces.com/profile/${h}`
+    // `{handle}` is filled in by the UI (and stored verbatim in the DB) so the
+    // profile link stays a plain, serializable string — no function to persist.
+    profileUrl: "https://codeforces.com/profile/{handle}"
   },
   {
     key: "leetcode",
@@ -191,7 +193,7 @@ export const competitiveProgramming = [
     handle: "Humaidi_25",
     logo: "/logos/leetcode.png",
     logoClass: "p-1",
-    profile: (h) => `https://leetcode.com/u/${h}/`,
+    profileUrl: "https://leetcode.com/u/{handle}/",
     // From the LeetCode profile's submission heatmap (LeetCode has no
     // browser-readable API, so these are entered by hand, not fetched live).
     stats: { submissions: 21, activeDays: 7, maxStreak: 1 }
@@ -205,7 +207,7 @@ export const competitiveProgramming = [
     handle: "",
     logo: "/logos/atcoder.png",
     logoClass: "origin-top scale-[1.32] p-0.5",
-    profile: (h) => `https://atcoder.jp/users/${h}`,
+    profileUrl: "https://atcoder.jp/users/{handle}",
     stats: { solved: 165 } // live heatmap available if you add a real handle + source:"atcoder"
   },
   {
@@ -217,7 +219,7 @@ export const competitiveProgramming = [
     handle: "",
     logo: "/logos/codechef.svg",
     logoClass: "p-1.5",
-    profile: (h) => `https://www.codechef.com/users/${h}`,
+    profileUrl: "https://www.codechef.com/users/{handle}",
     stats: { solved: 213 }
   }
 ];
