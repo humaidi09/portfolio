@@ -139,7 +139,7 @@ export default function Hero() {
   }
 
   const primaryBtn =
-    'group inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-neonCyan px-5 py-2.5 text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90'
+    'group inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-neonCyan px-6 py-3 text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90'
 
   return (
     <section id="top" className="relative mx-auto max-w-6xl px-4 pt-28 pb-10 sm:px-6 md:pt-32 md:pb-12">
@@ -179,7 +179,7 @@ export default function Hero() {
           <motion.div
             variants={fadeUp}
             custom={3}
-            className="mt-9 flex flex-wrap items-center gap-3 sm:flex-nowrap"
+            className="mt-8 grid max-w-md grid-cols-2 gap-3"
           >
             <a href="#projects" className={primaryBtn}>
               View projects
@@ -202,7 +202,7 @@ export default function Hero() {
           <motion.dl
             variants={fadeUp}
             custom={4}
-            className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
+            className="mt-10 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
             {[stats[3], stats[2], stats[1]].filter(Boolean).map((s) => (
               <div key={s.label} className="bg-void px-4 py-4">
@@ -216,20 +216,27 @@ export default function Hero() {
           </motion.dl>
         </motion.div>
 
-        {/* ---- Right: portrait + "currently" card, then the terminal ---- */}
+        {/* ---- Right: portrait + "currently" card ---- */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col gap-5"
+          className="flex items-stretch gap-5"
         >
-          <div className="flex items-stretch gap-5">
-            <Portrait reduce={reduce} />
-            <NowCard />
-          </div>
-          <CodeTerminal className="w-full" />
+          <Portrait reduce={reduce} />
+          <NowCard />
         </motion.div>
       </div>
+
+      {/* ---- The guess game, seated full-width below both columns ---- */}
+      <motion.div
+        initial={reduce ? false : { opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+        className="mt-8 md:mt-10"
+      >
+        <CodeTerminal className="w-full" />
+      </motion.div>
     </section>
   )
 }
@@ -258,7 +265,7 @@ function Portrait({ reduce }) {
   const onLeave = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
 
   return (
-    <figure className="w-[150px] shrink-0 [perspective:1200px] sm:w-[175px] lg:w-[190px]">
+    <figure className="w-[150px] shrink-0 [perspective:1200px] sm:w-[175px] lg:w-[224px]">
       <div
         ref={ref}
         onMouseMove={onMove}
