@@ -170,20 +170,10 @@ export default function Hero() {
             Hussain <span className="text-gradient-animate">Ahmed</span>
           </motion.h1>
 
-          {/* Role line — the three hats, stated plainly */}
-          <motion.p
-            variants={fadeUp}
-            custom={2}
-            className="mt-4 text-base font-medium text-ink/85 sm:text-lg"
-          >
-            CSE Student <span className="text-neonCyan">•</span> Competitive Programmer{' '}
-            <span className="text-neonCyan">•</span> Python Developer
-          </motion.p>
-
           {/* Typed focus line — a single running caret, mono */}
           <motion.p
             variants={fadeUp}
-            custom={3}
+            custom={2}
             className="mt-5 flex items-center font-mono text-sm text-ink/85"
           >
             <span className="text-neonCyan">focus:&nbsp;</span>
@@ -193,7 +183,7 @@ export default function Hero() {
 
           <motion.div
             variants={fadeUp}
-            custom={4}
+            custom={3}
             className="mt-8 grid max-w-md grid-cols-2 gap-3"
           >
             <a href="#projects" className={primaryBtn}>
@@ -216,7 +206,7 @@ export default function Hero() {
           {/* Stats, typeset as a hairline record — not floating chips */}
           <motion.dl
             variants={fadeUp}
-            custom={5}
+            custom={4}
             className="mt-10 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
             {[
