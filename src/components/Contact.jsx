@@ -129,7 +129,6 @@ export default function Contact() {
         index="07"
         eyebrow="// contact"
         title="Let's build something"
-        kicker="Have a role, a project, or just a good problem to chat about? My inbox is always open — pick whichever way is easiest."
       />
 
       <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">

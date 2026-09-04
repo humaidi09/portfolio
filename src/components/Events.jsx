@@ -21,7 +21,6 @@ export default function Events() {
         index="05"
         eyebrow="// events"
         title="Events & moments"
-        kicker="Contests, workshops, and the community events I've been part of — a few snapshots from along the way."
       />
 
       <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -20,7 +20,6 @@ export default function Gallery() {
         index="06"
         eyebrow="// gallery"
         title="Gallery"
-        kicker="Snapshots from contests, campus, and the everyday grind — a look beyond the code."
       />
 
       {/* Masonry-style columns so portrait and landscape shots both sit well. */}
