@@ -217,24 +217,27 @@ export default function Hero() {
           <motion.dl
             variants={fadeUp}
             custom={5}
-            className="mt-10 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
+            className="mt-10 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
             {[
-              // The number row opens with a CP identity cell, then contests, then
-              // the real problems-solved total (a literal so the live DB's older
-              // "Total Credit" record can't override it).
-              { label: 'Competitive Programming', value: 'CP', suffix: '' },
+              // The number row opens with a CP identity cell (shown as just "CP",
+              // no caption), then contests, then the real problems-solved total
+              // (a literal so the live DB's older "Total Credit" record can't
+              // override it).
+              { label: '', value: 'CP', suffix: '' },
               stats[2],
               { label: 'Problems Solved', value: '500', suffix: '+' },
             ]
               .filter(Boolean)
               .map((s) => (
-              <div key={s.label} className="bg-void px-4 py-4">
+              <div key={s.label || s.value} className="bg-void px-4 py-4">
                 <dt className="font-display text-2xl font-semibold text-gradient sm:text-3xl">
                   {s.value}
                   {s.suffix?.trim() === '/ 4.00' ? '' : s.suffix}
                 </dt>
-                <dd className="mt-1 font-mono text-[11px] leading-tight text-muted">{s.label}</dd>
+                {s.label && (
+                  <dd className="mt-1 font-mono text-[11px] leading-tight text-muted">{s.label}</dd>
+                )}
               </div>
             ))}
           </motion.dl>
@@ -245,7 +248,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col items-center gap-5 sm:flex-row sm:items-stretch"
+          className="flex min-w-0 items-stretch gap-3 sm:gap-5"
         >
           <Portrait reduce={reduce} />
           <NowCard />
@@ -289,7 +292,7 @@ function Portrait({ reduce }) {
   const onLeave = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
 
   return (
-    <figure className="w-[150px] shrink-0 [perspective:1200px] sm:w-[175px] lg:w-[224px]">
+    <figure className="w-[124px] shrink-0 [perspective:1200px] min-[360px]:w-[150px] sm:w-[175px] lg:w-[224px]">
       <div
         ref={ref}
         onMouseMove={onMove}
@@ -345,7 +348,7 @@ function NowCard() {
     { Icon: Zap, label: 'Focus', value: 'DSA · OOP · CP' },
   ]
   return (
-    <div className="glass flex w-full min-w-0 flex-1 flex-col justify-between rounded-2xl p-4 sm:w-auto">
+    <div className="glass flex min-w-0 flex-1 flex-col justify-between rounded-2xl p-3.5 sm:p-4">
       <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neonCyan/70" />
