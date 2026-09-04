@@ -1,6 +1,7 @@
 import { ThemeProvider } from './context/ThemeContext'
 import { ToastProvider } from './context/ToastContext'
 import Navbar from './components/Navbar'
+import AmbientBackground from './components/ui/AmbientBackground'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
@@ -30,6 +31,7 @@ export default function App() {
           <Admin />
         ) : (
           <>
+            <AmbientBackground />
             <Navbar />
             <main>
               <Hero />
