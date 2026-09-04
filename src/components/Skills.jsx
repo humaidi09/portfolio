@@ -114,38 +114,38 @@ export default function Skills() {
             </TiltCard>
           </Reveal>
         ))}
-      </div>
 
-      {/* Spoken languages — a quieter row beneath the technical grid */}
-      <Reveal className="mt-6" delay={0.1}>
-        <div className="glass rounded-3xl p-6 sm:p-8">
-          <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-xl border border-hair bg-fill text-neonCyan shadow-lg shadow-black/20">
-              <Languages className="h-5 w-5" />
-            </span>
-            <div>
-              <h3 className="font-display text-lg font-semibold text-ink">Languages I speak</h3>
-              <p className="font-mono text-xs text-muted">{skills.spokenLanguages.length} languages</p>
-            </div>
-          </div>
-          <dl className="mt-6 grid gap-5 sm:grid-cols-3">
-            {skills.spokenLanguages.map((lang) => (
-              <div key={lang.name} className="rounded-xl border border-hair bg-fill px-4 py-3.5">
-                <div className="flex items-baseline justify-between gap-2">
-                  <dt className="text-sm font-semibold text-ink">{lang.name}</dt>
-                  <dd className="font-mono text-[11px] text-muted">{lang.level}</dd>
-                </div>
-                <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-hair" aria-hidden="true">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-neonCyan to-neonPurple"
-                    style={{ width: LANG_LEVEL[lang.level] }}
-                  />
-                </div>
+        {/* Spoken languages — fills the grid's open space beside Soft Skills */}
+        <Reveal className="h-full md:col-span-2 lg:col-span-2" delay={0.4}>
+          <div className="glass flex h-full flex-col rounded-3xl p-6">
+            <div className="flex items-center gap-3">
+              <span className="grid h-11 w-11 place-items-center rounded-xl border border-hair bg-fill text-neonCyan shadow-lg shadow-black/20">
+                <Languages className="h-5 w-5" />
+              </span>
+              <div>
+                <h3 className="font-display text-lg font-semibold text-ink">Languages I speak</h3>
+                <p className="font-mono text-xs text-muted">{skills.spokenLanguages.length} languages</p>
               </div>
-            ))}
-          </dl>
-        </div>
-      </Reveal>
+            </div>
+            <dl className="mt-6 flex flex-1 flex-col justify-center gap-4">
+              {skills.spokenLanguages.map((lang) => (
+                <div key={lang.name} className="rounded-xl border border-hair bg-fill px-4 py-3.5">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <dt className="text-sm font-semibold text-ink">{lang.name}</dt>
+                    <dd className="font-mono text-[11px] text-muted">{lang.level}</dd>
+                  </div>
+                  <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-hair" aria-hidden="true">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-neonCyan to-neonPurple"
+                      style={{ width: LANG_LEVEL[lang.level] }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Reveal>
+      </div>
     </section>
   )
 }
