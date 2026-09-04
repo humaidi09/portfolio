@@ -82,9 +82,9 @@
      in near the bottom and out near the top so it never pops. */
   @keyframes rise {
     0% { transform: translateY(0) translateX(0); opacity: 0; }
-    10% { opacity: 0.7; }
-    90% { opacity: 0.7; }
-    100% { transform: translateY(-100vh) translateX(var(--drift, 0)); opacity: 0; }
+    8% { opacity: 1; }
+    92% { opacity: 1; }
+    100% { transform: translateY(-105vh) translateX(var(--drift, 0)); opacity: 0; }
   }
 }
 
