@@ -86,14 +86,15 @@
 /* ------------------------------------------------------------------ */
 @layer base {
   :root {
-    /* "Glassy black" cards: a near-black frosted film that mostly covers the
-       page so the card reads black — not the old near-transparent film that let
-       the amber network glow through. A little translucency + the backdrop blur
-       keep it glass, not flat paint; the edge is a faint neutral hairline. */
-    --glass-bg: color-mix(in oklab, #0a0a0a 72%, transparent);
-    --glass-border: color-mix(in oklab, #eae7df 11%, transparent);
-    --glass-strong-bg: color-mix(in oklab, #0a0a0a 88%, transparent);
-    --glass-strong-border: color-mix(in oklab, #eae7df 12%, transparent);
+    /* "Glassy black" cards: a deep near-black frosted film that nearly covers
+       the page so the card reads properly black — only a hair of translucency
+       remains so the backdrop blur still reads as grey frosted glass, never
+       flat paint. The edge is a cool neutral-grey hairline that catches light
+       like a pane of glass. */
+    --glass-bg: color-mix(in oklab, #050505 87%, transparent);
+    --glass-border: color-mix(in oklab, #e6e6ee 13%, transparent);
+    --glass-strong-bg: color-mix(in oklab, #050505 94%, transparent);
+    --glass-strong-border: color-mix(in oklab, #e6e6ee 14%, transparent);
     --dot: color-mix(in oklab, #eae7df 8%, transparent);
     color-scheme: dark;
   }
@@ -183,10 +184,13 @@
     animation: var(--animate-gradient);
   }
 
-  /* Quiet "glassy black" surface — a near-black frosted fill with a faint
-     neutral hairline. The blur does the glass; no colour on the box itself. */
+  /* Quiet "glassy black" surface — a deep near-black frosted fill with a cool
+     neutral-grey hairline and the faintest grey light-catch along the top edge.
+     The blur + that whisper of a highlight do the glass; no colour on the box. */
   .glass {
-    background: var(--glass-bg);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, #ffffff 5%, transparent), transparent 42%),
+      var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(9px) saturate(115%);
     -webkit-backdrop-filter: blur(9px) saturate(115%);
@@ -194,7 +198,9 @@
   }
 
   .glass-strong {
-    background: var(--glass-strong-bg);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, #ffffff 6%, transparent), transparent 40%),
+      var(--glass-strong-bg);
     border: 1px solid var(--glass-strong-border);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
