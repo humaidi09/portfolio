@@ -128,6 +128,9 @@ export default function About() {
                   <span className="text-muted">CGPA</span>
                   <span className="ml-auto font-semibold text-gradient">{personalInfo.gpa}</span>
                 </div>
+                {personalInfo.semester && (
+                  <p className="mt-2 text-center font-mono text-xs text-muted">{personalInfo.semester}</p>
+                )}
               </div>
             </div>
           </div>
