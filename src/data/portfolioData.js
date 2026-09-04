@@ -17,7 +17,7 @@ export const personalInfo = {
   // twitter: "",
   university: "Leading University, Sylhet",
   degree: "B.Sc. in Computer Science & Engineering (2024 – 2029)",
-  gpa: "3.85 / 4.00",
+  gpa: "3.85 / 4.00 (3rd Semester)",
   bio: "Undergraduate Computer Science student with a strong passion for problem-solving, algorithms, Object-Oriented Programming, and building scalable modern web applications. Active competitive programmer and tech community volunteer."
 };
 
