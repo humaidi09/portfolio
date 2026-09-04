@@ -125,12 +125,9 @@ export default function About() {
                   </div>
                 </div>
                 <div className="mt-4 flex items-center gap-2 rounded-xl border border-hair bg-void/40 px-4 py-2.5 font-mono text-sm">
-                  <span className="text-muted">CGPA</span>
-                  <span className="ml-auto font-semibold text-gradient">{personalInfo.gpa}</span>
+                  <span className="text-muted">Semester</span>
+                  <span className="ml-auto font-semibold text-gradient">{personalInfo.semester}</span>
                 </div>
-                {personalInfo.semester && (
-                  <p className="mt-2 text-center font-mono text-xs text-muted">{personalInfo.semester}</p>
-                )}
               </div>
             </div>
           </div>
