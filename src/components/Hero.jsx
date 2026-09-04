@@ -171,8 +171,7 @@ export default function Hero() {
             custom={1}
             className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:mt-6 sm:text-xl"
           >
-            CSE undergraduate at Leading University, Sylhet. I solve problems with
-            C++ and data structures, and turn that into clean, working software.
+            CSE Student &amp; Aspiring Software Engineer.
           </motion.p>
 
           {/* Typed focus line — a single running caret, mono */}
