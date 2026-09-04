@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
-  GraduationCap, ImagePlus, Inbox, LogOut, Mail, Pencil, Plus, Trash2, Upload, X,
+  ImagePlus, Images, Inbox, LogOut, Mail, Pencil, Plus, Trash2, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
 import { useToast } from '../context/ToastContext'
@@ -92,6 +92,7 @@ const TABS = [
   { id: 'experiences', label: 'Experience', Icon: Briefcase },
   { id: 'certifications', label: 'Certs', Icon: Award },
   { id: 'events', label: 'Events', Icon: CalendarDays },
+  { id: 'gallery', label: 'Gallery', Icon: Images },
   { id: 'stats', label: 'Stats', Icon: BarChart3 },
   { id: 'messages', label: 'Messages', Icon: Inbox },
   { id: 'cv', label: 'CV', Icon: FileText },
@@ -141,6 +142,17 @@ const COLLECTIONS = {
       { key: 'location', label: 'Location', placeholder: 'Leading University, Sylhet' },
       { key: 'description', label: 'Description', type: 'textarea', placeholder: 'A short line about the event.' },
       { key: 'image', label: 'Photo', type: 'image' },
+    ],
+  },
+  gallery: {
+    label: 'photo',
+    resource: 'gallery',
+    list: api.listGallery,
+    titleKey: 'caption',
+    subKey: null,
+    fields: [
+      { key: 'image', label: 'Photo', type: 'image', required: true },
+      { key: 'caption', label: 'Caption', placeholder: 'Optional — shown on hover / in the viewer' },
     ],
   },
   stats: {

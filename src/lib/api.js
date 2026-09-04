@@ -63,6 +63,7 @@ export const api = {
   listStats: () => request('/api/stats'),
   listResults: () => request('/api/results'),
   listEvents: () => request('/api/events'),
+  listGallery: () => request('/api/gallery'),
 
   // Admin — content collections (generic create/update/delete)
   create: (resource, body, token) =>

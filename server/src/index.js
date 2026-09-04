@@ -11,6 +11,7 @@ import certificationRoutes from './routes/certifications.js'
 import statRoutes from './routes/stats.js'
 import resultRoutes from './routes/results.js'
 import eventRoutes from './routes/events.js'
+import galleryRoutes from './routes/gallery.js'
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use('/api/certifications', certificationRoutes)
 app.use('/api/stats', statRoutes)
 app.use('/api/results', resultRoutes)
 app.use('/api/events', eventRoutes)
+app.use('/api/gallery', galleryRoutes)
 
 // Fallback 404 for unknown API routes.
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found.' }))
