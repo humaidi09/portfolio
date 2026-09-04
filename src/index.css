@@ -14,9 +14,10 @@
 /*  prefixes.                                                          */
 /* ------------------------------------------------------------------ */
 @theme {
-  /* Base surfaces */
-  --color-bgDark: #0e0e10;
-  --color-cardDark: #161519;
+  /* Base surfaces — pure black; the boxes and the page share one true black,
+     and the only colour in the dark is the faint amber network shimmer. */
+  --color-bgDark: #000000;
+  --color-cardDark: #000000;
 
   /* The single accent (kept under the old token names so every component
      that referenced neonCyan/neonPurple re-themes automatically). */
@@ -24,8 +25,8 @@
   --color-neonPurple: #cf9038; /* bronze — quiet companion */
 
   /* Semantic aliases */
-  --color-void: #0e0e10;       /* page background (neutral warm charcoal) */
-  --color-surface: #161519;    /* raised panel */
+  --color-void: #000000;       /* page background (pure black) */
+  --color-surface: #000000;    /* raised panel (pure black; defined by hairline) */
   --color-neon-cyan: #f2b43d;
   --color-neon-violet: #cf9038;
   --color-neon-magenta: #f6d18c; /* pale gold highlight */
@@ -249,7 +250,7 @@
   .code-surface {
     --color-ink: #e8eaf0;
     --color-muted: #8b8f9c;
-    --color-surface: #14141a;
+    --color-surface: #000000;
     --color-hair: rgba(255, 255, 255, 0.10);
     --color-fill: rgba(255, 255, 255, 0.05);
     --color-fill-2: rgba(255, 255, 255, 0.09);
@@ -260,7 +261,7 @@
     --color-neon-cyan: #f2b43d;
     --color-neon-violet: #cf9038;
     --color-neon-magenta: #f6d18c;
-    --glass-strong-bg: color-mix(in oklab, #14141a 86%, transparent);
+    --glass-strong-bg: rgba(0, 0, 0, 0.86);
     --glass-strong-border: rgba(255, 255, 255, 0.10);
     color: var(--color-ink);
   }
