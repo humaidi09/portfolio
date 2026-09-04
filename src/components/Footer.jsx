@@ -16,6 +16,7 @@ const QUICK_NAV = [
   { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
   { id: 'events', label: 'Events' },
+  { id: 'gallery', label: 'Gallery' },
   { id: 'contact', label: 'Contact' },
 ]
 
