@@ -209,7 +209,16 @@ export default function Hero() {
             custom={4}
             className="mt-10 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
-            {[stats[3], stats[2], stats[1]].filter(Boolean).map((s) => (
+            {[
+              // Lead the strip with a CP identity cell in place of the
+              // "Projects Built" stat — the number row opens with what defines
+              // him. (About still shows the full Projects Built count.)
+              { label: 'Competitive Programming', value: 'CP', suffix: '' },
+              stats[2],
+              stats[1],
+            ]
+              .filter(Boolean)
+              .map((s) => (
               <div key={s.label} className="bg-void px-4 py-4">
                 <dt className="font-display text-2xl font-semibold text-gradient sm:text-3xl">
                   {s.value}
