@@ -60,7 +60,7 @@ function EventCard({ event, onOpen }) {
   const cover = images[0]
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl glass transition-colors hover:border-hair-strong">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl glass glass-glow transition-colors hover:border-neonCyan/30">
       {/* Cover photo (or a graph-paper placeholder when none is set) */}
       {cover ? (
         <button

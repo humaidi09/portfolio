@@ -59,10 +59,16 @@ export default function TiltCard({
           style={{ background: `radial-gradient(340px circle at ${t.gx}% ${t.gy}%, ${GLOW[accent] ?? GLOW.cyan}, transparent 60%)` }}
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/tilt:opacity-100"
         />
-        {/* Frosted top edge for the glass body */}
+        {/* Editorial-panel edge: a warm amber top-edge light-catch + a soft
+            amber corner glow (the About-panel look) — no cold white, so the
+            black body never reads grey. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 [background:linear-gradient(150deg,rgba(255,255,255,0.10),transparent_32%)]"
+          className="pointer-events-none absolute inset-0 rounded-2xl [background:linear-gradient(150deg,color-mix(in_oklab,var(--color-neon-cyan)_12%,transparent),transparent_34%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(360px_circle_at_20%_0%,color-mix(in_oklab,var(--color-neon-cyan)_13%,transparent),transparent_60%)] opacity-60"
         />
         {children}
       </div>

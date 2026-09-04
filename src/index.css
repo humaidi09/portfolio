@@ -86,14 +86,17 @@
 /* ------------------------------------------------------------------ */
 @layer base {
   :root {
-    /* Black cards with a warm-gold vibe: the fill stays essentially opaque pure
-       black (never grey), but the hairline edge is a faint amber instead of a
-       cold grey, and a whisper of warm light catches the top (see .glass). Just
-       enough gold to warm the black — never a bright gold frame. */
-    --glass-bg: color-mix(in oklab, #000000 94%, transparent);
-    --glass-border: color-mix(in oklab, var(--color-neon-cyan) 14%, transparent);
+    /* Deep-black glass cards: essentially pure-black fill with a faint *warm
+       amber* hairline — never a cold-white line, which reads grey on black — and
+       no base sheen. Cards that want the "editorial panel" look add .glass-glow
+       (or their own layers) for a warm top-edge light-catch + a soft amber corner
+       glow. See .glass-glow / TiltCard / About / CompetitiveProgramming. */
+    --glass-bg: color-mix(in oklab, #000000 95%, transparent);
+    --glass-border: color-mix(in oklab, var(--color-neon-cyan) 11%, transparent);
+    --glass-sheen: transparent;
     --glass-strong-bg: color-mix(in oklab, #000000 97%, transparent);
-    --glass-strong-border: color-mix(in oklab, var(--color-neon-cyan) 16%, transparent);
+    --glass-strong-border: color-mix(in oklab, var(--color-neon-cyan) 13%, transparent);
+    --glass-strong-sheen: transparent;
     --dot: color-mix(in oklab, #eae7df 8%, transparent);
     color-scheme: dark;
   }
@@ -183,13 +186,13 @@
     animation: var(--animate-gradient);
   }
 
-  /* Black glass surface — an essentially opaque pure-black fill (never grey) lit
-     by a faint amber warmth: a whisper of gold catches the top edge and the
-     hairline is a soft amber, so the card reads black with a warm-gold vibe, not
-     a cold grey one. Kept low on purpose — a hint of gold, not a gold box. */
+  /* Deep-black glass surface with just a whisper of red: the fill reads pure
+     black; a barely-there red top glow and a very faint red hairline give the
+     slightest hint of red inside the black — you can *just* notice it, and it
+     never becomes a red box. */
   .glass {
     background:
-      linear-gradient(180deg, color-mix(in oklab, var(--color-neon-cyan) 6%, transparent), transparent 45%),
+      linear-gradient(180deg, var(--glass-sheen), transparent 45%),
       var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(9px) saturate(115%);
@@ -199,12 +202,47 @@
 
   .glass-strong {
     background:
-      linear-gradient(180deg, color-mix(in oklab, var(--color-neon-cyan) 5%, transparent), transparent 42%),
+      linear-gradient(180deg, var(--glass-strong-sheen), transparent 42%),
       var(--glass-strong-bg);
     border: 1px solid var(--glass-strong-border);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
     transition: background-color 0.4s ease, border-color 0.3s ease;
+  }
+
+  /* "Editorial panel" glow — a warm amber top-edge light-catch plus a soft amber
+     glow in the top corner, layered over the black glass. The same treatment the
+     About and CP panels use, packaged so any .glass / .glass-strong card can opt
+     in with one class. Pure amber, never a cold-white ring, so nothing reads grey
+     on the black. The ::before sits above the card fill but below its content
+     (negative z-index inside an isolated stacking context). */
+  .glass-glow {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .glass-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        150deg,
+        color-mix(in oklab, var(--color-neon-cyan) 12%, transparent),
+        transparent 34%
+      ),
+      radial-gradient(
+        360px circle at 20% 0%,
+        color-mix(in oklab, var(--color-neon-cyan) 13%, transparent),
+        transparent 60%
+      );
+  }
+  /* In light mode the warm glow would muddy the paper — keep panels clean. */
+  .light .glass-glow::before {
+    background: none;
   }
 
   /* Thin amber hairline used to separate sections */
@@ -336,8 +374,10 @@
 
   --glass-bg: color-mix(in oklab, #fff 60%, transparent);
   --glass-border: rgba(28, 26, 21, 0.10);
+  --glass-sheen: transparent;
   --glass-strong-bg: color-mix(in oklab, #fff 80%, transparent);
   --glass-strong-border: rgba(28, 26, 21, 0.10);
+  --glass-strong-sheen: transparent;
   --dot: rgba(28, 26, 21, 0.06);
 
   color-scheme: light;
