@@ -1,6 +1,6 @@
-# humaidi.dev — Developer Portfolio
+# Hussain Ahmed — Developer Portfolio
 
-A modern, fully responsive single-page portfolio for **Humaidi** — CSE Student & Junior Software Developer.
+A modern, fully responsive single-page portfolio for **Hussain Ahmed** — CSE Student & Junior Software Developer.
 
 Premium dark theme, glassmorphism cards, cyan→violet→magenta neon gradients, a cursor-tracking spotlight on cards, a terminal-style typing badge, and smooth scroll-triggered motion.
 

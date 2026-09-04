@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'cp', label: 'CP' },
+  { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
   { id: 'events', label: 'Events' },
   { id: 'gallery', label: 'Gallery' },
@@ -126,7 +127,7 @@ export default function Navbar() {
               />
             </span>
             <span className="text-ink">
-              humaidi<span className="text-neonCyan">.dev</span>
+              Hussain <span className="text-neonCyan">Ahmed</span>
             </span>
           </a>
 
@@ -217,7 +218,7 @@ export default function Navbar() {
                       className="h-7 w-7 rounded-full object-cover object-top"
                     />
                   </span>
-                  humaidi<span className="text-neonCyan">.dev</span>
+                  Hussain <span className="text-neonCyan">Ahmed</span>
                 </span>
                 <button
                   onClick={() => setOpen(false)}
