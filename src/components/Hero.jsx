@@ -142,7 +142,7 @@ export default function Hero() {
     'inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-hair-strong px-4 py-2.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-neonCyan hover:text-neonCyan'
 
   return (
-    <section id="top" className="relative mx-auto max-w-6xl px-4 pt-32 pb-12 sm:px-6 md:pt-36 md:pb-16">
+    <section id="top" className="relative mx-auto max-w-6xl px-4 pt-28 pb-10 sm:px-6 md:pt-32 md:pb-12">
       {/* Quiet backdrop: a competitive-programmer's ruled plane + one warm wash */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-grid-lines opacity-50 mask-radial-fade" />

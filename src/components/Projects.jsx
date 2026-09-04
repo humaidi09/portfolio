@@ -172,7 +172,7 @@ export default function Projects() {
   const visible = filter === 'All' ? projects : projects.filter((p) => p.category === filter)
 
   return (
-    <section id="projects" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-16 sm:px-6 md:py-20">
+    <section id="projects" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
         index="03"
         eyebrow="// projects"
