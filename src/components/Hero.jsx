@@ -222,7 +222,7 @@ export default function Hero() {
             custom={4}
             className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
-            {[stats[0], stats[1], stats[3]].filter(Boolean).map((s) => (
+            {[stats[3], stats[2], stats[1]].filter(Boolean).map((s) => (
               <div key={s.label} className="bg-void px-4 py-4">
                 <dt className="font-display text-2xl font-semibold text-gradient sm:text-3xl">
                   {s.value}
