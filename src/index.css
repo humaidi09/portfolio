@@ -86,14 +86,14 @@
 /* ------------------------------------------------------------------ */
 @layer base {
   :root {
-    /* Black cards, full stop: the fill is essentially opaque pure black so the
-       face of the box never reads grey. The only "glass" is the thin cool
-       hairline edge and the faint backdrop blur behind that last sliver of
-       translucency — no lightening sheen, no grey wash across the box. */
+    /* Black cards with a warm-gold vibe: the fill stays essentially opaque pure
+       black (never grey), but the hairline edge is a faint amber instead of a
+       cold grey, and a whisper of warm light catches the top (see .glass). Just
+       enough gold to warm the black — never a bright gold frame. */
     --glass-bg: color-mix(in oklab, #000000 94%, transparent);
-    --glass-border: color-mix(in oklab, #e6e6ee 11%, transparent);
+    --glass-border: color-mix(in oklab, var(--color-neon-cyan) 14%, transparent);
     --glass-strong-bg: color-mix(in oklab, #000000 97%, transparent);
-    --glass-strong-border: color-mix(in oklab, #e6e6ee 12%, transparent);
+    --glass-strong-border: color-mix(in oklab, var(--color-neon-cyan) 16%, transparent);
     --dot: color-mix(in oklab, #eae7df 8%, transparent);
     color-scheme: dark;
   }
@@ -183,11 +183,14 @@
     animation: var(--animate-gradient);
   }
 
-  /* Black glass surface — an essentially opaque pure-black fill with a thin cool
-     hairline; the blur only shows through the last sliver of translucency at the
-     edge. No sheen, so the face of the box stays black, never grey. */
+  /* Black glass surface — an essentially opaque pure-black fill (never grey) lit
+     by a faint amber warmth: a whisper of gold catches the top edge and the
+     hairline is a soft amber, so the card reads black with a warm-gold vibe, not
+     a cold grey one. Kept low on purpose — a hint of gold, not a gold box. */
   .glass {
-    background: var(--glass-bg);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--color-neon-cyan) 6%, transparent), transparent 45%),
+      var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(9px) saturate(115%);
     -webkit-backdrop-filter: blur(9px) saturate(115%);
@@ -195,7 +198,9 @@
   }
 
   .glass-strong {
-    background: var(--glass-strong-bg);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--color-neon-cyan) 5%, transparent), transparent 42%),
+      var(--glass-strong-bg);
     border: 1px solid var(--glass-strong-border);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
