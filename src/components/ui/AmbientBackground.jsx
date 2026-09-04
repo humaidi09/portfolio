@@ -17,8 +17,9 @@ export default function AmbientBackground() {
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
       {/* The living graph — a faint amber shimmer, the only colour in the
-          black. Kept low so it reads as a slight golden glow, not a wash. */}
-      <NetworkCanvas className="absolute inset-0 h-full w-full opacity-45" />
+          black. Kept very low so it reads as a whisper of golden motion behind
+          the glassy-black cards, never a wash that competes with the content. */}
+      <NetworkCanvas className="absolute inset-0 h-full w-full opacity-[0.26]" />
     </div>
   )
 }
