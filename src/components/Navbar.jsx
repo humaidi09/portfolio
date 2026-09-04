@@ -113,10 +113,8 @@ export default function Navbar() {
 
       <header className={`fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300 ${scrolled ? 'pt-3' : 'pt-5'}`}>
         <nav
-          className={`mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl px-4 transition-all duration-300 sm:px-5 ${
-            scrolled
-              ? 'glass-strong border-b border-hair py-2.5 shadow-xl shadow-black/40 backdrop-blur-xl'
-              : 'border border-transparent py-2'
+          className={`glass-strong mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl border border-hair px-4 backdrop-blur-xl transition-all duration-300 sm:px-5 ${
+            scrolled ? 'py-2.5 shadow-xl shadow-black/40' : 'py-2 shadow-lg shadow-black/20'
           }`}
         >
           <a href="#top" className="flex items-center gap-2.5 font-mono text-sm font-semibold">
