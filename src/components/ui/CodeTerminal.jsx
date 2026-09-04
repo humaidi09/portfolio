@@ -234,6 +234,7 @@ export default function CodeTerminal({ className = '' }) {
   const [attempts, setAttempts] = useState(0)
 
   const p = PUZZLES[i]
+  const codeLines = p.code.split('\n')
   const revealed = picked !== null
   const correct = revealed && picked === p.answer
 
@@ -267,12 +268,22 @@ export default function CodeTerminal({ className = '' }) {
       </div>
 
       {/* Body — snippet on the left, the answers on the right (desktop) */}
-      <div className="grid gap-4 px-4 py-4 lg:grid-cols-2 lg:items-start lg:gap-8 lg:px-5 lg:py-5">
-        {/* Left: the snippet, with the output shown right below it */}
+      <div className="grid gap-4 p-4 lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:p-5">
+        {/* Left: the snippet as a real editor pane (line-number gutter),
+            with the output + explanation seated directly below it */}
         <div className="flex flex-col gap-3">
-          <pre className="min-h-28 overflow-x-auto rounded-lg border border-hair bg-fill/50 px-3.5 py-3 text-ink/90">
-            {p.code}
-          </pre>
+          <div className="flex flex-1 overflow-hidden rounded-xl border border-hair bg-fill/40">
+            {/* line-number gutter */}
+            <div aria-hidden="true" className="flex flex-col items-end gap-0 border-r border-hair bg-fill/50 px-2.5 py-3 text-[12px] text-muted/50 select-none">
+              {codeLines.map((_, n) => (
+                <span key={n} className="leading-relaxed tabular-nums">{n + 1}</span>
+              ))}
+            </div>
+            {/* code — top-aligned so each line sits on its gutter number */}
+            <pre className="flex-1 overflow-x-auto px-3.5 py-3 text-ink/90">
+              {p.code}
+            </pre>
+          </div>
 
           {/* Output + explanation, seated directly below the question */}
           {revealed && (
@@ -295,15 +306,27 @@ export default function CodeTerminal({ className = '' }) {
           )}
         </div>
 
-        {/* Right: the answer choices */}
-        <div className="flex flex-col justify-center gap-1.5">
+        {/* Right: the answer choices, under a small prompt so it isn't floating */}
+        <div className="flex flex-col justify-center gap-2">
+          <p className="text-[11px] text-muted">
+            <span className="text-neonCyan">// </span>
+            what does it print?
+          </p>
           {p.options.map((opt, idx) => {
             const isAnswer = idx === p.answer
             const isPicked = idx === picked
-            let tone = 'border-hair text-ink/85 hover:border-neonCyan/50 hover:text-ink'
-            if (revealed && isAnswer) tone = 'border-neonCyan/60 bg-neonCyan/10 text-neonCyan'
-            else if (revealed && isPicked) tone = 'border-red-500/50 bg-red-500/10 text-red-300'
-            else if (revealed) tone = 'border-hair text-muted/70'
+            let tone = 'border-hair text-ink/85 hover:border-neonCyan/50 hover:bg-fill/40 hover:text-ink'
+            let badge = 'border-hair bg-fill text-muted'
+            if (revealed && isAnswer) {
+              tone = 'border-neonCyan/60 bg-neonCyan/10 text-neonCyan'
+              badge = 'border-neonCyan/50 bg-neonCyan/15 text-neonCyan'
+            } else if (revealed && isPicked) {
+              tone = 'border-red-500/50 bg-red-500/10 text-red-300'
+              badge = 'border-red-500/50 bg-red-500/15 text-red-300'
+            } else if (revealed) {
+              tone = 'border-hair text-muted/60'
+              badge = 'border-hair bg-fill text-muted/50'
+            }
 
             return (
               <button
@@ -311,12 +334,14 @@ export default function CodeTerminal({ className = '' }) {
                 type="button"
                 onClick={() => choose(idx)}
                 disabled={revealed}
-                className={`flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition-colors disabled:cursor-default ${tone}`}
+                className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors disabled:cursor-default ${tone}`}
               >
-                <span className="text-muted">{LETTERS[idx]})</span>
+                <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-md border text-[11px] font-semibold transition-colors ${badge}`}>
+                  {LETTERS[idx]}
+                </span>
                 <span className="flex-1">{opt}</span>
-                {revealed && isAnswer && <Check className="h-3.5 w-3.5 shrink-0" />}
-                {revealed && isPicked && !isAnswer && <X className="h-3.5 w-3.5 shrink-0" />}
+                {revealed && isAnswer && <Check className="h-4 w-4 shrink-0" />}
+                {revealed && isPicked && !isAnswer && <X className="h-4 w-4 shrink-0" />}
               </button>
             )
           })}
