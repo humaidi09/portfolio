@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowUpRight, Award, Download, GraduationCap, Mail, Zap } from 'lucide-react'
+import { ArrowUpRight, Award, Download, GraduationCap, Zap } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
 import { api, cvUrl } from '../lib/api'
 import { useCollection } from '../hooks/useCollection'
@@ -138,8 +138,8 @@ export default function Hero() {
     toast({ type: 'success', title: 'CV downloaded', message: 'Saved Hussain_Ahmed_Humaidi_CV.txt' })
   }
 
-  const ghostBtn =
-    'inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-hair-strong px-4 py-2.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-neonCyan hover:text-neonCyan'
+  const primaryBtn =
+    'group inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-neonCyan px-5 py-2.5 text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90'
 
   return (
     <section id="top" className="relative mx-auto max-w-6xl px-4 pt-28 pb-10 sm:px-6 md:pt-32 md:pb-12">
@@ -153,7 +153,7 @@ export default function Hero() {
         <div className="absolute -top-24 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-neon-cyan)_12%,transparent),transparent_62%)]" />
       </div>
 
-      <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
+      <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         {/* ---- Left: the pitch, set like a page ---- */}
         <motion.div initial="hidden" animate="show" className="max-w-2xl">
           {/* The signature: the name at display scale, serif carries the identity */}
@@ -164,14 +164,6 @@ export default function Hero() {
           >
             Hussain <span className="text-gradient">Ahmed</span>
           </motion.h1>
-
-          <motion.p
-            variants={fadeUp}
-            custom={1}
-            className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:mt-6 sm:text-xl"
-          >
-            CSE Student &amp; Aspiring Software Engineer.
-          </motion.p>
 
           {/* Typed focus line — a single running caret, mono */}
           <motion.p
@@ -189,24 +181,17 @@ export default function Hero() {
             custom={3}
             className="mt-9 flex flex-wrap items-center gap-3 sm:flex-nowrap"
           >
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-neonCyan px-5 py-2.5 text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90"
-            >
+            <a href="#projects" className={primaryBtn}>
               View projects
               <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-            <a href="#contact" className={ghostBtn}>
-              <Mail className="h-4 w-4" />
-              Get in touch
-            </a>
             {hasPdf ? (
-              <a href={cvUrl} target="_blank" rel="noreferrer" className={ghostBtn}>
+              <a href={cvUrl} target="_blank" rel="noreferrer" className={primaryBtn}>
                 <Download className="h-4 w-4" />
                 Download CV
               </a>
             ) : (
-              <button type="button" onClick={downloadTextCV} className={ghostBtn}>
+              <button type="button" onClick={downloadTextCV} className={primaryBtn}>
                 <Download className="h-4 w-4" />
                 Download CV
               </button>
