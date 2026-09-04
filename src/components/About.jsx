@@ -95,7 +95,7 @@ export default function About() {
             <div className="glass-strong absolute inset-0 rounded-3xl" aria-hidden="true" />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 [background:linear-gradient(150deg,rgba(255,255,255,0.10),transparent_34%)]"
+              className="pointer-events-none absolute inset-0 rounded-3xl [background:linear-gradient(150deg,color-mix(in_oklab,var(--color-neon-cyan)_12%,transparent),transparent_34%)]"
             />
             <div
               aria-hidden="true"

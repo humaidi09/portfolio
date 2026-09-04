@@ -136,7 +136,7 @@ export default function Contact() {
         <Reveal>
           <div className="flex h-full flex-col gap-4">
             {/* Email — copy to clipboard */}
-            <div className="group flex items-center gap-4 rounded-2xl glass p-5 transition-colors hover:border-hair-strong">
+            <div className="group flex items-center gap-4 rounded-2xl glass glass-glow p-5 transition-colors hover:border-neonCyan/30">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-hair bg-fill text-neonCyan">
                 <AtSign className="h-5 w-5" />
               </span>
@@ -157,7 +157,7 @@ export default function Contact() {
             {/* Phone — click to call */}
             <a
               href={`tel:${personalInfo.phone}`}
-              className="group flex items-center gap-4 rounded-2xl glass p-5 transition-colors hover:border-hair-strong"
+              className="group flex items-center gap-4 rounded-2xl glass glass-glow p-5 transition-colors hover:border-neonCyan/30"
             >
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-hair bg-fill text-neonPurple">
                 <Phone className="h-5 w-5" />
@@ -199,7 +199,7 @@ export default function Contact() {
           {sent ? (
             <SuccessCard name={sent} onReset={() => setSent('')} />
           ) : (
-            <form onSubmit={onSubmit} noValidate className="glass-strong rounded-2xl p-6 sm:p-8">
+            <form onSubmit={onSubmit} noValidate className="glass-strong glass-glow rounded-2xl p-6 sm:p-8">
               <div className="grid gap-1 sm:grid-cols-2 sm:gap-x-5">
                 <Field id="c-name" label="Your name" icon={User} error={errors.name} touched={touched.name} valid={!errors.name}>
                   <input
@@ -280,7 +280,7 @@ function SuccessCard({ name, onReset }) {
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="glass-strong flex h-full min-h-[22rem] flex-col items-center justify-center rounded-2xl p-8 text-center sm:p-10"
+      className="glass-strong glass-glow flex h-full min-h-[22rem] flex-col items-center justify-center rounded-2xl p-8 text-center sm:p-10"
     >
       <motion.span
         initial={{ scale: 0.5, opacity: 0 }}

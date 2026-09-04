@@ -147,6 +147,18 @@ function CpCard({ platform, state, onOpen }) {
       {/* Faint graph-paper plane — the competitive programmer's grid */}
       <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grid-lines opacity-[0.35]" />
 
+      {/* "Editorial panel" treatment: a warm amber top-edge light-catch + a
+          soft amber glow in the top corner, layered over the black glass — no
+          cold white, so nothing reads grey. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-2xl [background:linear-gradient(150deg,color-mix(in_oklab,var(--color-neon-cyan)_12%,transparent),transparent_34%)]"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(300px_circle_at_20%_0%,color-mix(in_oklab,var(--color-neon-cyan)_14%,transparent),transparent_60%)] opacity-70"
+      />
+
       <div className="relative flex items-center gap-3">
         <Monogram platform={platform} />
         <div className="min-w-0 flex-1">
