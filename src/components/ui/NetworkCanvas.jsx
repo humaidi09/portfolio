@@ -77,8 +77,9 @@ export default function NetworkCanvas({ className = '' }) {
         vy: (Math.random() - 0.5) * 0.22,
         r: Math.random() * 1.3 + 1.0,
       }))
-      // A few travelling signals riding the graph — the one lively accent.
-      const sigCount = Math.min(7, Math.max(4, Math.round(count / 12)))
+      // A few travelling signals riding the graph — the one lively accent,
+      // kept sparse so the backdrop stays calm behind the content.
+      const sigCount = Math.min(4, Math.max(2, Math.round(count / 16)))
       signals = Array.from({ length: sigCount }, () => makeSignal())
     }
 
@@ -173,7 +174,7 @@ export default function NetworkCanvas({ className = '' }) {
         // Soft trail along the current edge.
         const grad = ctx.createLinearGradient(a.x, a.y, x, y)
         grad.addColorStop(0, `rgba(${r},${g},${b},0)`)
-        grad.addColorStop(1, `rgba(${r},${g},${b},0.5)`)
+        grad.addColorStop(1, `rgba(${r},${g},${b},0.4)`)
         ctx.strokeStyle = grad
         ctx.lineWidth = 1.5
         ctx.beginPath()
@@ -182,17 +183,17 @@ export default function NetworkCanvas({ className = '' }) {
         ctx.stroke()
 
         // Glowing head — small but the one moving highlight.
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, 11)
-        glow.addColorStop(0, `rgba(${r},${g},${b},0.7)`)
-        glow.addColorStop(0.4, `rgba(${r},${g},${b},0.28)`)
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, 9)
+        glow.addColorStop(0, `rgba(${r},${g},${b},0.5)`)
+        glow.addColorStop(0.4, `rgba(${r},${g},${b},0.2)`)
         glow.addColorStop(1, `rgba(${r},${g},${b},0)`)
         ctx.fillStyle = glow
         ctx.beginPath()
-        ctx.arc(x, y, 11, 0, Math.PI * 2)
+        ctx.arc(x, y, 9, 0, Math.PI * 2)
         ctx.fill()
-        ctx.fillStyle = `rgba(${r},${g},${b},0.95)`
+        ctx.fillStyle = `rgba(${r},${g},${b},0.82)`
         ctx.beginPath()
-        ctx.arc(x, y, 1.7, 0, Math.PI * 2)
+        ctx.arc(x, y, 1.5, 0, Math.PI * 2)
         ctx.fill()
       }
     }
