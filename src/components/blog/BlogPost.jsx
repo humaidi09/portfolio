@@ -63,6 +63,10 @@ export default function BlogPost({ slug }) {
         Back to the blog
       </Link>
 
+      {post.coverImage ? (
+        <img src={post.coverImage} alt="" className="mt-6 w-full rounded-2xl border border-hair" />
+      ) : null}
+
       <div className="mt-6 flex flex-wrap items-center gap-2 font-mono text-xs text-muted">
         {post.category ? <span className="text-neonCyan">{post.category}</span> : null}
         {post.category && date ? <span aria-hidden="true">·</span> : null}
@@ -82,10 +86,6 @@ export default function BlogPost({ slug }) {
         {post.title}
       </h1>
       {post.subtitle ? <p className="mt-4 text-lg leading-relaxed text-muted">{post.subtitle}</p> : null}
-
-      {post.coverImage ? (
-        <img src={post.coverImage} alt="" className="mt-8 w-full rounded-2xl border border-hair" />
-      ) : null}
 
       <div className="mt-8">
         <Markdown>{post.content}</Markdown>

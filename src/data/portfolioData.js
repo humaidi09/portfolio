@@ -124,13 +124,13 @@ export const experiences = [
     role: "Executive Member",
     organization: "Leading University Computer Club (LUCC)",
     period: "Jul 2026 – Present",
-    skills: ["Leadership", "Event Coordination", "Teamwork"]
+    skills: ["Leadership", "Event Coordination"]
   },
   {
     role: "Assistant Mathematics Teacher (Part-time)",
     organization: "Ideal Madrasah, Sylhet (Shobujbag Campus)",
     period: "Feb 2025 – Present",
-    skills: ["Mathematical Logic", "Classroom Management", "Communication"]
+    skills: ["Classroom Management", "Communication"]
   },
   {
     role: "Member",

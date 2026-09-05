@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
 
 /**
  * Renders a post's Markdown body in the site's voice: gold links, display-font
@@ -11,10 +12,10 @@ import remarkGfm from 'remark-gfm'
  * prop: fenced blocks always carry newlines, inline spans never do.
  */
 const components = {
-  h1: (p) => <h2 className="mt-10 font-display text-2xl font-bold tracking-tight text-ink" {...p} />,
-  h2: (p) => <h2 className="mt-10 font-display text-xl font-bold tracking-tight text-ink" {...p} />,
-  h3: (p) => <h3 className="mt-8 font-display text-lg font-semibold text-ink" {...p} />,
-  h4: (p) => <h4 className="mt-6 font-semibold text-ink" {...p} />,
+  h1: (p) => <h2 className="mt-10 scroll-mt-24 font-display text-2xl font-bold tracking-tight text-ink" {...p} />,
+  h2: (p) => <h2 className="mt-10 scroll-mt-24 font-display text-xl font-bold tracking-tight text-ink" {...p} />,
+  h3: (p) => <h3 className="mt-8 scroll-mt-24 font-display text-lg font-semibold text-ink" {...p} />,
+  h4: (p) => <h4 className="mt-6 scroll-mt-24 font-semibold text-ink" {...p} />,
   p: (p) => <p className="mt-4 leading-relaxed text-muted" {...p} />,
   a: ({ href, ...p }) => (
     <a
@@ -68,7 +69,7 @@ const components = {
 export default function Markdown({ children }) {
   return (
     <div className="text-[15px]">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]} components={components}>
         {children || ''}
       </ReactMarkdown>
     </div>
