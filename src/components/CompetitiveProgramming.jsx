@@ -27,7 +27,7 @@ export default function CompetitiveProgramming() {
       <SectionHeading
         index="03"
         eyebrow="// competitive programming"
-        title="Where I compete"
+        title="Where I practice"
       />
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
