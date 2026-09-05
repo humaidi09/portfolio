@@ -169,7 +169,7 @@ function CpCard({ platform, state, onOpen }) {
             <h3 className="font-display text-lg font-semibold text-ink">{platform.name}</h3>
             <StatusDot tone={tone} label={statusLabel} />
           </div>
-          {platform.handle ? (
+          {platform.handle && !platform.unlisted ? (
             <p className="truncate font-mono text-xs" style={{ color: d?.tierColor || 'var(--color-muted)' }}>
               @{platform.handle}
             </p>
@@ -343,7 +343,7 @@ function StatBlock({ label, values }) {
 
 /** Build the "view profile" URL from the stored `{handle}` template. */
 function profileHref(platform) {
-  if (!platform?.handle || !platform.profileUrl) return null
+  if (!platform?.handle || !platform.profileUrl || platform.unlisted) return null
   return platform.profileUrl.replace('{handle}', platform.handle)
 }
 
@@ -400,7 +400,7 @@ function CpModal({ platform, state, onClose }) {
                   <h3 id="cp-modal-title" className="font-display text-2xl font-bold text-ink">
                     {platform.name}
                   </h3>
-                  {platform.handle && (
+                  {platform.handle && !platform.unlisted && (
                     <p className="font-mono text-sm" style={{ color: d?.tierColor || 'var(--color-muted)' }}>
                       @{platform.handle}
                       {d?.rank && <span className="capitalize text-muted"> · {d.rank}</span>}
