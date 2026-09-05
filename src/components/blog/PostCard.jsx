@@ -1,5 +1,5 @@
 import { Link } from '../../lib/router'
-import { Clock } from 'lucide-react'
+import { ArrowRight, Clock } from 'lucide-react'
 
 /** "Sep 5, 2026" — or '' for a missing/invalid date. */
 function formatDate(value) {
@@ -28,28 +28,34 @@ export default function PostCard({ post }) {
             />
           </div>
         ) : null}
-        <div className="flex flex-1 flex-col p-5">
-          <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
+        <div className="flex flex-1 flex-col p-4">
+          <div className="flex items-center gap-2 font-mono text-[10px] text-muted">
             {post.category ? <span className="text-neonCyan">{post.category}</span> : null}
             {post.category && date ? <span aria-hidden="true">·</span> : null}
             {date ? <span>{date}</span> : null}
           </div>
-          <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-ink">{post.title}</h3>
+          <h3 className="mt-1.5 font-display text-base font-semibold leading-snug text-ink">{post.title}</h3>
           {post.excerpt ? (
-            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{post.excerpt}</p>
+            <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">{post.excerpt}</p>
           ) : null}
-          <div className="mt-auto flex items-center gap-3 pt-4 font-mono text-[11px] text-muted">
-            {post.readingTime ? (
-              <span className="inline-flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                {post.readingTime} min read
-              </span>
-            ) : null}
-            {post.tags?.length ? (
-              <span className="truncate">
-                {post.tags.slice(0, 3).map((t) => `#${t}`).join(' ')}
-              </span>
-            ) : null}
+          <div className="mt-auto flex items-center justify-between gap-3 pt-3 font-mono text-[10px] text-muted">
+            <span className="inline-flex min-w-0 items-center gap-3">
+              {post.readingTime ? (
+                <span className="inline-flex shrink-0 items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {post.readingTime} min read
+                </span>
+              ) : null}
+              {post.tags?.length ? (
+                <span className="truncate">
+                  {post.tags.slice(0, 3).map((t) => `#${t}`).join(' ')}
+                </span>
+              ) : null}
+            </span>
+            <span className="inline-flex shrink-0 items-center gap-1 font-medium text-neonCyan">
+              Read more
+              <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
           </div>
         </div>
       </Link>

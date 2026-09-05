@@ -66,11 +66,7 @@ export default function Blog() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-hair bg-fill px-3 py-1 font-mono text-xs text-neonCyan">
-            <span className="h-1.5 w-1.5 rounded-full bg-neonCyan" />
-            // blog
-          </span>
-          <h1 className="mt-5 font-display text-5xl font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-6xl md:text-7xl">
+          <h1 className="font-display text-5xl font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-6xl md:text-7xl">
             Blog
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
@@ -145,9 +141,9 @@ export default function Blog() {
 
 function LoadingState() {
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="glass h-56 animate-pulse rounded-2xl" />
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-hidden="true">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="glass h-48 animate-pulse rounded-2xl" />
       ))}
     </div>
   )
@@ -219,7 +215,7 @@ function Results({ tab, filtered }) {
       {show.posts && filtered.posts.length > 0 && (
         <div>
           {withHeading && <h2 className="mb-4 font-display text-lg font-semibold text-ink">Posts</h2>}
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.posts.map((post) => (
               <PostCard key={post.id || post.slug} post={post} />
             ))}
