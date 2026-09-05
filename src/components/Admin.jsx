@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
-  ImagePlus, Images, Inbox, LogOut, Mail, Pencil, Plus, Swords, Terminal, Trash2,
+  ImagePlus, Images, Inbox, Layers, LogOut, Mail, Pencil, Plus, Swords, Terminal, Trash2,
   TriangleAlert, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
@@ -91,6 +91,7 @@ function Login({ onAuthed }) {
 
 const TABS = [
   { id: 'projects', label: 'Projects', Icon: FolderKanban },
+  { id: 'skills', label: 'Skills', Icon: Layers },
   { id: 'experiences', label: 'Experience', Icon: Briefcase },
   { id: 'certifications', label: 'Certs', Icon: Award },
   { id: 'events', label: 'Events', Icon: CalendarDays },
@@ -109,6 +110,17 @@ const TABS = [
  * input and is sent as an array; everything else is a plain text field.
  */
 const COLLECTIONS = {
+  skills: {
+    label: 'skill group',
+    resource: 'skill-groups',
+    list: api.listSkillGroups,
+    titleKey: 'title',
+    subKey: null,
+    fields: [
+      { key: 'title', label: 'Group title', required: true, placeholder: 'Core CS skills' },
+      { key: 'items', label: 'Skills', type: 'tags', placeholder: 'C/C++, DSA, OOP, Python' },
+    ],
+  },
   experiences: {
     label: 'experience',
     resource: 'experiences',

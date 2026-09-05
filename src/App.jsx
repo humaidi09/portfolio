@@ -13,17 +13,24 @@ import Gallery from './components/Gallery'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Admin from './components/Admin'
+import BlogApp from './components/blog/BlogApp'
+import { useRoute } from './lib/router'
 
 /**
  * Root layout. ThemeProvider keeps the dark/light class in sync on <html>;
  * ToastProvider exposes useToast() and renders the toast viewport. Sections
  * are ordered to match the navbar anchors (top → about → … → contact).
  *
- * Routing is deliberately tiny — the site is a single page plus one /admin
- * view — so we branch on the pathname rather than pulling in a router.
+ * Routing is deliberately tiny — /admin is its own full-page view, the /blog
+ * subtree is a client-routed app (see lib/router.js), and everything else is
+ * the single scroll page. We branch on the pathname rather than pulling in a
+ * router dependency.
  */
 export default function App() {
-  const isAdmin = window.location.pathname.replace(/\/$/, '') === '/admin'
+  const pathname = useRoute()
+  const path = pathname.replace(/\/+$/, '') || '/'
+  const isAdmin = path === '/admin'
+  const isBlog = path === '/blog' || path.startsWith('/blog/')
 
   return (
     <ThemeProvider>
@@ -35,15 +42,21 @@ export default function App() {
             <AmbientBackground />
             <Navbar />
             <main>
-              <Hero />
-              <About />
-              <Skills />
-              <CompetitiveProgramming />
-              <Projects />
-              <Experience />
-              <Events />
-              <Gallery />
-              <Contact />
+              {isBlog ? (
+                <BlogApp />
+              ) : (
+                <>
+                  <Hero />
+                  <About />
+                  <Skills />
+                  <CompetitiveProgramming />
+                  <Projects />
+                  <Experience />
+                  <Events />
+                  <Gallery />
+                  <Contact />
+                </>
+              )}
             </main>
             <Footer />
           </>

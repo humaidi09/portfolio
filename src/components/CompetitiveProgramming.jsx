@@ -28,7 +28,6 @@ export default function CompetitiveProgramming() {
         index="03"
         eyebrow="// competitive programming"
         title="Where I compete"
-        kicker="Live from each judge — rating, problems solved, and the day-by-day grind. Tap a card for the full activity map."
       />
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">

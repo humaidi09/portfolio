@@ -4,7 +4,11 @@ import { Menu, Moon, Sun, X } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './ui/BrandIcons'
 import { useTheme } from '../context/ThemeContext'
 import { personalInfo } from '../data/portfolioData'
+import { Link, useRoute } from '../lib/router'
 
+// Anchor items scroll to a section on the home page; the item with `to` is a
+// real route (the Blog subtree). Contact is intentionally omitted here — the
+// "Let's talk" button covers it — leaving room for the brand/logo.
 const NAV_ITEMS = [
   { id: 'top', label: 'Home' },
   { id: 'about', label: 'About' },
@@ -14,7 +18,7 @@ const NAV_ITEMS = [
   { id: 'experience', label: 'Experience' },
   { id: 'events', label: 'Events' },
   { id: 'gallery', label: 'Gallery' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'blog', label: 'Blog', to: '/blog' },
 ]
 
 /** Sun ⇄ Moon toggle wired to ThemeContext. */
@@ -51,6 +55,16 @@ export default function Navbar() {
   const [active, setActive] = useState('top')
   const rafRef = useRef(0)
 
+  const pathname = useRoute()
+  const onBlog = pathname.replace(/\/+$/, '') === '/blog' || pathname.startsWith('/blog/')
+
+  // On /blog the section links navigate home (full load): Home → "/", the rest
+  // → "/#id". On the home page they stay in-page scroll anchors ("#id").
+  const sectionHref = (id) => (onBlog ? (id === 'top' ? '/' : `/#${id}`) : `#${id}`)
+  // Anchor items highlight from the scroll spy (home only); the Blog route item
+  // highlights whenever we're anywhere under /blog.
+  const isActive = (n) => (n.to ? onBlog : !onBlog && active === n.id)
+
   // Scroll progress + frosted state, throttled with rAF for smoothness.
   useEffect(() => {
     const onScroll = () => {
@@ -71,8 +85,10 @@ export default function Navbar() {
     }
   }, [])
 
-  // Highlight the nav item for the section currently in view.
+  // Highlight the nav item for the section currently in view. Only runs on the
+  // home page — the /blog subtree has no scroll sections to observe.
   useEffect(() => {
+    if (onBlog) return
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -81,12 +97,13 @@ export default function Navbar() {
       },
       { rootMargin: '-45% 0px -50% 0px' },
     )
-    NAV_ITEMS.forEach(({ id }) => {
-      const el = document.getElementById(id)
+    NAV_ITEMS.forEach((n) => {
+      if (n.to) return
+      const el = document.getElementById(n.id)
       if (el) obs.observe(el)
     })
     return () => obs.disconnect()
-  }, [])
+  }, [onBlog])
 
   // Lock body scroll while the mobile drawer is open, and close on Escape.
   useEffect(() => {
@@ -118,7 +135,7 @@ export default function Navbar() {
             scrolled ? 'py-2.5 shadow-xl shadow-black/40' : 'py-2 shadow-lg shadow-black/20'
           }`}
         >
-          <a href="#top" className="flex items-center gap-2.5 font-mono text-sm font-semibold">
+          <a href={onBlog ? '/' : '#top'} className="flex items-center gap-2.5 font-mono text-sm font-semibold">
             <span className="rounded-full bg-gradient-to-br from-neonCyan to-neonPurple p-[1.5px] shadow-[0_0_16px_-4px_rgba(242,180,61,0.55)]">
               <img
                 src={personalInfo.photo}
@@ -133,25 +150,30 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-0.5 lg:flex">
-            {NAV_ITEMS.map((n) => (
-              <li key={n.id}>
-                <a
-                  href={`#${n.id}`}
-                  className={`relative rounded-lg px-3 py-2 text-sm transition-colors ${
-                    active === n.id ? 'text-ink' : 'text-muted hover:text-ink'
-                  }`}
-                >
-                  {active === n.id && (
-                    <motion.span
-                      layoutId="nav-active"
-                      className="absolute inset-0 -z-10 rounded-lg border border-hair bg-fill"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  {n.label}
-                </a>
-              </li>
-            ))}
+            {NAV_ITEMS.map((n) => {
+              const activeItem = isActive(n)
+              const Cmp = n.to ? Link : 'a'
+              const linkProps = n.to ? { to: n.to } : { href: sectionHref(n.id) }
+              return (
+                <li key={n.id}>
+                  <Cmp
+                    {...linkProps}
+                    className={`relative rounded-lg px-3 py-2 text-sm transition-colors ${
+                      activeItem ? 'text-ink' : 'text-muted hover:text-ink'
+                    }`}
+                  >
+                    {activeItem && (
+                      <motion.span
+                        layoutId="nav-active"
+                        className="absolute inset-0 -z-10 rounded-lg border border-hair bg-fill"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    {n.label}
+                  </Cmp>
+                </li>
+              )
+            })}
           </ul>
 
           <div className="hidden items-center gap-2 lg:flex">
@@ -163,7 +185,7 @@ export default function Navbar() {
             </a>
             <ThemeToggle />
             <a
-              href="#contact"
+              href={sectionHref('contact')}
               className="rounded-lg bg-neonCyan px-4 py-2 text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90"
             >
               Let&rsquo;s talk
@@ -230,28 +252,33 @@ export default function Navbar() {
               </div>
 
               <ul className="mt-6 flex flex-col gap-1">
-                {NAV_ITEMS.map((n, i) => (
-                  <motion.li
-                    key={n.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.08 + i * 0.05 }}
-                  >
-                    <a
-                      href={`#${n.id}`}
-                      onClick={() => setOpen(false)}
-                      className={`block rounded-xl px-4 py-3 text-sm transition-colors ${
-                        active === n.id ? 'bg-fill text-ink' : 'text-muted hover:bg-fill hover:text-ink'
-                      }`}
+                {NAV_ITEMS.map((n, i) => {
+                  const activeItem = isActive(n)
+                  const Cmp = n.to ? Link : 'a'
+                  const linkProps = n.to ? { to: n.to } : { href: sectionHref(n.id) }
+                  return (
+                    <motion.li
+                      key={n.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.08 + i * 0.05 }}
                     >
-                      {n.label}
-                    </a>
-                  </motion.li>
-                ))}
+                      <Cmp
+                        {...linkProps}
+                        onClick={() => setOpen(false)}
+                        className={`block rounded-xl px-4 py-3 text-sm transition-colors ${
+                          activeItem ? 'bg-fill text-ink' : 'text-muted hover:bg-fill hover:text-ink'
+                        }`}
+                      >
+                        {n.label}
+                      </Cmp>
+                    </motion.li>
+                  )
+                })}
               </ul>
 
               <a
-                href="#contact"
+                href={sectionHref('contact')}
                 onClick={() => setOpen(false)}
                 className="mt-4 block rounded-xl bg-neonCyan px-4 py-3 text-center text-sm font-semibold text-void transition-opacity duration-200 hover:opacity-90"
               >
