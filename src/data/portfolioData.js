@@ -42,6 +42,20 @@ export const skills = {
   ]
 };
 
+// Skills section — two named groups shown as boxes. DB-backed and editable at
+// /admin → Skills; this is the fallback rendered when the API is unreachable
+// (local dev, Render cold starts).
+export const skillGroups = [
+  {
+    title: "Core CS skills",
+    items: ["C/C++", "DSA", "OOP", "Python", "JavaScript", "Database", "HTML/CSS"]
+  },
+  {
+    title: "Soft Skills",
+    items: ["Problem Solving", "Teamwork", "Time Management", "Collaboration", "Git/GitHub"]
+  }
+];
+
 export const projects = [
   {
     id: "world-cup-2026",

@@ -15,6 +15,14 @@ import galleryRoutes from './routes/gallery.js'
 import puzzleRoutes from './routes/puzzles.js'
 import wrongAnswerRoutes from './routes/wrongAnswers.js'
 import cpRoutes from './routes/competitiveProgramming.js'
+import postRoutes from './routes/posts.js'
+import videoRoutes from './routes/videos.js'
+import photoRoutes from './routes/photos.js'
+import categoryRoutes from './routes/categories.js'
+import tagRoutes from './routes/tags.js'
+import mediaRoutes from './routes/media.js'
+import blogRoutes from './routes/blog.js'
+import skillGroupRoutes from './routes/skillGroups.js'
 
 const app = express()
 
@@ -42,6 +50,14 @@ app.use('/api/gallery', galleryRoutes)
 app.use('/api/puzzles', puzzleRoutes)
 app.use('/api/wrong-answers', wrongAnswerRoutes)
 app.use('/api/competitive-programming', cpRoutes)
+app.use('/api/posts', postRoutes)
+app.use('/api/videos', videoRoutes)
+app.use('/api/photos', photoRoutes)
+app.use('/api/categories', categoryRoutes)
+app.use('/api/tags', tagRoutes)
+app.use('/api/media', mediaRoutes)
+app.use('/api/blog', blogRoutes)
+app.use('/api/skill-groups', skillGroupRoutes)
 
 // Fallback 404 for unknown API routes.
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found.' }))

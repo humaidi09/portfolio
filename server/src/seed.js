@@ -7,6 +7,7 @@ import Stat from './models/Stat.js'
 import Event from './models/Event.js'
 import Puzzle from './models/Puzzle.js'
 import CpProfile from './models/CpProfile.js'
+import SkillGroup from './models/SkillGroup.js'
 
 /**
  * One-time (idempotent) seed: pull the static content from the frontend's data
@@ -20,7 +21,7 @@ async function main() {
 
   // Import the frontend data file directly so there is one source of truth.
   const dataUrl = new URL('../../src/data/portfolioData.js', import.meta.url)
-  const { projects, experiences, certifications, stats, competitiveProgramming } = await import(dataUrl.href)
+  const { projects, experiences, certifications, stats, competitiveProgramming, skillGroups } = await import(dataUrl.href)
   const puzzleUrl = new URL('../../src/data/puzzles.js', import.meta.url)
   const { PUZZLES } = await import(puzzleUrl.href)
 
@@ -140,6 +141,16 @@ async function main() {
       profileUrl: p.profileUrl || '',
       solvedOverride: p.solvedOverride ?? null,
       stats: p.stats ?? undefined,
+      order: i,
+    },
+  }))
+
+  // Skill groups — match on title. `items` is stored as a string array.
+  await upsertMany(SkillGroup, skillGroups, (g, i) => ({
+    match: { title: g.title },
+    doc: {
+      title: g.title,
+      items: g.items || [],
       order: i,
     },
   }))

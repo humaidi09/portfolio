@@ -28,6 +28,13 @@ async function request(path, { method = 'GET', body, token } = {}) {
   return data
 }
 
+/** Build a `?a=1&b=2` query string, dropping empty/null values. */
+function qs(params) {
+  if (!params) return ''
+  const entries = Object.entries(params).filter(([, v]) => v != null && v !== '')
+  return entries.length ? `?${new URLSearchParams(entries)}` : ''
+}
+
 // Absolute URL to the CV download — used directly as an href/src.
 export const cvUrl = `${BASE}/api/cv`
 
@@ -74,6 +81,20 @@ export const api = {
   listEvents: () => request('/api/events'),
   listGallery: () => request('/api/gallery'),
   listCp: () => request('/api/competitive-programming'),
+  listSkillGroups: () => request('/api/skill-groups'),
+
+  // Public — blog. Published content only; when a valid admin token is passed
+  // the server also returns drafts (used by the CMS list views). `params` may
+  // carry { q, category, tag } for server-side filtering.
+  listPosts: ({ token, ...params } = {}) => request(`/api/posts${qs(params)}`, { token }),
+  getPost: (slug, token) => request(`/api/posts/${slug}`, { token }),
+  listVideos: ({ token, ...params } = {}) => request(`/api/videos${qs(params)}`, { token }),
+  getVideo: (slug, token) => request(`/api/videos/${slug}`, { token }),
+  listPhotos: ({ token, ...params } = {}) => request(`/api/photos${qs(params)}`, { token }),
+  getPhoto: (slug, token) => request(`/api/photos/${slug}`, { token }),
+  listCategories: () => request('/api/categories'),
+  listTags: () => request('/api/tags'),
+  blogSummary: (token) => request('/api/blog/summary', { token }),
 
   // Admin — content collections (generic create/update/delete)
   create: (resource, body, token) =>
