@@ -126,7 +126,7 @@ export default function Contact() {
   return (
     <section id="contact" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
-        index="08"
+        index="07"
         eyebrow="// contact"
         title="Let's build something useful."
       />

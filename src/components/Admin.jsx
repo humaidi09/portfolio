@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
-  ImagePlus, Images, Inbox, Layers, LogOut, Mail, Pencil, Plus, Swords, Terminal, Trash2,
+  ImagePlus, Images, Inbox, Layers, LogOut, Mail, Newspaper, Pencil, Plus, Swords, Terminal, Trash2,
   TriangleAlert, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
@@ -96,6 +96,7 @@ const TABS = [
   { id: 'certifications', label: 'Certs', Icon: Award },
   { id: 'events', label: 'Events', Icon: CalendarDays },
   { id: 'gallery', label: 'Gallery', Icon: Images },
+  { id: 'posts', label: 'Blog', Icon: Newspaper },
   { id: 'stats', label: 'Stats', Icon: BarChart3 },
   { id: 'competitiveProgramming', label: 'Competitive', Icon: Swords },
   { id: 'puzzles', label: 'Puzzles', Icon: Terminal },
@@ -119,6 +120,35 @@ const COLLECTIONS = {
     fields: [
       { key: 'title', label: 'Group title', required: true, placeholder: 'Core CS skills' },
       { key: 'items', label: 'Skills', type: 'tags', placeholder: 'C/C++, DSA, OOP, Python' },
+    ],
+  },
+  posts: {
+    label: 'post',
+    resource: 'posts',
+    // Pass the token so drafts (admin-only) show in the list, not just published.
+    list: (token) => api.listPosts({ token }),
+    titleKey: 'title',
+    subKey: 'status',
+    thumbKey: 'coverImage',
+    fields: [
+      { key: 'title', label: 'Title', required: true, placeholder: 'How I built this portfolio' },
+      { key: 'slug', label: 'Slug', placeholder: 'blank = auto from the title' },
+      { key: 'subtitle', label: 'Subtitle', placeholder: 'Optional one-line deck' },
+      { key: 'excerpt', label: 'Excerpt', type: 'textarea', placeholder: 'Short summary shown on cards and previews.' },
+      { key: 'content', label: 'Content (Markdown)', type: 'textarea', rows: 16, placeholder: '# Heading\n\nWrite in Markdown — **bold**, lists, `code`, [links](https://…).' },
+      { key: 'coverImage', label: 'Cover image', type: 'image' },
+      { key: 'category', label: 'Category', placeholder: 'Tutorial' },
+      { key: 'tags', label: 'Tags', type: 'tags', placeholder: 'react, portfolio' },
+      {
+        key: 'status',
+        label: 'Status',
+        type: 'select',
+        options: [
+          { value: 'draft', label: 'Draft — only visible to you' },
+          { value: 'published', label: 'Published — live on /blog' },
+        ],
+      },
+      { key: 'featured', label: 'Featured', type: 'boolean', hint: 'Highlight this post' },
     ],
   },
   experiences: {
@@ -474,6 +504,7 @@ function emptyOf(config) {
     else if (f.type === 'options') { out[f.key] = ['', '', '']; out.answer = 0 }
     else if (f.type === 'cpstats') out[f.key] = {}
     else if (f.type === 'select') out[f.key] = f.options?.[0]?.value ?? ''
+    else if (f.type === 'boolean') out[f.key] = false
     else out[f.key] = ''
   }
   return out
@@ -490,6 +521,7 @@ function toForm(config, doc) {
       out[f.key] = Array.isArray(v) && v.length ? v : ['', '', '']
       out.answer = Number(doc.answer) || 0
     } else if (f.type === 'cpstats') out[f.key] = v && typeof v === 'object' ? v : {}
+    else if (f.type === 'boolean') out[f.key] = Boolean(v)
     else out[f.key] = v ?? ''
   }
   return out
@@ -532,7 +564,7 @@ function CollectionTab({ config, token, onLogout }) {
   async function load() {
     setLoading(true)
     try {
-      setItems(await config.list())
+      setItems(await config.list(token))
     } catch (err) {
       toast({ type: 'error', title: 'Could not load', message: err.message })
     } finally {
@@ -753,7 +785,7 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
               {f.type === 'textarea' ? (
                 <textarea
                   id={f.key}
-                  rows={3}
+                  rows={f.rows || 3}
                   required={f.required}
                   value={form[f.key] ?? ''}
                   onChange={set(f.key)}
@@ -806,6 +838,17 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
                   className={field}
                   placeholder={f.placeholder}
                 />
+              ) : f.type === 'boolean' ? (
+                <label className="mt-1.5 flex cursor-pointer items-center gap-2.5 rounded-xl border border-hair bg-fill px-4 py-3">
+                  <input
+                    id={f.key}
+                    type="checkbox"
+                    checked={Boolean(form[f.key])}
+                    onChange={(e) => setForm((s) => ({ ...s, [f.key]: e.target.checked }))}
+                    className="h-4 w-4 accent-neonCyan"
+                  />
+                  <span className="text-sm text-muted">{f.hint || 'Enabled'}</span>
+                </label>
               ) : (
                 <input
                   id={f.key}
