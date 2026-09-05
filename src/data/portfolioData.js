@@ -193,14 +193,16 @@ export const competitiveProgramming = [
     key: "codeforces",
     name: "Codeforces",
     mono: "CF",
-    source: "codeforces",
+    // Temporarily unlinked (no handle) — shown as a static solved count with no
+    // @username and no profile link. Restore the live rating/heatmap later by
+    // setting `handle` back and `source` to "codeforces".
+    source: "link",
     accent: "#4f8cff",
-    handle: "Humaidi_10",
+    handle: "",
     logo: "/logos/codeforces.png",
     logoClass: "p-1.5",
-    // Rating, heatmap and streak stay live from the CF API; the solved count is
-    // shown as this lifetime figure ("132+") instead of the live tally.
     solvedOverride: 132,
+    stats: { solved: 132 },
     // `{handle}` is filled in by the UI (and stored verbatim in the DB) so the
     // profile link stays a plain, serializable string — no function to persist.
     profileUrl: "https://codeforces.com/profile/{handle}"
@@ -211,7 +213,8 @@ export const competitiveProgramming = [
     mono: "LC",
     source: "link",
     accent: "#ffa116",
-    handle: "Humaidi_25",
+    // Temporarily unlinked (no handle) — no @username, no profile link.
+    handle: "",
     logo: "/logos/leetcode.png",
     logoClass: "p-1",
     profileUrl: "https://leetcode.com/u/{handle}/",
