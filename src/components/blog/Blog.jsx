@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { FileText, Image as ImageIcon, LayoutGrid, Search, Video } from 'lucide-react'
 import { api } from '../../lib/api'
 import { useCollection } from '../../hooks/useCollection'
+import PostCard from './PostCard'
 
 const TABS = [
   { id: 'all', label: 'All', Icon: LayoutGrid },
@@ -135,10 +136,7 @@ export default function Blog() {
         ) : activeCount === 0 ? (
           <EmptyState tab={tab} query={q} />
         ) : (
-          // Per-type card grids and detail pages are wired up in Phases 2–4.
-          // Until then, published content is summarised in the empty/loading
-          // states above; this branch is reached only once data exists.
-          <PlaceholderResults tab={tab} filtered={filtered} />
+          <Results tab={tab} filtered={filtered} />
         )}
       </section>
     </div>
@@ -204,41 +202,55 @@ function EmptyState({ tab, query }) {
 }
 
 /**
- * Temporary minimal listing so the wiring is provable end-to-end the moment a
- * published item exists. Replaced by dedicated PostCard / VideoCard / PhotoCard
- * grids in Phases 2–4.
+ * Results grid. Posts render as full PostCards linking to their detail pages;
+ * videos and photos get a minimal placeholder card until their media phases add
+ * dedicated cards + detail pages. On the "all" tab each type gets a heading.
  */
-function PlaceholderResults({ tab, filtered }) {
+function Results({ tab, filtered }) {
   const show = {
     posts: tab === 'all' || tab === 'posts',
     videos: tab === 'all' || tab === 'videos',
     photos: tab === 'all' || tab === 'photos',
   }
-  const groups = [
-    ['posts', 'Posts', filtered.posts],
-    ['videos', 'Videos', filtered.videos],
-    ['photos', 'Photos', filtered.photos],
-  ].filter(([key, , items]) => show[key] && items.length)
+  const withHeading = tab === 'all'
 
   return (
-    <div className="space-y-10">
-      {groups.map(([key, label, items]) => (
-        <div key={key}>
-          <h2 className="font-display text-lg font-semibold text-ink">{label}</h2>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <li key={item.id || item.slug} className="glass rounded-2xl p-5">
-                <p className="font-display text-base font-semibold text-ink">{item.title}</p>
-                {(item.excerpt || item.caption || item.description) && (
-                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
-                    {item.excerpt || item.caption || item.description}
-                  </p>
-                )}
-              </li>
+    <div className="space-y-12">
+      {show.posts && filtered.posts.length > 0 && (
+        <div>
+          {withHeading && <h2 className="mb-4 font-display text-lg font-semibold text-ink">Posts</h2>}
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.posts.map((post) => (
+              <PostCard key={post.id || post.slug} post={post} />
             ))}
           </ul>
         </div>
-      ))}
+      )}
+
+      {[
+        ['videos', 'Videos'],
+        ['photos', 'Photos'],
+      ].map(([key, label]) => {
+        const items = filtered[key]
+        if (!show[key] || !items.length) return null
+        return (
+          <div key={key}>
+            {withHeading && <h2 className="mb-4 font-display text-lg font-semibold text-ink">{label}</h2>}
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((item) => (
+                <li key={item.id || item.slug} className="glass rounded-2xl p-5">
+                  <p className="font-display text-base font-semibold text-ink">{item.title}</p>
+                  {(item.caption || item.description) && (
+                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
+                      {item.caption || item.description}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      })}
     </div>
   )
 }

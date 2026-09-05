@@ -1,18 +1,20 @@
 import { useRoute, Link } from '../../lib/router'
 import Blog from './Blog'
+import BlogPost from './BlogPost'
 
 /**
  * Client-side router for the /blog subtree. The site's top-level branch (in
- * App.jsx) hands off here whenever the path starts with /blog. Only the index
- * is wired up for now; /blog/post/:slug, /blog/video/:slug and /blog/photo/:slug
- * detail pages are added in later phases. Unknown paths render a friendly 404
- * rather than crashing.
+ * App.jsx) hands off here whenever the path starts with /blog. The index and
+ * post detail pages (/blog/post/:slug) are wired up; /blog/video/:slug and
+ * /blog/photo/:slug arrive with the media phases. Unknown paths render a
+ * friendly 404 rather than crashing.
  */
 export default function BlogApp() {
   const pathname = useRoute()
   const segs = pathname.replace(/\/+$/, '').split('/').filter(Boolean) // ['blog', 'post', 'slug']
 
   if (segs.length === 1) return <Blog />
+  if (segs[1] === 'post' && segs[2]) return <BlogPost slug={decodeURIComponent(segs[2])} />
 
   return <BlogNotFound />
 }

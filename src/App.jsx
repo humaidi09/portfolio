@@ -9,7 +9,6 @@ import CompetitiveProgramming from './components/CompetitiveProgramming'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
 import Events from './components/Events'
-import Gallery from './components/Gallery'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Admin from './components/Admin'
@@ -53,7 +52,6 @@ export default function App() {
                   <Projects />
                   <Experience />
                   <Events />
-                  <Gallery />
                   <Contact />
                 </>
               )}
