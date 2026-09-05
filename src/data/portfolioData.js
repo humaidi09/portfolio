@@ -193,18 +193,20 @@ export const competitiveProgramming = [
     key: "codeforces",
     name: "Codeforces",
     mono: "CF",
-    // Temporarily unlinked (no handle) — shown as a static solved count with no
-    // @username and no profile link. Restore the live rating/heatmap later by
-    // setting `handle` back and `source` to "codeforces".
-    source: "link",
+    // Rating, activity heatmap and streaks auto-update live from the real handle.
+    // `unlisted` keeps that live fetch working but hides the @username and the
+    // "View profile" link, so nothing on the card links into the account.
+    source: "codeforces",
     accent: "#4f8cff",
-    handle: "",
+    handle: "Humaidi_10",
+    unlisted: true,
     logo: "/logos/codeforces.png",
     logoClass: "p-1.5",
+    // Lifetime solved count shown on the card as "132+" (manual override); set to
+    // null to show the live distinct-solved tally from the API instead.
     solvedOverride: 132,
-    stats: { solved: 132 },
-    // `{handle}` is filled in by the UI (and stored verbatim in the DB) so the
-    // profile link stays a plain, serializable string — no function to persist.
+    // `{handle}` is interpolated by the UI, but the link stays suppressed while
+    // `unlisted` is true (kept here so re-enabling the link is one flag away).
     profileUrl: "https://codeforces.com/profile/{handle}"
   },
   {

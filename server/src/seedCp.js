@@ -32,6 +32,7 @@ async function main() {
       profileUrl: p.profileUrl || '',
       solvedOverride: p.solvedOverride ?? null,
       stats: p.stats ?? null,
+      unlisted: !!p.unlisted,
       order: i,
     }
     const existing = await CpProfile.findOne(match)

@@ -24,6 +24,7 @@ const cpSchema = new mongoose.Schema(
     profileUrl: { type: String, default: '', trim: true }, // e.g. https://…/{handle}
     solvedOverride: { type: Number, default: null }, // "132+" lifetime figure; null = use live tally
     stats: { type: mongoose.Schema.Types.Mixed, default: undefined },
+    unlisted: { type: Boolean, default: false }, // live source, but hide @handle + profile link
     order: { type: Number, default: 0 },
   },
   { timestamps: true },
