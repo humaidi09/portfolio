@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://protfolio-hussain8.vercel.app/sitemap.xml
+Sitemap: https://humaidi.me/sitemap.xml
