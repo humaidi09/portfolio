@@ -7,7 +7,9 @@ import mongoose from 'mongoose'
  */
 const gallerySchema = new mongoose.Schema(
   {
-    image: { type: String, required: true }, // data URL (data:image/...;base64,…)
+    // Cloudinary https URL (new records) or a legacy base64 data URL (old ones).
+    image: { type: String, required: true },
+    imagePublicId: { type: String, default: '' }, // Cloudinary handle, for deletes
     caption: { type: String, default: '', trim: true },
     order: { type: Number, default: 0 },
   },

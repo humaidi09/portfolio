@@ -5,6 +5,7 @@ import {
   TriangleAlert, Upload, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
+import { uploadToCloudinary } from '../lib/upload'
 import { LETTERS } from '../data/puzzles'
 import { useToast } from '../context/ToastContext'
 
@@ -188,7 +189,7 @@ const COLLECTIONS = {
       { key: 'date', label: 'Date', placeholder: 'Aug 2026' },
       { key: 'location', label: 'Location', placeholder: 'Leading University, Sylhet' },
       { key: 'description', label: 'Description', type: 'textarea', placeholder: 'A short line about the event.' },
-      { key: 'images', label: 'Photos', type: 'images' },
+      { key: 'images', label: 'Photos', type: 'images', cloud: true, publicIdKey: 'imagePublicIds' },
     ],
   },
   gallery: {
@@ -200,8 +201,9 @@ const COLLECTIONS = {
     thumbKey: 'image',
     // Bulk add: pick many photos at once → one record each (see CollectionTab).
     bulkImageKey: 'image',
+    bulkPublicIdKey: 'imagePublicId',
     fields: [
-      { key: 'image', label: 'Photo', type: 'image', required: true },
+      { key: 'image', label: 'Photo', type: 'image', required: true, cloud: true, publicIdKey: 'imagePublicId' },
       { key: 'caption', label: 'Caption', type: 'textarea', placeholder: 'Optional — shown on hover / in the viewer' },
     ],
   },
@@ -500,29 +502,35 @@ function ProjectForm({ initial, onCancel, onSave }) {
 function emptyOf(config) {
   const out = { order: 0 }
   for (const f of config.fields) {
-    if (f.type === 'images') out[f.key] = []
+    if (f.type === 'images') { out[f.key] = []; if (f.publicIdKey) out[f.publicIdKey] = [] }
     else if (f.type === 'options') { out[f.key] = ['', '', '']; out.answer = 0 }
     else if (f.type === 'cpstats') out[f.key] = {}
     else if (f.type === 'select') out[f.key] = f.options?.[0]?.value ?? ''
     else if (f.type === 'boolean') out[f.key] = false
-    else out[f.key] = ''
+    else { out[f.key] = ''; if (f.type === 'image' && f.publicIdKey) out[f.publicIdKey] = '' }
   }
   return out
 }
 
-/** Turn a stored doc into form values (arrays → comma strings for tag fields). */
+/** Turn a stored doc into form values (arrays → comma strings for tag fields).
+    Cloudinary public-id keys ride alongside their image field, index-aligned. */
 function toForm(config, doc) {
   const out = { id: doc.id, order: doc.order ?? 0 }
   for (const f of config.fields) {
     const v = doc[f.key]
     if (f.type === 'tags') out[f.key] = Array.isArray(v) ? v.join(', ') : v || ''
-    else if (f.type === 'images') out[f.key] = Array.isArray(v) ? v : v ? [v] : []
-    else if (f.type === 'options') {
+    else if (f.type === 'images') {
+      out[f.key] = Array.isArray(v) ? v : v ? [v] : []
+      if (f.publicIdKey) out[f.publicIdKey] = Array.isArray(doc[f.publicIdKey]) ? doc[f.publicIdKey] : []
+    } else if (f.type === 'options') {
       out[f.key] = Array.isArray(v) && v.length ? v : ['', '', '']
       out.answer = Number(doc.answer) || 0
     } else if (f.type === 'cpstats') out[f.key] = v && typeof v === 'object' ? v : {}
     else if (f.type === 'boolean') out[f.key] = Boolean(v)
-    else out[f.key] = v ?? ''
+    else {
+      out[f.key] = v ?? ''
+      if (f.type === 'image' && f.publicIdKey) out[f.publicIdKey] = doc[f.publicIdKey] ?? ''
+    }
   }
   return out
 }
@@ -552,6 +560,19 @@ function imageToDataUrl(file, max = 1400, quality = 0.82) {
   })
 }
 
+/** All Cloudinary public-ids a record references (from every publicIdKey field),
+    dropping blanks. Legacy base64 records have none, so cleanup skips them. */
+function publicIdsOf(config, item) {
+  const ids = []
+  for (const f of config.fields) {
+    if (!f.publicIdKey) continue
+    const v = item[f.publicIdKey]
+    if (Array.isArray(v)) ids.push(...v)
+    else if (v) ids.push(v)
+  }
+  return ids.filter((id) => typeof id === 'string' && id.trim())
+}
+
 function CollectionTab({ config, token, onLogout }) {
   const { toast } = useToast()
   const run = useAuthedAction(onLogout)
@@ -574,7 +595,8 @@ function CollectionTab({ config, token, onLogout }) {
   useEffect(() => { load() }, [])
 
   // Bulk photo upload (Gallery): each selected image becomes its own record,
-  // appended after the existing ones. Compresses client-side before sending.
+  // appended after the existing ones. Uploads straight to Cloudinary and stores
+  // the hosted URL + public_id (so the image loads fast and can be deleted).
   async function onBulkPick(e) {
     const files = [...(e.target.files || [])].filter((f) => f.type.startsWith('image/'))
     e.target.value = ''
@@ -585,8 +607,10 @@ function CollectionTab({ config, token, onLogout }) {
     try {
       for (let i = 0; i < files.length; i += 1) {
         try {
-          const dataUrl = await imageToDataUrl(files[i])
-          await api.create(config.resource, { [config.bulkImageKey]: dataUrl, order: baseOrder + i + 1 }, token)
+          const { url, publicId } = await uploadToCloudinary(files[i], { token, folder: `portfolio/${config.resource}` })
+          const body = { [config.bulkImageKey]: url, order: baseOrder + i + 1 }
+          if (config.bulkPublicIdKey) body[config.bulkPublicIdKey] = publicId
+          await api.create(config.resource, body, token)
           ok += 1
         } catch (err) {
           if (/401|unauth|token|expired/i.test(err.message)) { onLogout(); return }
@@ -620,13 +644,18 @@ function CollectionTab({ config, token, onLogout }) {
     if (!confirm(`Delete “${label}”? This cannot be undone.`)) return
     await run(async () => {
       await api.remove(config.resource, item.id, token)
+      // Best-effort: free the Cloudinary assets this record used. Legacy base64
+      // records carry no public_id, so there is nothing to clean up for them.
+      for (const publicId of publicIdsOf(config, item)) {
+        try { await api.destroyAsset({ publicId }, token) } catch { /* ignore cleanup errors */ }
+      }
       toast({ type: 'success', title: 'Deleted', message: `Removed “${label}”.` })
       load()
     }).catch(() => {})
   }
 
   if (editing) {
-    return <CollectionForm config={config} initial={editing} onCancel={() => setEditing(null)} onSave={save} />
+    return <CollectionForm config={config} initial={editing} token={token} onLogout={onLogout} onCancel={() => setEditing(null)} onSave={save} />
   }
 
   return (
@@ -708,7 +737,7 @@ function CollectionTab({ config, token, onLogout }) {
   )
 }
 
-function CollectionForm({ config, initial, onCancel, onSave }) {
+function CollectionForm({ config, initial, token, onLogout, onCancel, onSave }) {
   const { toast } = useToast()
   const [form, setForm] = useState(initial)
   const [busy, setBusy] = useState(false)
@@ -727,32 +756,66 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
     if (!file) return
     if (!file.type.startsWith('image/')) {
       toast({ type: 'error', title: 'Image only', message: 'Please choose an image file.' })
+      e.target.value = ''
       return
     }
+    const def = config.fields.find((x) => x.key === key)
     setImgBusy(true)
     try {
-      const dataUrl = await imageToDataUrl(file)
-      setForm((f) => ({ ...f, [key]: dataUrl }))
-    } catch {
-      toast({ type: 'error', title: 'Could not read image', message: 'Try a different photo.' })
+      if (def?.cloud) {
+        // Upload straight to Cloudinary; store the hosted URL + public_id.
+        const { url, publicId } = await uploadToCloudinary(file, { token, folder: `portfolio/${config.resource}` })
+        setForm((f) => ({ ...f, [key]: url, ...(def.publicIdKey ? { [def.publicIdKey]: publicId } : {}) }))
+      } else {
+        const dataUrl = await imageToDataUrl(file)
+        setForm((f) => ({ ...f, [key]: dataUrl }))
+      }
+    } catch (err) {
+      if (/401|unauth|token|expired/i.test(err.message)) onLogout?.()
+      else toast({ type: 'error', title: 'Could not upload image', message: err.message || 'Try a different photo.' })
     } finally {
       setImgBusy(false)
       e.target.value = ''
     }
   }
 
-  // Append one or more chosen images to an array field (compressed).
+  // Append one or more chosen images to an array field. Cloud fields upload to
+  // Cloudinary (hosted URL + public_id, index-aligned with the images); others
+  // compress to an inline base64 data URL as before.
   async function onAddImages(key, e) {
     const files = [...(e.target.files || [])].filter((f) => f.type.startsWith('image/'))
     e.target.value = ''
     if (!files.length) return
+    const def = config.fields.find((x) => x.key === key)
     setImgBusy(true)
     try {
-      const urls = []
-      for (const file of files) urls.push(await imageToDataUrl(file))
-      setForm((f) => ({ ...f, [key]: [...(f[key] || []), ...urls] }))
-    } catch {
-      toast({ type: 'error', title: 'Could not read image', message: 'Try a different photo.' })
+      if (def?.cloud) {
+        const urls = []
+        const ids = []
+        for (const file of files) {
+          const { url, publicId } = await uploadToCloudinary(file, { token, folder: `portfolio/${config.resource}` })
+          urls.push(url)
+          ids.push(publicId)
+        }
+        setForm((f) => {
+          const curImages = f[key] || []
+          const curIds = f[def.publicIdKey] || []
+          // Pad ids to align with any pre-existing (legacy) images that had none.
+          const paddedIds = curImages.map((_, i) => curIds[i] || '')
+          return {
+            ...f,
+            [key]: [...curImages, ...urls],
+            ...(def.publicIdKey ? { [def.publicIdKey]: [...paddedIds, ...ids] } : {}),
+          }
+        })
+      } else {
+        const urls = []
+        for (const file of files) urls.push(await imageToDataUrl(file))
+        setForm((f) => ({ ...f, [key]: [...(f[key] || []), ...urls] }))
+      }
+    } catch (err) {
+      if (/401|unauth|token|expired/i.test(err.message)) onLogout?.()
+      else toast({ type: 'error', title: 'Could not upload image', message: err.message || 'Try a different photo.' })
     } finally {
       setImgBusy(false)
     }
@@ -797,14 +860,20 @@ function CollectionForm({ config, initial, onCancel, onSave }) {
                   value={form[f.key]}
                   busy={imgBusy}
                   onPick={(e) => onPickImage(f.key, e)}
-                  onClear={() => setForm((s) => ({ ...s, [f.key]: '' }))}
+                  onClear={() => setForm((s) => ({ ...s, [f.key]: '', ...(f.publicIdKey ? { [f.publicIdKey]: '' } : {}) }))}
                 />
               ) : f.type === 'images' ? (
                 <MultiImageField
                   values={form[f.key] || []}
                   busy={imgBusy}
                   onAdd={(e) => onAddImages(f.key, e)}
-                  onRemove={(idx) => setForm((s) => ({ ...s, [f.key]: (s[f.key] || []).filter((_, i) => i !== idx) }))}
+                  onRemove={(idx) =>
+                    setForm((s) => {
+                      const next = { ...s, [f.key]: (s[f.key] || []).filter((_, i) => i !== idx) }
+                      if (f.publicIdKey) next[f.publicIdKey] = (s[f.publicIdKey] || []).filter((_, i) => i !== idx)
+                      return next
+                    })
+                  }
                 />
               ) : f.type === 'options' ? (
                 <OptionsField

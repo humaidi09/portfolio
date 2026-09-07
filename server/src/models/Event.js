@@ -11,7 +11,9 @@ const eventSchema = new mongoose.Schema(
     date: { type: String, default: '', trim: true }, // free text, e.g. "Aug 2026"
     location: { type: String, default: '', trim: true },
     description: { type: String, default: '', trim: true },
-    images: { type: [String], default: [] }, // data URLs (data:image/...;base64,…)
+    // Cloudinary https URLs (new records) or legacy base64 data URLs (old ones).
+    images: { type: [String], default: [] },
+    imagePublicIds: { type: [String], default: [] }, // Cloudinary handles, index-aligned with images
     order: { type: Number, default: 0 },
   },
   { timestamps: true },

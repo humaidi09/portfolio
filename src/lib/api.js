@@ -67,6 +67,13 @@ export const api = {
   uploadCv: (payload, token) => request('/api/cv', { method: 'PUT', body: payload, token }),
   deleteCv: (token) => request('/api/cv', { method: 'DELETE', token }),
 
+  // Admin — media uploads (Cloudinary signed direct-to-cloud). `signUpload`
+  // returns the short-lived fields the browser POSTs with the file straight to
+  // Cloudinary (see src/lib/upload.js); `destroyAsset` removes an asset by its
+  // public_id when a photo/event image is deleted.
+  signUpload: (body, token) => request('/api/media/sign', { method: 'POST', body, token }),
+  destroyAsset: (body, token) => request('/api/media/destroy', { method: 'POST', body, token }),
+
   // Admin — wrong-answer log (from the hero game)
   listWrongAnswers: (token) => request('/api/wrong-answers', { token }),
   deleteWrongAnswer: (id, token) =>
