@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Flame, RotateCcw, Timer, X, Zap } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Eye, EyeOff, Flame, RotateCcw, X } from 'lucide-react'
 import { api } from '../../lib/api'
 import { useCollection } from '../../hooks/useCollection'
 import { PUZZLES as STATIC_PUZZLES, LETTERS } from '../../data/puzzles'
@@ -8,13 +8,16 @@ import { PUZZLES as STATIC_PUZZLES, LETTERS } from '../../data/puzzles'
  * A "guess the output" game living in the hero's terminal. Read a short,
  * well-defined C++ snippet and pick what it prints — the page invites visitors
  * to play instead of just decorating. Every snippet is unambiguous (no UB), so
- * there's exactly one right answer, with a one-line why after each guess.
+ * there's exactly one right answer.
  *
- * It's played in rounds of ROUND_SIZE shuffled snippets. A streak counts
- * consecutive correct answers; the best-ever streak is kept in localStorage so
- * it survives reloads. An optional "speed" mode puts a per-snippet timer on the
- * clock (running out counts as a miss). Answers work by click or keyboard
- * (1–9 / a–f to pick, Enter or n to advance) while the widget is on screen.
+ * Flow: pick an option, see right or wrong, and the game AUTO-ADVANCES to the
+ * next snippet. The printed output and the one-line why stay HIDDEN behind a
+ * "show" toggle — tap it (or walk BACK to an earlier snippet) to study the
+ * answer without being rushed. A streak counts consecutive correct answers; the
+ * best-ever streak is kept in localStorage so it survives reloads. Played in
+ * rounds of ROUND_SIZE shuffled snippets. Answers work by click or keyboard
+ * (1–9 / a–f to pick, b to go back, e to reveal the output, enter to advance)
+ * while the widget is on screen.
  *
  * Puzzles load from the API (managed at /admin → Puzzles) and fall back to the
  * bundled list in src/data/puzzles.js when the backend is unreachable. Wrong
@@ -23,9 +26,9 @@ import { PUZZLES as STATIC_PUZZLES, LETTERS } from '../../data/puzzles'
  */
 
 const ROUND_SIZE = 10 // snippets per round
-const TIME_PER = 15 // seconds per snippet in speed mode
 const BEST_KEY = 'guess_best_streak'
-const TIMEOUT = -1 // sentinel "pick" meaning the clock ran out
+const AUTO_RIGHT = 900 // ms to linger on a correct answer before auto-advancing
+const AUTO_WRONG = 1700 // longer on a miss, so the result registers first
 
 // A shuffled bag of `n` distinct puzzle indices drawn from `total`.
 function makeOrder(total, n) {
@@ -37,14 +40,12 @@ function makeOrder(total, n) {
   return a.slice(0, Math.max(1, Math.min(n, total)))
 }
 
-const fmt = (t) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`
-
 export default function CodeTerminal({ className = '' }) {
   // Puzzles come from the API; fall back to the bundled list until it loads.
   const { items: puzzles } = useCollection(api.listPuzzles, STATIC_PUZZLES)
   const list = puzzles.length ? puzzles : STATIC_PUZZLES
 
-  // Skip the "run" animation (and pulsing) when the visitor prefers less motion.
+  // Skip the "run" animation when the visitor prefers less motion.
   const [reduce] = useState(
     () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
   )
@@ -52,14 +53,14 @@ export default function CodeTerminal({ className = '' }) {
 
   const [order, setOrder] = useState(() => makeOrder(STATIC_PUZZLES.length, ROUND_SIZE))
   const [step, setStep] = useState(0) // position within the current round
-  const [picked, setPicked] = useState(null) // option index, TIMEOUT, or null
+  const [picks, setPicks] = useState(() => Array(order.length).fill(null)) // answer per step
   const [running, setRunning] = useState(false) // brief "$ ./guess" phase before reveal
+  const [autoPending, setAutoPending] = useState(false) // auto-advance is scheduled
   const [finished, setFinished] = useState(false) // round summary showing
+  const [showNote, setShowNote] = useState(false) // reveal output + why for this step
   const [solved, setSolved] = useState(0) // correct this round
   const [streak, setStreak] = useState(0) // consecutive correct
   const [roundBest, setRoundBest] = useState(0) // longest streak this round
-  const [speed, setSpeed] = useState(false) // timer mode
-  const [timeLeft, setTimeLeft] = useState(TIME_PER)
   const [best, setBest] = useState(() => {
     try {
       const v = parseInt(localStorage.getItem(BEST_KEY) || '0', 10)
@@ -72,22 +73,36 @@ export default function CodeTerminal({ className = '' }) {
   const N = order.length
   const idx = order.length ? order[step % order.length] : 0
   const p = list[idx % list.length]
+  const picked = picks[step] ?? null
   const revealed = picked !== null && !running
   const correct = revealed && picked === p.answer
-  const timedOut = picked === TIMEOUT
-  const answered = finished ? N : step + (revealed ? 1 : 0)
+  const answeredCount = picks.filter((x) => x !== null).length
+  const progress = finished ? N : answeredCount
+
+  // Pending timers (the "run" animation and the auto-advance), cleared together.
+  const runRef = useRef(null)
+  const autoRef = useRef(null)
+  const clearTimers = () => {
+    clearTimeout(runRef.current)
+    clearTimeout(autoRef.current)
+    setAutoPending(false)
+  }
 
   // Rebuild the round when the puzzle set changes size (API load, admin edits)
   // so the shuffled indices stay valid.
   useEffect(() => {
-    setOrder(makeOrder(list.length, ROUND_SIZE))
+    clearTimers()
+    const nextOrder = makeOrder(list.length, ROUND_SIZE)
+    setOrder(nextOrder)
+    setPicks(Array(nextOrder.length).fill(null))
     setStep(0)
-    setPicked(null)
     setRunning(false)
     setFinished(false)
+    setShowNote(false)
     setSolved(0)
     setStreak(0)
     setRoundBest(0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list.length])
 
   // Persist the best-ever streak whenever it climbs.
@@ -99,27 +114,13 @@ export default function CodeTerminal({ className = '' }) {
     }
   }, [best])
 
-  // Fresh clock on every new snippet (and when speed mode is switched on).
+  // A fresh snippet always starts with its answer hidden.
   useEffect(() => {
-    setTimeLeft(TIME_PER)
-  }, [step, finished, speed])
+    setShowNote(false)
+  }, [step])
 
-  // Speed-mode countdown: one decrement scheduled at a time.
-  useEffect(() => {
-    if (!speed || finished || picked !== null || running || timeLeft <= 0) return
-    const id = setTimeout(() => setTimeLeft((t) => t - 1), 1000)
-    return () => clearTimeout(id)
-  }, [speed, finished, picked, running, timeLeft])
-
-  // Clock hit zero → count it as a miss.
-  useEffect(() => {
-    if (speed && timeLeft === 0 && picked === null && !running && !finished) handlePick(TIMEOUT)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft, speed, picked, running, finished])
-
-  // Clean up a pending "run" timer if the widget unmounts mid-animation.
-  const runRef = useRef(null)
-  useEffect(() => () => clearTimeout(runRef.current), [])
+  // Clean up pending timers if the widget unmounts mid-animation.
+  useEffect(() => () => clearTimers(), [])
 
   const commitResult = (choice) => {
     const isRight = choice === p.answer
@@ -132,46 +133,75 @@ export default function CodeTerminal({ className = '' }) {
     } else {
       setStreak(0)
       // Log the wrong guess so the admin can see what trips people up. Best
-      // effort — never let a failed log affect the game. (Timeouts aren't a
-      // guess, so they're not logged.)
-      if (choice >= 0) {
-        api
-          .logWrongAnswer({ code: p.code, chosen: p.options[choice], correct: p.options[p.answer] })
-          .catch(() => {})
-      }
+      // effort — never let a failed log affect the game.
+      api
+        .logWrongAnswer({ code: p.code, chosen: p.options[choice], correct: p.options[p.answer] })
+        .catch(() => {})
     }
   }
 
+  const advance = () => {
+    clearTimers()
+    if (step >= N - 1) {
+      setFinished(true)
+    } else {
+      setShowNote(false)
+      setStep(step + 1)
+    }
+  }
+
+  const scheduleAuto = (choice) => {
+    setAutoPending(true)
+    autoRef.current = setTimeout(advance, choice === p.answer ? AUTO_RIGHT : AUTO_WRONG)
+  }
+
   const handlePick = (choice) => {
-    if (picked !== null || finished) return
-    setPicked(choice)
+    if (finished || running || picks[step] !== null) return
+    setPicks((arr) => {
+      const next = arr.slice()
+      next[step] = choice
+      return next
+    })
     if (RUN_MS === 0) {
       commitResult(choice)
+      scheduleAuto(choice)
       return
     }
     setRunning(true)
     runRef.current = setTimeout(() => {
       setRunning(false)
       commitResult(choice)
+      scheduleAuto(choice)
     }, RUN_MS)
   }
 
-  const next = () => {
-    if (running) return // let the reveal land first
-    if (step >= N - 1) {
-      setFinished(true)
-      return
-    }
-    setStep((s) => s + 1)
-    setPicked(null)
+  const goBack = () => {
+    if (running || step === 0) return
+    clearTimers()
+    setShowNote(false)
+    setStep(step - 1)
+  }
+
+  const goNext = () => {
+    if (running) return
+    advance()
+  }
+
+  // Reveal the output + why. Stops the auto-advance so there's time to read it.
+  const reveal = () => {
+    clearTimers()
+    setShowNote(true)
   }
 
   const playAgain = () => {
-    setOrder(makeOrder(list.length, ROUND_SIZE))
+    clearTimers()
+    const nextOrder = makeOrder(list.length, ROUND_SIZE)
+    setOrder(nextOrder)
+    setPicks(Array(nextOrder.length).fill(null))
     setStep(0)
-    setPicked(null)
     setRunning(false)
     setFinished(false)
+    setShowNote(false)
     setSolved(0)
     setStreak(0)
     setRoundBest(0)
@@ -196,10 +226,25 @@ export default function CodeTerminal({ className = '' }) {
       return
     }
     if (running) return // wait for the reveal before accepting more keys
-    if (picked !== null) {
-      if (k === 'enter' || k === 'n') {
+    if (picks[step] !== null) {
+      // An answered snippet: navigate and reveal, don't re-answer.
+      if (k === 'arrowleft' || k === 'b') {
         e.preventDefault()
-        next()
+        goBack()
+      } else if (k === 'enter' || k === 'n' || k === 'arrowright') {
+        e.preventDefault()
+        goNext()
+      } else if (k === 'e' || k === '?') {
+        e.preventDefault()
+        showNote ? setShowNote(false) : reveal()
+      }
+      return
+    }
+    // An unanswered snippet: pick an option (or step back to review).
+    if (k === 'arrowleft' || k === 'b') {
+      if (step > 0) {
+        e.preventDefault()
+        goBack()
       }
       return
     }
@@ -230,8 +275,6 @@ export default function CodeTerminal({ className = '' }) {
     return () => io.disconnect()
   }, [])
 
-  const codeLines = p.code.split('\n')
-
   return (
     <section
       ref={sectionRef}
@@ -255,7 +298,7 @@ export default function CodeTerminal({ className = '' }) {
       <div className="h-0.5 w-full bg-hair/50">
         <div
           className="h-full bg-neonCyan/70 transition-all duration-300"
-          style={{ width: `${(answered / N) * 100}%` }}
+          style={{ width: `${(progress / N) * 100}%` }}
         />
       </div>
 
@@ -285,8 +328,8 @@ export default function CodeTerminal({ className = '' }) {
       ) : (
         /* Body — snippet on the left, the answers on the right (desktop) */
         <div className="grid gap-4 p-4 lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:p-5">
-          {/* Left: the snippet as a real editor pane (line-number gutter),
-              with the output + explanation seated directly below it */}
+          {/* Left: the snippet as a real editor pane (line-number gutter), with
+              the result + controls seated directly below it */}
           <div className="flex flex-col gap-3">
             <div className="flex flex-1 overflow-hidden rounded-xl border border-hair bg-fill/40">
               {/* line-number gutter */}
@@ -294,7 +337,7 @@ export default function CodeTerminal({ className = '' }) {
                 aria-hidden="true"
                 className="flex flex-col items-end gap-0 border-r border-hair bg-fill/50 px-2.5 py-3 text-[12px] text-muted/50 select-none"
               >
-                {codeLines.map((_, n) => (
+                {p.code.split('\n').map((_, n) => (
                   <span key={n} className="leading-relaxed tabular-nums">
                     {n + 1}
                   </span>
@@ -304,7 +347,7 @@ export default function CodeTerminal({ className = '' }) {
               <pre className="flex-1 overflow-x-auto px-3.5 py-3 text-ink/90">{p.code}</pre>
             </div>
 
-            {/* "Run", then the output + explanation, seated below the question */}
+            {/* "Run", then the result row (with back / show-output / next) */}
             {(running || revealed) && (
               <div className="border-t border-hair pt-3">
                 {running ? (
@@ -313,21 +356,59 @@ export default function CodeTerminal({ className = '' }) {
                     <span className="ml-1 inline-block animate-pulse">▮</span>
                   </p>
                 ) : (
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="text-[12px] leading-relaxed text-muted">
-                      <span className={correct ? 'text-neonCyan' : 'text-red-300'}>
-                        {correct ? '// correct — ' : timedOut ? "// time's up — " : '// output: '}
-                      </span>
-                      {correct ? p.note : `${p.options[p.answer]}. ${p.note}`}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={next}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-hair bg-fill px-3 py-1.5 text-[12px] text-ink transition-colors hover:border-neonCyan/50 hover:text-neonCyan"
-                    >
-                      <RotateCcw className="h-3.5 w-3.5" />
-                      {step >= N - 1 ? 'results' : 'next'}
-                    </button>
+                  <div className="flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-[12px]">
+                        <span className={correct ? 'text-neonCyan' : 'text-red-300'}>
+                          {correct ? '// correct' : '// not quite'}
+                        </span>
+                        {autoPending && <span className="ml-2 text-[11px] text-muted/40">· next…</span>}
+                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={goBack}
+                          disabled={step === 0}
+                          title="Previous snippet"
+                          className="inline-flex items-center gap-1 rounded-lg border border-hair bg-fill px-2.5 py-1.5 text-[11px] text-ink transition-colors hover:border-neonCyan/50 hover:text-neonCyan disabled:cursor-default disabled:opacity-40"
+                        >
+                          <ChevronLeft className="h-3.5 w-3.5" />
+                          back
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => (showNote ? setShowNote(false) : reveal())}
+                          aria-pressed={showNote}
+                          title={showNote ? 'Hide the output' : 'Show the output and why'}
+                          className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1.5 text-[11px] transition-colors ${
+                            showNote
+                              ? 'border-neonCyan/50 bg-neonCyan/10 text-neonCyan'
+                              : 'border-hair bg-fill text-ink hover:border-neonCyan/50 hover:text-neonCyan'
+                          }`}
+                        >
+                          {showNote ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                          {showNote ? 'hide' : 'output'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={goNext}
+                          title="Next snippet"
+                          className="inline-flex items-center gap-1 rounded-lg border border-hair bg-fill px-2.5 py-1.5 text-[11px] text-ink transition-colors hover:border-neonCyan/50 hover:text-neonCyan"
+                        >
+                          {step >= N - 1 ? 'results' : 'next'}
+                          <ChevronRight className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Output + why — hidden until the visitor asks to see it */}
+                    {showNote && (
+                      <p className="text-[12px] leading-relaxed text-muted">
+                        <span className="text-neonCyan">// output: </span>
+                        <span className="text-ink/90">{p.options[p.answer]}</span>
+                        {p.note ? <span> — {p.note}</span> : null}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
@@ -336,35 +417,10 @@ export default function CodeTerminal({ className = '' }) {
 
           {/* Right: the answer choices, under a small prompt so it isn't floating */}
           <div className="flex flex-col justify-center gap-2">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-[11px] text-muted">
-                <span className="text-neonCyan">// </span>
-                what does it print?
-              </p>
-              <div className="flex items-center gap-2">
-                {speed && picked === null && (
-                  <span
-                    className={`inline-flex items-center gap-1 tabular-nums ${timeLeft <= 5 ? 'text-red-300' : 'text-muted'}`}
-                  >
-                    <Timer className="h-3 w-3" />
-                    {fmt(timeLeft)}
-                  </span>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setSpeed((s) => !s)}
-                  aria-pressed={speed}
-                  className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] transition-colors ${
-                    speed
-                      ? 'border-neonCyan/50 bg-neonCyan/10 text-neonCyan'
-                      : 'border-hair text-muted/70 hover:border-hair-strong hover:text-ink'
-                  }`}
-                >
-                  <Zap className="h-3 w-3" />
-                  speed
-                </button>
-              </div>
-            </div>
+            <p className="text-[11px] text-muted">
+              <span className="text-neonCyan">// </span>
+              what does it print?
+            </p>
 
             {p.options.map((opt, oi) => {
               const isAnswer = oi === p.answer
@@ -374,12 +430,16 @@ export default function CodeTerminal({ className = '' }) {
               if (running && isPicked) {
                 tone = 'border-neonCyan/40 bg-fill/40 text-ink'
                 badge = 'border-neonCyan/40 bg-fill text-neonCyan'
-              } else if (revealed && isAnswer) {
+              } else if (revealed && isPicked && correct) {
                 tone = 'border-neonCyan/60 bg-neonCyan/10 text-neonCyan'
                 badge = 'border-neonCyan/50 bg-neonCyan/15 text-neonCyan'
-              } else if (revealed && isPicked) {
+              } else if (revealed && isPicked && !correct) {
                 tone = 'border-red-500/50 bg-red-500/10 text-red-300'
                 badge = 'border-red-500/50 bg-red-500/15 text-red-300'
+              } else if (revealed && isAnswer && showNote) {
+                // The correct choice only lights up once the visitor reveals it.
+                tone = 'border-neonCyan/60 bg-neonCyan/10 text-neonCyan'
+                badge = 'border-neonCyan/50 bg-neonCyan/15 text-neonCyan'
               } else if (revealed) {
                 tone = 'border-hair text-muted/60'
                 badge = 'border-hair bg-fill text-muted/50'
@@ -399,14 +459,15 @@ export default function CodeTerminal({ className = '' }) {
                     {LETTERS[oi]}
                   </span>
                   <span className="flex-1">{opt}</span>
-                  {revealed && isAnswer && <Check className="h-4 w-4 shrink-0" />}
-                  {revealed && isPicked && !isAnswer && <X className="h-4 w-4 shrink-0" />}
+                  {revealed && isPicked && correct && <Check className="h-4 w-4 shrink-0" />}
+                  {revealed && isPicked && !correct && <X className="h-4 w-4 shrink-0" />}
+                  {revealed && !isPicked && isAnswer && showNote && <Check className="h-4 w-4 shrink-0" />}
                 </button>
               )
             })}
 
             <p className="hidden select-none pt-1 text-center text-[10px] text-muted/40 sm:block">
-              keys: 1–{p.options.length} or a–{LETTERS[p.options.length - 1]} · enter for next
+              keys: 1–{p.options.length} or a–{LETTERS[p.options.length - 1]} · b back · e output · enter next
             </p>
           </div>
         </div>
