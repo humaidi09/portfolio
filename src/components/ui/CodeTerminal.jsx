@@ -10,10 +10,10 @@ import { PUZZLES as STATIC_PUZZLES, LETTERS } from '../../data/puzzles'
  * to play instead of just decorating. Every snippet is unambiguous (no UB), so
  * there's exactly one right answer.
  *
- * Flow: pick an option, see right or wrong, and the game AUTO-ADVANCES to the
- * next snippet. The printed output and the one-line why stay HIDDEN behind a
- * "show" toggle — tap it (or walk BACK to an earlier snippet) to study the
- * answer without being rushed. A streak counts consecutive correct answers; the
+ * Flow: pick an option, see right or wrong, then move at your own pace with the
+ * back / next controls — nothing auto-advances. The printed output and the
+ * one-line why stay HIDDEN behind a "show" toggle — tap it (or walk BACK to an
+ * earlier snippet) to study the answer. A streak counts consecutive correct answers; the
  * best-ever streak is kept in localStorage so it survives reloads. Played in
  * rounds of ROUND_SIZE shuffled snippets. Answers work by click or keyboard
  * (1–9 / a–f to pick, b to go back, e to reveal the output, enter to advance)
@@ -27,8 +27,6 @@ import { PUZZLES as STATIC_PUZZLES, LETTERS } from '../../data/puzzles'
 
 const ROUND_SIZE = 10 // snippets per round
 const BEST_KEY = 'guess_best_streak'
-const AUTO_RIGHT = 900 // ms to linger on a correct answer before auto-advancing
-const AUTO_WRONG = 1700 // longer on a miss, so the result registers first
 
 // A shuffled bag of `n` distinct puzzle indices drawn from `total`.
 function makeOrder(total, n) {
@@ -55,7 +53,6 @@ export default function CodeTerminal({ className = '' }) {
   const [step, setStep] = useState(0) // position within the current round
   const [picks, setPicks] = useState(() => Array(order.length).fill(null)) // answer per step
   const [running, setRunning] = useState(false) // brief "$ ./guess" phase before reveal
-  const [autoPending, setAutoPending] = useState(false) // auto-advance is scheduled
   const [finished, setFinished] = useState(false) // round summary showing
   const [showNote, setShowNote] = useState(false) // reveal output + why for this step
   const [solved, setSolved] = useState(0) // correct this round
@@ -79,13 +76,10 @@ export default function CodeTerminal({ className = '' }) {
   const answeredCount = picks.filter((x) => x !== null).length
   const progress = finished ? N : answeredCount
 
-  // Pending timers (the "run" animation and the auto-advance), cleared together.
+  // The brief "run" animation timer, cleared when we navigate away or unmount.
   const runRef = useRef(null)
-  const autoRef = useRef(null)
   const clearTimers = () => {
     clearTimeout(runRef.current)
-    clearTimeout(autoRef.current)
-    setAutoPending(false)
   }
 
   // Rebuild the round when the puzzle set changes size (API load, admin edits)
@@ -150,11 +144,6 @@ export default function CodeTerminal({ className = '' }) {
     }
   }
 
-  const scheduleAuto = (choice) => {
-    setAutoPending(true)
-    autoRef.current = setTimeout(advance, choice === p.answer ? AUTO_RIGHT : AUTO_WRONG)
-  }
-
   const handlePick = (choice) => {
     if (finished || running || picks[step] !== null) return
     setPicks((arr) => {
@@ -164,14 +153,12 @@ export default function CodeTerminal({ className = '' }) {
     })
     if (RUN_MS === 0) {
       commitResult(choice)
-      scheduleAuto(choice)
       return
     }
     setRunning(true)
     runRef.current = setTimeout(() => {
       setRunning(false)
       commitResult(choice)
-      scheduleAuto(choice)
     }, RUN_MS)
   }
 
@@ -187,9 +174,8 @@ export default function CodeTerminal({ className = '' }) {
     advance()
   }
 
-  // Reveal the output + why. Stops the auto-advance so there's time to read it.
+  // Reveal the output + why for the current snippet.
   const reveal = () => {
-    clearTimers()
     setShowNote(true)
   }
 
@@ -362,7 +348,6 @@ export default function CodeTerminal({ className = '' }) {
                         <span className={correct ? 'text-neonCyan' : 'text-red-300'}>
                           {correct ? '// correct' : '// not quite'}
                         </span>
-                        {autoPending && <span className="ml-2 text-[11px] text-muted/40">· next…</span>}
                       </p>
                       <div className="flex items-center gap-1.5">
                         <button
