@@ -316,7 +316,7 @@ export default function CodeTerminal({ className = '' }) {
         <div className="grid gap-4 p-4 lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:p-5">
           {/* Left: the snippet as a real editor pane (line-number gutter), with
               the result + controls seated directly below it */}
-          <div className="flex flex-col gap-3">
+          <div className="flex min-w-0 flex-col gap-3">
             <div className="flex flex-1 overflow-hidden rounded-xl border border-hair bg-fill/40">
               {/* line-number gutter */}
               <div
@@ -330,7 +330,7 @@ export default function CodeTerminal({ className = '' }) {
                 ))}
               </div>
               {/* code — top-aligned so each line sits on its gutter number */}
-              <pre className="flex-1 overflow-x-auto px-3.5 py-3 text-ink/90">{p.code}</pre>
+              <pre className="min-w-0 flex-1 overflow-x-auto px-3.5 py-3 text-ink/90">{p.code}</pre>
             </div>
 
             {/* "Run", then the result row (with back / show-output / next) */}
@@ -401,7 +401,7 @@ export default function CodeTerminal({ className = '' }) {
           </div>
 
           {/* Right: the answer choices, under a small prompt so it isn't floating */}
-          <div className="flex flex-col justify-center gap-2">
+          <div className="flex min-w-0 flex-col justify-center gap-2">
             <p className="text-[11px] text-muted">
               <span className="text-neonCyan">// </span>
               what does it print?
