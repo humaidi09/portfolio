@@ -343,6 +343,935 @@ export const PUZZLES = [
     answer: 0,
     note: 'substr(0, 4) takes 4 characters from index 0 → "comp".',
   },
+
+  // ---- Codeforces-style logic (basic → advanced) ----
+  // Each snippet is one core CP/DSA idea: read it, trace it, guess the output.
+  // Every output is hand-verified and unambiguous (no UB), exactly one answer.
+  // `difficulty` is metadata (easy | medium | hard).
+
+  // number / math
+  {
+    code: `int n = 1234, r = 0;
+while (n) { r = r * 10 + n % 10; n /= 10; }
+cout << r;`,
+    options: ['1234', '4321', '12'],
+    answer: 1,
+    note: 'Peeling digits with %10 and rebuilding reverses 1234 → 4321.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 9875, s = 0;
+while (n) { s += n % 10; n /= 10; }
+cout << s;`,
+    options: ['24', '29', '32'],
+    answer: 1,
+    note: 'Summing the digits of 9875: 9+8+7+5 = 29.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a = 48, b = 36;
+while (b) { int t = b; b = a % b; a = t; }
+cout << a;`,
+    options: ['6', '12', '4'],
+    answer: 1,
+    note: "Euclid's algorithm: gcd(48, 36) = 12.",
+    difficulty: 'easy',
+  },
+  {
+    code: `int a = 0, b = 1;
+for (int i = 0; i < 7; i++) { int c = a + b; a = b; b = c; }
+cout << a;`,
+    options: ['8', '13', '21'],
+    answer: 1,
+    note: 'The loop runs the Fibonacci recurrence 7 times → F(7) = 13.',
+    difficulty: 'medium',
+  },
+  {
+    code: `long long f = 1;
+for (int i = 1; i <= 10; i++) f *= i;
+cout << f;`,
+    options: ['362880', '3628800', '40320'],
+    answer: 1,
+    note: '10! = 3628800 (needs long long; int overflows past 12!).',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 100;
+cout << n * (n + 1) / 2;`,
+    options: ['5050', '5000', '10100'],
+    answer: 0,
+    note: '1..n sum in O(1): n(n+1)/2 = 5050.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 12345, cnt = 0;
+while (n) { cnt++; n /= 10; }
+cout << cnt;`,
+    options: ['5', '4', '6'],
+    answer: 0,
+    note: 'Dividing by 10 until zero counts the 5 digits.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 7;
+cout << (n * (n - 1) / 2) % 2;`,
+    options: ['1', '0', '21'],
+    answer: 0,
+    note: 'C(7,2) = 21, which is odd → 1.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 36, cnt = 0;
+for (int i = 1; i * i <= n; i++)
+    if (n % i == 0) cnt += (i * i == n) ? 1 : 2;
+cout << cnt;`,
+    options: ['9', '8', '6'],
+    answer: 0,
+    note: 'Looping to √n and counting factors in pairs → 36 has 9 divisors.',
+    difficulty: 'medium',
+  },
+  {
+    code: `long long x = 1;
+for (int i = 0; i < 10; i++) x = x * 2 % 7;
+cout << x;`,
+    options: ['2', '4', '1'],
+    answer: 0,
+    note: 'Taking mod each step avoids overflow: 2^10 mod 7 = 2.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int n = 6, x = 0;
+for (int i = 1; i <= n; i++) x ^= i;
+cout << x;`,
+    options: ['7', '0', '6'],
+    answer: 0,
+    note: '1^2^…^6 = 7 (prefix XOR of 1..n has a period-4 pattern).',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 9875;
+while (n >= 10) {
+    int s = 0;
+    while (n) { s += n % 10; n /= 10; }
+    n = s;
+}
+cout << n;`,
+    options: ['2', '29', '5'],
+    answer: 0,
+    note: 'Repeated digit sums (digital root): 9875 → 29 → 11 → 2.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int n = 20, steps = 0;
+while (n > 1) { n = (n % 2 == 0) ? n / 2 : n - 1; steps++; }
+cout << steps;`,
+    options: ['5', '4', '6'],
+    answer: 0,
+    note: 'Halve if even, else subtract 1: 20→10→5→4→2→1 = 5 steps.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 121, r = 0, t = n;
+while (t) { r = r * 10 + t % 10; t /= 10; }
+cout << (r == n ? "yes" : "no");`,
+    options: ['yes', 'no', '121'],
+    answer: 0,
+    note: 'Reversed 121 equals the original → "yes" (palindrome number).',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 25, z = 0;
+for (int p = 5; p <= n; p *= 5) z += n / p;
+cout << z;`,
+    options: ['6', '5', '4'],
+    answer: 0,
+    note: 'Trailing zeros of n! = ⌊n/5⌋+⌊n/25⌋+… = 5+1 = 6.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int n = 100, k = 7;
+cout << n / k;`,
+    options: ['14', '15', '7'],
+    answer: 0,
+    note: 'Multiples of 7 in 1..100 = ⌊100/7⌋ = 14.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 5, s = 0;
+for (int i = 1; i <= n; i++) s += 2 * i;
+cout << s;`,
+    options: ['30', '25', '20'],
+    answer: 0,
+    note: 'Sum of the first 5 even numbers = n(n+1) = 30.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a = 5, b = 8;
+cout << ((a + b) % 2 == 0 ? "same" : "diff");`,
+    options: ['diff', 'same', '13'],
+    answer: 0,
+    note: 'Equal parity ⇔ sum is even; 5+8 = 13 is odd → "diff".',
+    difficulty: 'easy',
+  },
+  {
+    code: `int l = 3, r = 7;
+cout << (l + r) * (r - l + 1) / 2;`,
+    options: ['25', '28', '21'],
+    answer: 0,
+    note: 'Range sum = (first+last)·count/2 = (3+7)·5/2 = 25.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int last = 1;
+for (int i = 0; i < 20; i++) last = last * 3 % 10;
+cout << last;`,
+    options: ['1', '3', '9'],
+    answer: 0,
+    note: 'Only the last digit matters (keep %10): 3^20 ends in 1.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 50, x = 0;
+while ((x + 1) * (x + 1) <= n) x++;
+cout << x;`,
+    options: ['7', '8', '25'],
+    answer: 0,
+    note: 'Grow x while x² ≤ n → ⌊√50⌋ = 7 (integer sqrt, no floats).',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {12, 18, 24}, g = a[0];
+for (int i = 1; i < 3; i++) g = __gcd(g, a[i]);
+cout << g;`,
+    options: ['6', '2', '12'],
+    answer: 0,
+    note: 'Folding __gcd across the array → gcd(12,18,24) = 6.',
+    difficulty: 'medium',
+  },
+
+  // arrays / strings / data structures
+  {
+    code: `map<char,int> f;
+for (char c : string("banana")) f[c]++;
+cout << f['a'] << f['n'] << f['b'];`,
+    options: ['312', '321', '231'],
+    answer: 1,
+    note: 'In "banana": a×3, n×2, b×1 → "321".',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {2, 4, 6, 8}, p[5] = {0};
+for (int i = 0; i < 4; i++) p[i + 1] = p[i] + a[i];
+cout << p[3] - p[1];`,
+    options: ['12', '10', '18'],
+    answer: 1,
+    note: 'Prefix sums give range sums in O(1): p[3]-p[1] = 10.',
+    difficulty: 'medium',
+  },
+  {
+    code: `vector<int> v = {3, 7, 2, 7};
+cout << max_element(v.begin(), v.end()) - v.begin();`,
+    options: ['1', '3', '7'],
+    answer: 0,
+    note: 'Subtracting begin() gives the index of the first max → 1.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a[] = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+int best = a[0], cur = a[0];
+for (int i = 1; i < 9; i++) { cur = max(a[i], cur + a[i]); best = max(best, cur); }
+cout << best;`,
+    options: ['4', '6', '7'],
+    answer: 1,
+    note: "Kadane's maximum subarray sum = [4,-1,2,1] = 6.",
+    difficulty: 'hard',
+  },
+  {
+    code: `int a[] = {1, 3, 4, 6, 8, 9}, target = 10;
+int i = 0, j = 5, cnt = 0;
+while (i < j) {
+    int s = a[i] + a[j];
+    if (s == target) { cnt++; i++; j--; }
+    else if (s < target) i++;
+    else j--;
+}
+cout << cnt;`,
+    options: ['2', '3', '1'],
+    answer: 0,
+    note: 'Two pointers from both ends count pairs summing to 10 → 2.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {2, 1, 5, 1, 3, 2};
+int sum = 0;
+for (int i = 0; i < 3; i++) sum += a[i];
+int best = sum;
+for (int i = 3; i < 6; i++) {
+    sum += a[i] - a[i - 3];
+    best = max(best, sum);
+}
+cout << best;`,
+    options: ['9', '8', '11'],
+    answer: 0,
+    note: 'Slide the size-3 window (add new, drop old): max sum = 9.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {1, 3, 5, 7, 9, 11}, target = 7;
+int lo = 0, hi = 5, ans = -1;
+while (lo <= hi) {
+    int mid = (lo + hi) / 2;
+    if (a[mid] == target) { ans = mid; break; }
+    else if (a[mid] < target) lo = mid + 1;
+    else hi = mid - 1;
+}
+cout << ans;`,
+    options: ['3', '4', '-1'],
+    answer: 0,
+    note: 'Binary search halves the range; 7 sits at index 3.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int diff[6] = {0};
+diff[1] += 5; diff[4] -= 5;
+int a[6], run = 0;
+for (int i = 0; i < 6; i++) { run += diff[i]; a[i] = run; }
+cout << a[0] << a[2] << a[5];`,
+    options: ['050', '555', '505'],
+    answer: 0,
+    note: 'Difference array + prefix sum applies a range +5 to [1,3] only.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int a[] = {2, 1, 4, 3};
+stack<int> st;
+int ng[4];
+for (int i = 3; i >= 0; i--) {
+    while (!st.empty() && st.top() <= a[i]) st.pop();
+    ng[i] = st.empty() ? -1 : st.top();
+    st.push(a[i]);
+}
+cout << ng[0] << " " << ng[1] << " " << ng[2] << " " << ng[3];`,
+    options: ['4 4 -1 -1', '4 4 3 -1', '-1 4 -1 -1'],
+    answer: 0,
+    note: 'A monotonic stack finds each next-greater element in O(n).',
+    difficulty: 'hard',
+  },
+  {
+    code: `long long res = 1, base = 3;
+int exp = 5;
+while (exp) {
+    if (exp & 1) res *= base;
+    base *= base;
+    exp >>= 1;
+}
+cout << res;`,
+    options: ['243', '125', '15'],
+    answer: 0,
+    note: 'Binary exponentiation: 3^5 = 243 in O(log n).',
+    difficulty: 'hard',
+  },
+  {
+    code: `int coins[] = {1, 2, 5}, target = 5;
+int dp[6] = {0}; dp[0] = 1;
+for (int c : coins)
+    for (int x = c; x <= target; x++)
+        dp[x] += dp[x - c];
+cout << dp[target];`,
+    options: ['4', '3', '5'],
+    answer: 0,
+    note: 'Coin-change DP counts combinations: 5 from {1,2,5} → 4 ways.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int coins[] = {25, 10, 5, 1}, amount = 63, cnt = 0;
+for (int c : coins) { cnt += amount / c; amount %= c; }
+cout << cnt;`,
+    options: ['6', '7', '5'],
+    answer: 0,
+    note: 'Greedy largest-first: 63¢ = 25·2 + 10 + 1·3 = 6 coins.',
+    difficulty: 'medium',
+  },
+  {
+    code: `string s = "abccba";
+bool ok = true;
+for (int i = 0; i < s.size() / 2; i++)
+    if (s[i] != s[s.size() - 1 - i]) ok = false;
+cout << ok;`,
+    options: ['1', '0', '6'],
+    answer: 0,
+    note: 'Two-pointer palindrome check on "abccba" → true = 1.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {1, 2, 3, 4, 5}, med = a[2], moves = 0;
+for (int i = 0; i < 5; i++) moves += abs(a[i] - med);
+cout << moves;`,
+    options: ['6', '10', '4'],
+    answer: 0,
+    note: 'Making all values equal costs least at the median: total = 6.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int a[] = {1, 2, 1, 3, 4, 5}, len = 1, best = 1;
+for (int i = 1; i < 6; i++) {
+    if (a[i] > a[i - 1]) len++; else len = 1;
+    best = max(best, len);
+}
+cout << best;`,
+    options: ['4', '5', '3'],
+    answer: 0,
+    note: 'Longest increasing consecutive run [1,3,4,5] = 4.',
+    difficulty: 'medium',
+  },
+  {
+    code: `string s = "aaabbaa";
+int cur = 1, best = 1;
+for (int i = 1; i < s.size(); i++) {
+    cur = (s[i] == s[i - 1]) ? cur + 1 : 1;
+    best = max(best, cur);
+}
+cout << best;`,
+    options: ['3', '2', '7'],
+    answer: 0,
+    note: 'Longest run of one character: "aaa" = 3.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+int s = 0;
+for (int i = 0; i < 3; i++) s += a[i][i];
+cout << s;`,
+    options: ['15', '45', '12'],
+    answer: 0,
+    note: 'Main diagonal a[i][i] = 1+5+9 = 15.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a[] = {3, 7, 2, 9, 5}, mn = a[0], mx = a[0];
+for (int i = 1; i < 5; i++) { mn = min(mn, a[i]); mx = max(mx, a[i]); }
+cout << mx - mn;`,
+    options: ['7', '9', '11'],
+    answer: 0,
+    note: 'Many problems reduce to the range: max−min = 9−2 = 7.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 7;
+cout << (n % 2 ? "first" : "second");`,
+    options: ['first', 'second', '7'],
+    answer: 0,
+    note: 'Outcome depends only on parity; 7 is odd → "first".',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 10;
+cout << ((n * (n + 1) / 2) % 2 == 0 ? "yes" : "no");`,
+    options: ['no', 'yes', '55'],
+    answer: 0,
+    note: 'Splittable ⇔ 1..n sum is even; 55 is odd → "no".',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {1, 2, 3, 4}, target = 5, cnt = 0;
+for (int i = 0; i < 4; i++)
+    for (int j = i + 1; j < 4; j++)
+        if (a[i] + a[j] == target) cnt++;
+cout << cnt;`,
+    options: ['2', '1', '3'],
+    answer: 0,
+    note: 'Brute force over all pairs: two of them sum to 5.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {1, 2, 3}, cnt = 0;
+for (int mask = 0; mask < 8; mask++) {
+    int s = 0;
+    for (int i = 0; i < 3; i++) if (mask & (1 << i)) s += a[i];
+    if (s % 2 == 0) cnt++;
+}
+cout << cnt;`,
+    options: ['4', '3', '8'],
+    answer: 0,
+    note: 'Enumerating all 2³ subsets, 4 have an even sum.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {2, 3, 5, 1}, best = 0;
+for (int i = 0; i < 4; i++)
+    for (int j = i + 1; j < 4; j++)
+        best = max(best, a[i] * a[j]);
+cout << best;`,
+    options: ['15', '10', '6'],
+    answer: 0,
+    note: 'Largest pair product among {2,3,5,1} = 3·5 = 15.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a[] = {4, 1, 7, 3, 9}, k = 2, s = 0;
+sort(a, a + 5, greater<int>());
+for (int i = 0; i < k; i++) s += a[i];
+cout << s;`,
+    options: ['16', '13', '20'],
+    answer: 0,
+    note: 'Greedy: sort descending and take the top 2 → 9+7 = 16.',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a[] = {2, 3, 1, 1, 4}, reach = 0, i = 0;
+while (i <= reach && reach < 4) { reach = max(reach, i + a[i]); i++; }
+cout << (reach >= 4 ? "yes" : "no");`,
+    options: ['yes', 'no', '4'],
+    answer: 0,
+    note: 'Track the farthest reachable index; the end is reachable → "yes".',
+    difficulty: 'medium',
+  },
+  {
+    code: `int dp[6]; dp[0] = 1; dp[1] = 1;
+for (int i = 2; i <= 5; i++) dp[i] = dp[i - 1] + dp[i - 2];
+cout << dp[5];`,
+    options: ['8', '5', '13'],
+    answer: 0,
+    note: 'Ways to climb (1 or 2 steps) = Fibonacci: 5 stairs → 8.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {3, 2, 5, 10, 7}, take = 0, skip = 0;
+for (int x : a) { int nt = skip + x; skip = max(skip, take); take = nt; }
+cout << max(take, skip);`,
+    options: ['15', '18', '13'],
+    answer: 0,
+    note: 'Max non-adjacent sum (house robber) = 3+5+7 = 15.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {1, 3, 4}, reach = 1;
+for (int x : a) reach |= reach << x;
+cout << ((reach >> 7) & 1);`,
+    options: ['1', '0', '7'],
+    answer: 0,
+    note: 'Bitset subset-sum: bit 7 is set, so 7 is reachable (3+4).',
+    difficulty: 'hard',
+  },
+  {
+    code: `int a[] = {1, 2, 3, 4, 5}, pre[6] = {0};
+for (int i = 0; i < 5; i++) pre[i + 1] = pre[i] ^ a[i];
+cout << (pre[4] ^ pre[1]);`,
+    options: ['5', '1', '0'],
+    answer: 0,
+    note: 'Range XOR = pre[r+1]^pre[l]; a[1..3] = 2^3^4 = 5.',
+    difficulty: 'medium',
+  },
+
+  // STL containers & bit tricks CP leans on
+  {
+    code: `multiset<int> s = {2, 2, 2, 5};
+s.erase(s.find(2));
+cout << s.count(2) << " ";
+s.erase(2);
+cout << s.count(2);`,
+    options: ['2 0', '3 0', '2 1'],
+    answer: 0,
+    note: 'erase(iterator) removes one copy; erase(value) removes all copies.',
+    difficulty: 'hard',
+  },
+  {
+    code: `map<int,int> m;
+m[5]++;
+cout << m[3];
+cout << m.size();`,
+    options: ['02', '01', '00'],
+    answer: 0,
+    note: 'operator[] inserts a default 0 even on a read, so size becomes 2.',
+    difficulty: 'hard',
+  },
+  {
+    code: `vector<pair<int,int>> v = {{2, 1}, {1, 5}, {1, 2}};
+sort(v.begin(), v.end());
+cout << v[0].first << v[0].second;`,
+    options: ['12', '15', '21'],
+    answer: 0,
+    note: 'Pairs sort by first, then second → the smallest is (1,2).',
+    difficulty: 'medium',
+  },
+  {
+    code: `stack<int> st;
+st.push(1); st.push(2); st.push(3);
+st.pop();
+cout << st.top() << st.size();`,
+    options: ['22', '32', '21'],
+    answer: 0,
+    note: 'Stack is LIFO: pop removes 3, so top is 2 and size is 2.',
+    difficulty: 'easy',
+  },
+  {
+    code: `queue<int> q;
+q.push(1); q.push(2); q.push(3);
+q.pop();
+cout << q.front() << q.back();`,
+    options: ['23', '13', '32'],
+    answer: 0,
+    note: 'Queue is FIFO: pop removes the front (1); front→2, back→3.',
+    difficulty: 'easy',
+  },
+  {
+    code: `deque<int> d;
+d.push_back(1); d.push_front(2); d.push_back(3);
+cout << d.front() << d.back() << d.size();`,
+    options: ['233', '133', '213'],
+    answer: 0,
+    note: 'A deque grows at both ends: front 2, back 3, size 3.',
+    difficulty: 'medium',
+  },
+  {
+    code: `string s = "abcabc";
+cout << s.find('c');
+cout << s.find('c', 3);`,
+    options: ['25', '22', '23'],
+    answer: 0,
+    note: 'find returns an index; the second arg is a start position → 2 then 5.',
+    difficulty: 'medium',
+  },
+  {
+    code: `cout << stoi("0042") << " " << stoi("12abc");`,
+    options: ['42 12', '0042 12', '42 0'],
+    answer: 0,
+    note: 'stoi skips leading zeros and stops at the first non-digit → 42 and 12.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 12;
+cout << (n & -n);`,
+    options: ['4', '8', '2'],
+    answer: 0,
+    note: 'n & -n isolates the lowest set bit → 4 (the core of a Fenwick tree).',
+    difficulty: 'hard',
+  },
+  {
+    code: `int n = 16;
+cout << (n & (n - 1));`,
+    options: ['0', '16', '1'],
+    answer: 0,
+    note: 'n & (n-1) clears the lowest set bit; 0 means n is a power of two.',
+    difficulty: 'medium',
+  },
+  {
+    code: `cout << __builtin_clz(1);`,
+    options: ['31', '32', '0'],
+    answer: 0,
+    note: '__builtin_clz counts leading zeros: 1 has 31 in a 32-bit int.',
+    difficulty: 'hard',
+  },
+  {
+    code: `cout << __lg(100);`,
+    options: ['6', '7', '2'],
+    answer: 0,
+    note: '__lg(n) = ⌊log2 n⌋ = 6 for 100 (no cmath, no loop).',
+    difficulty: 'medium',
+  },
+  {
+    code: `cout << __builtin_ctz(48);`,
+    options: ['4', '2', '5'],
+    answer: 0,
+    note: '__builtin_ctz counts trailing zeros: 48 = 110000 → 4.',
+    difficulty: 'hard',
+  },
+  {
+    code: `int a = 17, b = 5;
+cout << (a + b - 1) / b;`,
+    options: ['4', '3', '5'],
+    answer: 0,
+    note: 'Ceiling division without floats: (a+b-1)/b = ⌈17/5⌉ = 4.',
+    difficulty: 'medium',
+  },
+  {
+    code: `cout << __builtin_parity(7);`,
+    options: ['1', '3', '0'],
+    answer: 0,
+    note: '__builtin_parity is 1 when the set-bit count is odd; 7 = 111 → 1.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int mask = 13;
+cout << ((mask >> 2) & 1) << ((mask >> 1) & 1);`,
+    options: ['10', '01', '11'],
+    answer: 0,
+    note: '(mask>>i)&1 reads bit i; for 13 = 1101, bits 2 and 1 → "10".',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a = 5, b = 9;
+a ^= b; b ^= a; a ^= b;
+cout << a << " " << b;`,
+    options: ['9 5', '5 9', '0 0'],
+    answer: 0,
+    note: 'Three XORs swap two values without a temporary → 9 5.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a = 2000000000, b = 2000000002;
+cout << a + (b - a) / 2;`,
+    options: ['2000000001', '2000000000', '-147483647'],
+    answer: 0,
+    note: 'a+(b-a)/2 avoids the overflow of (a+b)/2 → 2000000001.',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 5;
+cout << (n << 3);`,
+    options: ['40', '15', '8'],
+    answer: 0,
+    note: 'n << k multiplies by 2^k: 5 << 3 = 5·8 = 40.',
+    difficulty: 'easy',
+  },
+  {
+    code: `set<int> s = {5, 1, 3, 1, 4};
+cout << *s.begin() << *s.rbegin() << s.size();`,
+    options: ['154', '514', '155'],
+    answer: 0,
+    note: 'A set is sorted and deduped: min 1, max 5, size 4.',
+    difficulty: 'medium',
+  },
+  {
+    code: `char c = '7';
+cout << c - '0';`,
+    options: ['7', '55', '0'],
+    answer: 0,
+    note: "c - '0' converts a digit character to its value → 7.",
+    difficulty: 'easy',
+  },
+  {
+    code: `char c = 'a';
+cout << (char)toupper(c);`,
+    options: ['A', 'a', '65'],
+    answer: 0,
+    note: 'toupper returns an int, so cast to char to print "A".',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "abc";
+reverse(s.begin(), s.end());
+cout << s;`,
+    options: ['cba', 'abc', 'bca'],
+    answer: 0,
+    note: 'reverse() flips the string in place → "cba".',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "dbca";
+sort(s.begin(), s.end());
+cout << s;`,
+    options: ['abcd', 'dcba', 'dbca'],
+    answer: 0,
+    note: 'Sorting the characters normalizes it → "abcd" (handy for anagrams).',
+    difficulty: 'medium',
+  },
+  {
+    code: `string s = "hello";
+s.erase(1, 2);
+cout << s;`,
+    options: ['hlo', 'heo', 'hll'],
+    answer: 0,
+    note: 'erase(pos, len) removes 2 chars from index 1 → "hlo".',
+    difficulty: 'medium',
+  },
+  {
+    code: `cout << (string("apple") < string("banana"));`,
+    options: ['1', '0', 'a'],
+    answer: 0,
+    note: 'Strings compare lexicographically: "apple" < "banana" → 1.',
+    difficulty: 'medium',
+  },
+
+  // ---- TLE CP-31 patterns (CF classics — the core observation of each) ----
+  {
+    code: `int w = 8;
+cout << (w > 2 && w % 2 == 0 ? "YES" : "NO");`,
+    options: ['YES', 'NO'],
+    answer: 0,
+    note: 'Splitting into two even parts needs an even number greater than 2 → 8 works. (TLE CP-31 · CF Watermelon)',
+    difficulty: 'easy',
+  },
+  {
+    code: `long long n = 6, m = 6, a = 4;
+cout << ((n + a - 1) / a) * ((m + a - 1) / a);`,
+    options: ['1', '4', '9'],
+    answer: 1,
+    note: 'Tile with a×a squares: ceil(6/4) × ceil(6/4) = 2 × 2 = 4. (TLE CP-31 · CF Theatre Square)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 5, m = 6;
+cout << n * m / 2;`,
+    options: ['30', '12', '15'],
+    answer: 2,
+    note: 'Each 1×2 domino covers 2 cells → floor(5×6/2) = 15. (TLE CP-31 · CF Domino piling)',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a[3][3] = {{1,1,0},{1,0,0},{1,1,1}}, cnt = 0;
+for (int i = 0; i < 3; i++)
+    if (a[i][0] + a[i][1] + a[i][2] >= 2) cnt++;
+cout << cnt;`,
+    options: ['2', '3', '1'],
+    answer: 0,
+    note: 'A problem is solved when at least 2 of 3 are sure → rows with sum ≥ 2 = 2. (TLE CP-31 · CF Team)',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a[] = {10,9,8,7,7,7,5,5}, k = 5, cnt = 0;
+for (int x : a) if (x >= a[k - 1] && x > 0) cnt++;
+cout << cnt;`,
+    options: ['5', '6', '3'],
+    answer: 1,
+    note: 'Advance if score ≥ the k-th place and > 0 (ties count) → 6. (TLE CP-31 · CF Next Round)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int r = 2, c = 4;            // the lone 1 sits here (5×5, 1-indexed)
+cout << abs(r - 3) + abs(c - 3);`,
+    options: ['3', '1', '2'],
+    answer: 2,
+    note: 'Move the 1 to the center (3,3): |row-3| + |col-3| = 1 + 1 = 2. (TLE CP-31 · CF Beautiful Matrix)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "RRGGBRRGG";
+int c = 0;
+for (int i = 1; i < s.size(); i++) if (s[i] == s[i - 1]) c++;
+cout << c;`,
+    options: ['4', '3', '5'],
+    answer: 0,
+    note: 'Minimum removals = number of adjacent equal stones = 4. (TLE CP-31 · CF Stones on the Table)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "xxxyyy";
+set<char> d(s.begin(), s.end());
+cout << (d.size() % 2 == 0 ? "CHAT WITH HER!" : "IGNORE HIM!");`,
+    options: ['IGNORE HIM!', 'CHAT WITH HER!'],
+    answer: 1,
+    note: 'Depends only on the count of distinct letters — even → her. Here 2 distinct → CHAT WITH HER!. (TLE CP-31 · CF Boy or Girl)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int x = 12;
+cout << (x + 4) / 5;`,
+    options: ['4', '2', '3'],
+    answer: 2,
+    note: 'The biggest step is 5, so minimum steps = ceil(x/5) = ceil(12/5) = 3. (TLE CP-31 · CF The Elephant)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "ahhellllo", t = "hello";
+int j = 0;
+for (char c : s) if (j < 5 && c == t[j]) j++;
+cout << (j == 5 ? "YES" : "NO");`,
+    options: ['YES', 'NO'],
+    answer: 0,
+    note: 'Greedy two-pointer: is "hello" a subsequence of the string? → YES. (TLE CP-31 · CF Chat room)',
+    difficulty: 'medium',
+  },
+
+  // ---- TLE CP-31 patterns, batch 2 (CF classics) ----
+  {
+    code: `int a[][2] = {{0,3},{2,5},{4,2},{4,0}};   // {exit, enter}
+int cur = 0, mx = 0;
+for (auto& s : a) { cur += s[1] - s[0]; mx = max(mx, cur); }
+cout << mx;`,
+    options: ['6', '3', '5'],
+    answer: 0,
+    note: 'Capacity = the maximum running occupancy (prefix-max over enter−exit) = 6. (TLE CP-31 · CF Tram)',
+    difficulty: 'medium',
+  },
+  {
+    code: `string ops[] = {"++X", "X--", "X++"};
+int x = 0;
+for (string s : ops) x += (s[1] == '+' ? 1 : -1);
+cout << x;`,
+    options: ['0', '1', '2'],
+    answer: 1,
+    note: 'Each statement changes X by ±1; add them up → 1. (TLE CP-31 · CF Bit++)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "hELLO";
+int up = 0;
+for (char c : s) if (isupper(c)) up++;
+cout << (2 * up > (int)s.size() ? "HELLO" : "hello");`,
+    options: ['HELLO', 'hello'],
+    answer: 0,
+    note: 'Uppercase letters are the majority (2·up > n), so print the word uppercase → HELLO. (TLE CP-31 · CF Word)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "0010000000111";
+cout << (s.find("0000000") != string::npos ||
+         s.find("1111111") != string::npos ? "YES" : "NO");`,
+    options: ['NO', 'YES'],
+    answer: 1,
+    note: 'Dangerous if a digit repeats 7+ times in a row → it contains "0000000" → YES. (TLE CP-31 · CF Football)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string a = "Hello", b = "hELLO";
+for (char& c : a) c = tolower(c);
+for (char& c : b) c = tolower(c);
+cout << (a == b ? 0 : a < b ? -1 : 1);`,
+    options: ['-1', '0', '1'],
+    answer: 1,
+    note: 'Compare case-insensitively: lowercase both → "hello" == "hello" → 0. (TLE CP-31 · CF Petya and Strings)',
+    difficulty: 'easy',
+  },
+  {
+    code: `int n = 512, k = 4;
+while (k--) n = (n % 10) ? n - 1 : n / 10;
+cout << n;`,
+    options: ['50', '51', '500'],
+    answer: 0,
+    note: 'Each step drops a trailing zero, else subtracts 1. After 4 steps 512 → 50. (TLE CP-31 · CF Wrong Subtraction)',
+    difficulty: 'easy',
+  },
+  {
+    code: `string s = "ANDAAADA";
+int a = count(s.begin(), s.end(), 'A');
+cout << (a > (int)s.size() - a ? "Anton"
+       : a < (int)s.size() - a ? "Danik" : "Friendship");`,
+    options: ['Danik', 'Anton', 'Friendship'],
+    answer: 1,
+    note: 'Count each side; more A than D (5 vs 3) → Anton. (TLE CP-31 · CF Anton and Danik)',
+    difficulty: 'easy',
+  },
+  {
+    code: `int c[] = {7,3,5,2,8}, budget = 12, cnt = 0;
+sort(c, c + 5);
+for (int x : c) { if (budget < x) break; budget -= x; cnt++; }
+cout << cnt;`,
+    options: ['4', '2', '3'],
+    answer: 2,
+    note: 'To buy the most items, take the cheapest first: 2+3+5 fits in 12 → 3 items. (TLE CP-31 · greedy: max items within budget)',
+    difficulty: 'medium',
+  },
+  {
+    code: `string s = "3+2+1", d;
+for (char ch : s) if (ch != '+') d += ch;
+sort(d.begin(), d.end());
+cout << d[0] << '+' << d[1] << '+' << d[2];`,
+    options: ['++123', '3+2+1', '1+2+3'],
+    answer: 2,
+    note: 'Rearrange the sum non-decreasing: sort the digits, rejoin with + → 1+2+3. (TLE CP-31 · CF Helpful Maths)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {2,1,2}, total = 5, s = 0, cnt = 0;
+sort(a, a + 3, greater<int>());
+for (int x : a) { s += x; cnt++; if (s * 2 > total) break; }
+cout << cnt;`,
+    options: ['3', '1', '2'],
+    answer: 2,
+    note: 'Grab the largest coins until your half beats the rest → 2 coins. (TLE CP-31 · CF Twins)',
+    difficulty: 'medium',
+  },
 ]
 
 // Option labels (a, b, c, … f). Puzzles allow 2–6 options.
