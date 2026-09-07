@@ -26,10 +26,26 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         {/* Identity + socials, centered */}
         <div className="flex flex-col items-center text-center">
-          <a href="#top" className="font-display text-2xl font-bold text-gradient">
-            {personalInfo.name}
-          </a>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">{personalInfo.role}</p>
+          {/* The verse the work is anchored to — striving (Qur'an 53:39). */}
+          <figure className="flex max-w-md flex-col items-center gap-2">
+            <p
+              dir="rtl"
+              lang="ar"
+              style={{ fontFamily: "'Noto Naskh Arabic','Amiri','Scheherazade New','Times New Roman',serif" }}
+              className="text-lg leading-loose text-ink/90 sm:text-xl"
+            >
+              وَأَن لَّيْسَ لِلْإِنسَٰنِ إِلَّا مَا سَعَىٰ
+            </p>
+            <figcaption className="flex flex-col items-center gap-1">
+              <span className="text-sm italic leading-relaxed text-muted">
+                “Man will have nothing but what he strives for.”
+              </span>
+              <span className="font-mono text-[11px] tracking-wide text-neonCyan/80">
+                Qur'an 53:39 · An-Najm
+              </span>
+            </figcaption>
+          </figure>
+
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
             {SOCIALS.map(({ key, label, Icon }) => (
               <a
