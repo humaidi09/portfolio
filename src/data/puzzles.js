@@ -1272,6 +1272,105 @@ cout << cnt;`,
     note: 'Grab the largest coins until your half beats the rest → 2 coins. (TLE CP-31 · CF Twins)',
     difficulty: 'medium',
   },
+
+  // ---- TLE CP-31 patterns, batch 3 (math · search · greedy, ~1000–1500) ----
+  {
+    code: `int a = 10, b = 4;
+cout << (a % b == 0 ? 0 : b - a % b);`,
+    options: ['0', '1', '2'],
+    answer: 2,
+    note: 'Add just enough to reach the next multiple of b: b − a%b = 2. (TLE CP-31 · CF Divisibility Problem)',
+    difficulty: 'easy',
+  },
+  {
+    code: `int a = 12, b = 18;
+int g = __gcd(a, b);
+cout << a / g * b;`,
+    options: ['6', '36', '216'],
+    answer: 1,
+    note: 'lcm = a/gcd(a,b)*b; divide first to stay overflow-safe → 36. (TLE CP-31 · GCD/LCM)',
+    difficulty: 'easy',
+  },
+  {
+    code: `long long p = 1;
+for (int i = 1; i <= 20; i++) p = p * 2 % 1000;
+cout << p;`,
+    options: ['576', '24', '0'],
+    answer: 0,
+    note: 'Take the remainder after every multiply so it never overflows: 2^20 mod 1000 = 576. (TLE CP-31 · modular arithmetic)',
+    difficulty: 'medium',
+  },
+  {
+    code: `long long n = 10, k = 3;
+long long odd = (n + 1) / 2;
+cout << (k <= odd ? 2 * k - 1 : 2 * (k - odd));`,
+    options: ['5', '6', '3'],
+    answer: 0,
+    note: 'First half are the odds, second half the evens — answer in O(1): k=3 → 5. (TLE CP-31 · CF Even Odds)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {10, 6, 12, 20, 4}, k = 3, best = 1e9;
+sort(a, a + 5);
+for (int i = 0; i + k <= 5; i++) best = min(best, a[i + k - 1] - a[i]);
+cout << best;`,
+    options: ['10', '6', '8'],
+    answer: 1,
+    note: 'After sorting, the closest k values sit adjacent; smallest window range = 6. (TLE CP-31 · CF Puzzles)',
+    difficulty: 'medium',
+  },
+  {
+    code: `long long t = 21, lo = 0, hi = 100;
+while (lo < hi) {
+    long long m = (lo + hi) / 2;
+    if (m * (m + 1) / 2 >= t) hi = m; else lo = m + 1;
+}
+cout << lo;`,
+    options: ['6', '5', '7'],
+    answer: 0,
+    note: 'Binary-search the answer on a monotonic test: smallest x with x(x+1)/2 ≥ 21 is 6. (TLE CP-31 · binary search on answer)',
+    difficulty: 'hard',
+  },
+  {
+    code: `int a[] = {1, 3, 5, 7, 9};
+int pos = lower_bound(a, a + 5, 6) - a;
+cout << pos;`,
+    options: ['2', '4', '3'],
+    answer: 2,
+    note: 'lower_bound gives the first index whose value is ≥ x → 7 sits at index 3. (TLE CP-31 · STL binary search)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 36, cnt = 0;
+for (int i = 1; i <= n; i++) if (n % i == 0) cnt++;
+cout << (cnt % 2 ? "square" : "not");`,
+    options: ['not', 'square'],
+    answer: 1,
+    note: 'Only perfect squares have an odd number of divisors; 36 has 9 → square. (TLE CP-31 · divisor parity)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int a[] = {4, 1, 2, 10}, l = 0, r = 3, s1 = 0, s2 = 0;
+for (int t = 0; l <= r; t++) {
+    int v = (a[l] >= a[r]) ? a[l++] : a[r--];
+    if (t % 2 == 0) s1 += v; else s2 += v;
+}
+cout << s1;`,
+    options: ['14', '10', '12'],
+    answer: 2,
+    note: 'Greedy: on your turn always take the larger end. The first player scores 12. (TLE CP-31 · CF Sereja and Dima)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int iv[][2] = {{1,3},{2,5},{4,7},{6,8}};   // {start, end}
+int last = -1, cnt = 0;
+for (auto& x : iv) if (x[0] > last) { cnt++; last = x[1]; }
+cout << cnt;`,
+    options: ['2', '3', '1'],
+    answer: 0,
+    note: 'Activity selection: keep the earliest-finishing non-overlapping interval → fits 2. (TLE CP-31 · greedy intervals)',
+    difficulty: 'hard',
+  },
 ]
 
 // Option labels (a, b, c, … f). Puzzles allow 2–6 options.
