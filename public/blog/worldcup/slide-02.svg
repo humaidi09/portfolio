@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">the golden rule</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 02</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Real data in &#8594; a prediction out</text>
+
+  <!-- IN box -->
+  <rect x="72" y="252" width="360" height="188" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.45"/>
+  <text x="252" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">INPUT &#8212; 100% REAL</text>
+  <text x="252" y="352" text-anchor="middle" font-size="27" font-weight="700" fill="#eae7df">48 real teams</text>
+  <text x="252" y="396" text-anchor="middle" font-size="27" font-weight="700" fill="#eae7df">real Elo ratings</text>
+  <text x="252" y="428" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#cf9038">dated &#183; source cited</text>
+
+  <!-- engine -->
+  <line x1="440" y1="346" x2="516" y2="346" stroke="#f2b43d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M516 346 l-15 -8 l0 16 z" fill="#f2b43d" fill-opacity="0.7"/>
+  <rect x="520" y="300" width="240" height="92" rx="14" fill="#f2b43d" fill-opacity="0.1" stroke="#f2b43d" stroke-opacity="0.6"/>
+  <text x="640" y="342" text-anchor="middle" font-size="24" font-weight="700" fill="#f2b43d">the engine</text>
+  <text x="640" y="372" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">simulates</text>
+  <line x1="764" y1="346" x2="840" y2="346" stroke="#f2b43d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M840 346 l-15 -8 l0 16 z" fill="#f2b43d" fill-opacity="0.7"/>
+
+  <!-- OUT box -->
+  <rect x="844" y="252" width="364" height="188" rx="16" fill="#f6d18c" fill-opacity="0.06" stroke="#f6d18c" stroke-opacity="0.5"/>
+  <text x="1026" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">OUTPUT</text>
+  <text x="1026" y="352" text-anchor="middle" font-size="27" font-weight="700" fill="#eae7df">a champion</text>
+  <text x="1026" y="396" text-anchor="middle" font-size="27" font-weight="700" fill="#eae7df">+ win % for all</text>
+  <text x="1026" y="428" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#f6d18c">a guess, not a fact</text>
+
+  <!-- prediction stamp -->
+  <rect x="470" y="486" width="340" height="60" rx="30" fill="#f2b43d" fill-opacity="0.09" stroke="#f2b43d" stroke-opacity="0.75"/>
+  <text x="640" y="525" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="26" letter-spacing="3" fill="#f2b43d">PREDICTION</text>
+
+  <text x="64" y="626" font-size="24" fill="#b8b3a6">The input is 100% real. The output is always a PREDICTION &#8212;</text>
+  <text x="64" y="662" font-size="24" fill="#b8b3a6">the tournament hasn't been played yet, so it is never a real fact.</text>
+</svg>

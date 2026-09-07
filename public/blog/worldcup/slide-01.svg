@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">the question</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 01</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Who will win the 2026 World Cup?</text>
+
+  <!-- 48 teams grid -->
+  <g fill="#cf9038">
+    <circle cx="160" cy="268" r="6"/><circle cx="204" cy="268" r="6"/><circle cx="248" cy="268" r="6"/><circle cx="292" cy="268" r="6"/><circle cx="336" cy="268" r="6"/><circle cx="380" cy="268" r="6"/><circle cx="424" cy="268" r="6"/><circle cx="468" cy="268" r="6"/>
+    <circle cx="160" cy="312" r="6"/><circle cx="204" cy="312" r="6"/><circle cx="248" cy="312" r="6"/><circle cx="292" cy="312" r="6"/><circle cx="336" cy="312" r="6"/><circle cx="380" cy="312" r="6"/><circle cx="424" cy="312" r="6"/><circle cx="468" cy="312" r="6"/>
+    <circle cx="160" cy="356" r="6"/><circle cx="204" cy="356" r="6"/><circle cx="248" cy="356" r="6"/><circle cx="292" cy="356" r="6"/><circle cx="336" cy="356" r="6"/><circle cx="380" cy="356" r="6"/><circle cx="424" cy="356" r="6"/><circle cx="468" cy="356" r="6"/>
+    <circle cx="160" cy="400" r="6"/><circle cx="204" cy="400" r="6"/><circle cx="248" cy="400" r="6"/><circle cx="292" cy="400" r="6"/><circle cx="336" cy="400" r="6"/><circle cx="380" cy="400" r="6"/><circle cx="424" cy="400" r="6"/><circle cx="468" cy="400" r="6"/>
+    <circle cx="160" cy="444" r="6"/><circle cx="204" cy="444" r="6"/><circle cx="248" cy="444" r="6"/><circle cx="292" cy="444" r="6"/><circle cx="336" cy="444" r="6"/><circle cx="380" cy="444" r="6"/><circle cx="424" cy="444" r="6"/><circle cx="468" cy="444" r="6"/>
+    <circle cx="160" cy="488" r="6"/><circle cx="204" cy="488" r="6"/><circle cx="248" cy="488" r="6"/><circle cx="292" cy="488" r="6"/><circle cx="336" cy="488" r="6"/><circle cx="380" cy="488" r="6"/><circle cx="424" cy="488" r="6"/><circle cx="468" cy="488" r="6"/>
+  </g>
+  <text x="314" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">48 real teams</text>
+
+  <!-- arrow -->
+  <line x1="560" y1="378" x2="694" y2="378" stroke="#f2b43d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M694 378 l-16 -9 l0 18 z" fill="#f2b43d" fill-opacity="0.7"/>
+
+  <!-- one champion -->
+  <circle cx="884" cy="378" r="86" fill="#f2b43d" fill-opacity="0.06" stroke="#f2b43d" stroke-width="2"/>
+  <text x="884" y="412" text-anchor="middle" font-size="104" font-weight="700" fill="#f2b43d">?</text>
+  <text x="884" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">1 champion</text>
+
+  <text x="64" y="632" font-size="24" fill="#b8b3a6">Nobody can know the future. But a computer can make a smart, honest</text>
+  <text x="64" y="668" font-size="24" fill="#b8b3a6">guess &#8212; and show every single step of its working.</text>
+</svg>

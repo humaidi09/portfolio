@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">monte carlo</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 08</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Now play it 1,000 times</text>
+
+  <!-- left: individual runs -->
+  <g font-family="'JetBrains Mono', monospace" font-size="18">
+    <rect x="80" y="250" width="300" height="44" rx="8" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.3"/>
+    <text x="98" y="278" fill="#8c897f">run 1</text><text x="362" y="278" text-anchor="end" fill="#eae7df">Colombia</text>
+    <rect x="80" y="302" width="300" height="44" rx="8" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.3"/>
+    <text x="98" y="330" fill="#8c897f">run 2</text><text x="362" y="330" text-anchor="end" fill="#eae7df">Spain</text>
+    <rect x="80" y="354" width="300" height="44" rx="8" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.3"/>
+    <text x="98" y="382" fill="#8c897f">run 3</text><text x="362" y="382" text-anchor="end" fill="#eae7df">Argentina</text>
+    <rect x="80" y="406" width="300" height="44" rx="8" fill="#f2b43d" fill-opacity="0.08" stroke="#f2b43d" stroke-opacity="0.5"/>
+    <text x="98" y="434" fill="#8c897f">&#8230;</text><text x="362" y="434" text-anchor="end" fill="#f6d18c">&#215;1000 runs</text>
+  </g>
+
+  <!-- arrow -->
+  <line x1="398" y1="350" x2="476" y2="350" stroke="#f2b43d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M476 350 l-15 -8 l0 16 z" fill="#f2b43d" fill-opacity="0.7"/>
+  <text x="437" y="334" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#8c897f">tally</text>
+
+  <!-- right: odds bars -->
+  <text x="505" y="240" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">how often does each team win the cup?</text>
+  <g font-family="'Fraunces', Georgia, serif" font-size="20">
+    <text x="650" y="322" text-anchor="end" fill="#eae7df">Spain</text>
+    <rect x="666" y="294" width="300" height="42" rx="6" fill="#f2b43d"/>
+    <text x="980" y="322" font-weight="700" fill="#f2b43d">32.9%</text>
+
+    <text x="650" y="386" text-anchor="end" fill="#eae7df">Argentina</text>
+    <rect x="666" y="358" width="186" height="42" rx="6" fill="#f2b43d" fill-opacity="0.85"/>
+    <text x="866" y="386" font-weight="700" fill="#f2b43d">20.4%</text>
+
+    <text x="650" y="450" text-anchor="end" fill="#eae7df">England</text>
+    <rect x="666" y="422" width="113" height="42" rx="6" fill="#cf9038"/>
+    <text x="793" y="450" font-weight="700" fill="#f6d18c">12.4%</text>
+  </g>
+
+  <text x="64" y="536" font-size="24" fill="#b8b3a6">One run is just one story. So the engine replays the whole tournament</text>
+  <text x="64" y="572" font-size="24" fill="#b8b3a6">1,000 times and counts how often each team ends up champion. Those</text>
+  <text x="64" y="608" font-size="24" fill="#b8b3a6">counts become each team's chance of lifting the cup.</text>
+
+  <text x="64" y="668" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">this &#8220;run it many times and count&#8221; trick is called Monte Carlo. Still a PREDICTION.</text>
+</svg>

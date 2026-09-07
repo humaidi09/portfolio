@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">how it works</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 04</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">What is an Elo rating?</text>
+
+  <!-- strong team -->
+  <rect x="150" y="248" width="360" height="152" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.6"/>
+  <text x="330" y="318" text-anchor="middle" font-size="40" font-weight="700" fill="#eae7df">Spain</text>
+  <text x="330" y="366" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" fill="#f2b43d">Elo 2259</text>
+
+  <!-- gap -->
+  <g stroke="#f2b43d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.8">
+    <path d="M556 300 l20 24 l-20 24"/>
+    <path d="M606 300 l20 24 l-20 24"/>
+    <path d="M656 300 l20 24 l-20 24"/>
+  </g>
+  <text x="640" y="392" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" fill="#f6d18c">+659 stronger</text>
+
+  <!-- weak team -->
+  <rect x="770" y="248" width="360" height="152" rx="16" fill="#eae7df" fill-opacity="0.03" stroke="#f2b43d" stroke-opacity="0.28"/>
+  <text x="950" y="318" text-anchor="middle" font-size="40" font-weight="700" fill="#b8b3a6">a weaker team</text>
+  <text x="950" y="366" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" fill="#8c897f">Elo 1600</text>
+
+  <text x="640" y="470" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" fill="#8c897f">bigger number  =  stronger team</text>
+
+  <text x="64" y="580" font-size="24" fill="#b8b3a6">Like chess ratings. Every team carries one number for its strength.</text>
+  <text x="64" y="616" font-size="24" fill="#b8b3a6">The GAP between two numbers is all we need &#8212; a bigger gap means the</text>
+  <text x="64" y="652" font-size="24" fill="#b8b3a6">stronger team is more likely (not certain!) to win.</text>
+</svg>

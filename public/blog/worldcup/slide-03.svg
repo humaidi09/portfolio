@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">the tournament</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 03</text>
+
+  <text x="64" y="176" font-size="54" font-weight="700" fill="#eae7df">48 teams &#8594; 12 groups &#8594; 1 champion</text>
+
+  <!-- funnel columns, baseline y=474 -->
+  <g font-family="'JetBrains Mono', monospace">
+    <!-- chevrons -->
+    <g stroke="#f2b43d" stroke-opacity="0.4" stroke-width="3" fill="none">
+      <path d="M212 420 l14 10 l-14 10"/>
+      <path d="M362 420 l14 10 l-14 10"/>
+      <path d="M512 420 l14 10 l-14 10"/>
+      <path d="M662 420 l14 10 l-14 10"/>
+      <path d="M812 420 l14 10 l-14 10"/>
+      <path d="M962 420 l14 10 l-14 10"/>
+    </g>
+
+    <rect x="110" y="214" width="96" height="260" rx="8" fill="#cf9038" fill-opacity="0.55"/>
+    <text x="158" y="200" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">48</text>
+    <text x="158" y="502" text-anchor="middle" font-size="16" fill="#8c897f">groups</text>
+
+    <rect x="260" y="274" width="96" height="200" rx="8" fill="#cf9038" fill-opacity="0.65"/>
+    <text x="308" y="260" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">32</text>
+    <text x="308" y="502" text-anchor="middle" font-size="16" fill="#8c897f">Ro32</text>
+
+    <rect x="410" y="324" width="96" height="150" rx="8" fill="#cf9038" fill-opacity="0.75"/>
+    <text x="458" y="310" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">16</text>
+    <text x="458" y="502" text-anchor="middle" font-size="16" fill="#8c897f">Ro16</text>
+
+    <rect x="560" y="364" width="96" height="110" rx="8" fill="#f2b43d" fill-opacity="0.7"/>
+    <text x="608" y="350" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">8</text>
+    <text x="608" y="502" text-anchor="middle" font-size="16" fill="#8c897f">QF</text>
+
+    <rect x="710" y="394" width="96" height="80" rx="8" fill="#f2b43d" fill-opacity="0.8"/>
+    <text x="758" y="380" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">4</text>
+    <text x="758" y="502" text-anchor="middle" font-size="16" fill="#8c897f">SF</text>
+
+    <rect x="860" y="418" width="96" height="56" rx="8" fill="#f2b43d" fill-opacity="0.9"/>
+    <text x="908" y="404" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">2</text>
+    <text x="908" y="502" text-anchor="middle" font-size="16" fill="#8c897f">final</text>
+
+    <rect x="1010" y="434" width="96" height="40" rx="8" fill="#f2b43d"/>
+    <text x="1058" y="420" text-anchor="middle" font-size="30" font-weight="700" fill="#f2b43d" font-family="'Fraunces', Georgia, serif">1</text>
+    <text x="1058" y="502" text-anchor="middle" font-size="16" fill="#f6d18c">champion</text>
+  </g>
+
+  <text x="64" y="588" font-size="24" fill="#b8b3a6">Top 2 of each group + the 8 best third-placed teams = 32 qualifiers.</text>
+  <text x="64" y="624" font-size="24" fill="#b8b3a6">After that it is straight knockout &#8212; lose once and you are out &#8212; until</text>
+  <text x="64" y="660" font-size="24" fill="#b8b3a6">only one team is left. 104 matches in all.</text>
+</svg>

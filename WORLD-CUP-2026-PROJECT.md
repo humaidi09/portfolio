@@ -6,6 +6,32 @@
 
 ---
 
+## The whole project in 10 slides (start here)
+
+New here? Flip through this first. Ten beginner-friendly slides tell the entire story — from *"who will win?"* all the way to *"how the code is built"* — with no jargon. Read them top to bottom like flipping through a deck. Every result you'll see is a **prediction**, never a real fact. The detailed written guide follows underneath.
+
+![Slide 1 — Who will win the 2026 World Cup? 48 real teams, one champion, one honest guess](/blog/worldcup/slide-01.svg)
+
+![Slide 2 — The golden rule: real data goes in, a prediction comes out (never a fact)](/blog/worldcup/slide-02.svg)
+
+![Slide 3 — The tournament: 48 teams sort into 12 groups, then narrow down to 1 champion](/blog/worldcup/slide-03.svg)
+
+![Slide 4 — What is an Elo rating? A single number for team strength — bigger means stronger](/blog/worldcup/slide-04.svg)
+
+![Slide 5 — How one match is predicted: win chance, then weighted dice, then a scoreline](/blog/worldcup/slide-05.svg)
+
+![Slide 6 — Why upsets still happen: the dice lean toward the favourite but are never fixed](/blog/worldcup/slide-06.svg)
+
+![Slide 7 — Play the whole tournament once: 104 matches, one predicted champion](/blog/worldcup/slide-07.svg)
+
+![Slide 8 — Now play it 1,000 times and count the winners: that gives each team's odds (Monte Carlo)](/blog/worldcup/slide-08.svg)
+
+![Slide 9 — How the code is organised: four clean layers, zero outside libraries, 102 tests](/blog/worldcup/slide-09.svg)
+
+![Slide 10 — From OOP demo to a shipped engine: built in 4 phases, shipped via branch, PR, CI and merge](/blog/worldcup/slide-10.svg)
+
+---
+
 ## 1. The 30-second pitch (memorise this)
 
 If someone asks "what did you build?", this single paragraph is a complete answer:

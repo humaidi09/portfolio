@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">how it works</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 06</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Why upsets still happen</text>
+
+  <text x="100" y="272" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">one match, 100% of the outcomes:</text>
+
+  <!-- stacked probability bar: 71 / 10 / 19 over x=100..1180 (1080px) -->
+  <rect x="100" y="300" width="767" height="72" rx="8" fill="#f2b43d"/>
+  <rect x="871" y="300" width="104" height="72" rx="8" fill="#cf9038" fill-opacity="0.75"/>
+  <rect x="979" y="300" width="201" height="72" rx="8" fill="#8c897f" fill-opacity="0.5"/>
+
+  <text x="483" y="345" text-anchor="middle" font-size="30" font-weight="700" fill="#000000">71%</text>
+  <text x="923" y="345" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">10%</text>
+  <text x="1079" y="345" text-anchor="middle" font-size="26" font-weight="700" fill="#eae7df">19%</text>
+
+  <text x="483" y="408" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" fill="#f2b43d">favourite wins</text>
+  <text x="923" y="408" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" fill="#cf9038">draw</text>
+  <text x="1079" y="408" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">underdog wins</text>
+
+  <text x="64" y="500" font-size="24" fill="#b8b3a6">The dice lean toward the stronger team &#8212; but they are never fixed.</text>
+  <text x="64" y="536" font-size="24" fill="#b8b3a6">Here the favourite wins about 71% of the time, yet the underdog still</text>
+  <text x="64" y="572" font-size="24" fill="#b8b3a6">wins roughly 1 in 5. Run the match again and you might see the upset.</text>
+
+  <text x="64" y="640" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">that randomness is the point &#8212; it's exactly how real football behaves.</text>
+</svg>

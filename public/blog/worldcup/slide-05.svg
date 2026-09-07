@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#f2b43d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">how it works</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 05</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">How one match is predicted</text>
+
+  <!-- step 1 -->
+  <rect x="90" y="250" width="320" height="180" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.4"/>
+  <text x="250" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#f2b43d">1 &#183; win chance</text>
+  <text x="250" y="368" text-anchor="middle" font-size="52" font-weight="700" fill="#eae7df">71%</text>
+  <text x="250" y="406" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">from the rating gap</text>
+
+  <line x1="416" y1="340" x2="464" y2="340" stroke="#f2b43d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M464 340 l-14 -8 l0 16 z" fill="#f2b43d" fill-opacity="0.7"/>
+
+  <!-- step 2 -->
+  <rect x="470" y="250" width="320" height="180" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.4"/>
+  <text x="630" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#f2b43d">2 &#183; weighted dice</text>
+  <rect x="592" y="318" width="76" height="76" rx="14" fill="#f2b43d" fill-opacity="0.12" stroke="#f2b43d" stroke-opacity="0.7"/>
+  <g fill="#f2b43d">
+    <circle cx="610" cy="336" r="6"/><circle cx="650" cy="336" r="6"/>
+    <circle cx="630" cy="356" r="6"/>
+    <circle cx="610" cy="376" r="6"/><circle cx="650" cy="376" r="6"/>
+  </g>
+  <text x="630" y="416" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">roll the goals</text>
+
+  <line x1="796" y1="340" x2="844" y2="340" stroke="#f2b43d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M844 340 l-14 -8 l0 16 z" fill="#f2b43d" fill-opacity="0.7"/>
+
+  <!-- step 3 -->
+  <rect x="850" y="250" width="320" height="180" rx="16" fill="#f6d18c" fill-opacity="0.06" stroke="#f6d18c" stroke-opacity="0.5"/>
+  <text x="1010" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#f6d18c">3 &#183; scoreline</text>
+  <text x="1010" y="366" text-anchor="middle" font-size="34" font-weight="700" fill="#eae7df">Spain 2&#8211;1 Arg</text>
+  <text x="1010" y="406" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">W / D / L + goals</text>
+
+  <text x="64" y="510" font-size="24" fill="#b8b3a6">Turn the rating gap into a goal chance, then roll dice that lean toward</text>
+  <text x="64" y="546" font-size="24" fill="#b8b3a6">the stronger team. Out comes a real scoreline. With a <tspan font-family="'JetBrains Mono', monospace" font-size="20" fill="#f6d18c">--seed</tspan> the roll is</text>
+  <text x="64" y="582" font-size="24" fill="#b8b3a6">identical every time, so anyone can reproduce the exact same match.</text>
+
+  <text x="64" y="648" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">the friend version: &#8220;probability &#8594; weighted dice &#8594; a score.&#8221;</text>
+</svg>
