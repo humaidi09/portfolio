@@ -1089,7 +1089,7 @@ cout << s;`,
 cout << (w > 2 && w % 2 == 0 ? "YES" : "NO");`,
     options: ['YES', 'NO'],
     answer: 0,
-    note: 'Splitting into two even parts needs an even number greater than 2 → 8 works. (TLE CP-31 · CF Watermelon)',
+    note: 'Splitting into two even parts needs an even number greater than 2 → 8 works. (TLE CP-31 · CF 4A Watermelon)',
     difficulty: 'easy',
   },
   {
@@ -1097,7 +1097,7 @@ cout << (w > 2 && w % 2 == 0 ? "YES" : "NO");`,
 cout << ((n + a - 1) / a) * ((m + a - 1) / a);`,
     options: ['1', '4', '9'],
     answer: 1,
-    note: 'Tile with a×a squares: ceil(6/4) × ceil(6/4) = 2 × 2 = 4. (TLE CP-31 · CF Theatre Square)',
+    note: 'Tile with a×a squares: ceil(6/4) × ceil(6/4) = 2 × 2 = 4. (TLE CP-31 · CF 1A Theatre Square)',
     difficulty: 'medium',
   },
   {
@@ -1105,7 +1105,7 @@ cout << ((n + a - 1) / a) * ((m + a - 1) / a);`,
 cout << n * m / 2;`,
     options: ['30', '12', '15'],
     answer: 2,
-    note: 'Each 1×2 domino covers 2 cells → floor(5×6/2) = 15. (TLE CP-31 · CF Domino piling)',
+    note: 'Each 1×2 domino covers 2 cells → floor(5×6/2) = 15. (TLE CP-31 · CF 50A Domino piling)',
     difficulty: 'easy',
   },
   {
@@ -1115,7 +1115,7 @@ for (int i = 0; i < 3; i++)
 cout << cnt;`,
     options: ['2', '3', '1'],
     answer: 0,
-    note: 'A problem is solved when at least 2 of 3 are sure → rows with sum ≥ 2 = 2. (TLE CP-31 · CF Team)',
+    note: 'A problem is solved when at least 2 of 3 are sure → rows with sum ≥ 2 = 2. (TLE CP-31 · CF 231A Team)',
     difficulty: 'easy',
   },
   {
@@ -1124,7 +1124,7 @@ for (int x : a) if (x >= a[k - 1] && x > 0) cnt++;
 cout << cnt;`,
     options: ['5', '6', '3'],
     answer: 1,
-    note: 'Advance if score ≥ the k-th place and > 0 (ties count) → 6. (TLE CP-31 · CF Next Round)',
+    note: 'Advance if score ≥ the k-th place and > 0 (ties count) → 6. (TLE CP-31 · CF 158A Next Round)',
     difficulty: 'medium',
   },
   {
@@ -1132,7 +1132,7 @@ cout << cnt;`,
 cout << abs(r - 3) + abs(c - 3);`,
     options: ['3', '1', '2'],
     answer: 2,
-    note: 'Move the 1 to the center (3,3): |row-3| + |col-3| = 1 + 1 = 2. (TLE CP-31 · CF Beautiful Matrix)',
+    note: 'Move the 1 to the center (3,3): |row-3| + |col-3| = 1 + 1 = 2. (TLE CP-31 · CF 263A Beautiful Matrix)',
     difficulty: 'easy',
   },
   {
@@ -1142,7 +1142,7 @@ for (int i = 1; i < s.size(); i++) if (s[i] == s[i - 1]) c++;
 cout << c;`,
     options: ['4', '3', '5'],
     answer: 0,
-    note: 'Minimum removals = number of adjacent equal stones = 4. (TLE CP-31 · CF Stones on the Table)',
+    note: 'Minimum removals = number of adjacent equal stones = 4. (TLE CP-31 · CF 266A Stones on the Table)',
     difficulty: 'easy',
   },
   {
@@ -1151,7 +1151,7 @@ set<char> d(s.begin(), s.end());
 cout << (d.size() % 2 == 0 ? "CHAT WITH HER!" : "IGNORE HIM!");`,
     options: ['IGNORE HIM!', 'CHAT WITH HER!'],
     answer: 1,
-    note: 'Depends only on the count of distinct letters — even → her. Here 2 distinct → CHAT WITH HER!. (TLE CP-31 · CF Boy or Girl)',
+    note: 'Depends only on the count of distinct letters — even → her. Here 2 distinct → CHAT WITH HER!. (TLE CP-31 · CF 236A Boy or Girl)',
     difficulty: 'medium',
   },
   {
@@ -1159,7 +1159,7 @@ cout << (d.size() % 2 == 0 ? "CHAT WITH HER!" : "IGNORE HIM!");`,
 cout << (x + 4) / 5;`,
     options: ['4', '2', '3'],
     answer: 2,
-    note: 'The biggest step is 5, so minimum steps = ceil(x/5) = ceil(12/5) = 3. (TLE CP-31 · CF The Elephant)',
+    note: 'The biggest step is 5, so minimum steps = ceil(x/5) = ceil(12/5) = 3. (TLE CP-31 · CF 617A Elephant)',
     difficulty: 'easy',
   },
   {
@@ -1169,7 +1169,7 @@ for (char c : s) if (j < 5 && c == t[j]) j++;
 cout << (j == 5 ? "YES" : "NO");`,
     options: ['YES', 'NO'],
     answer: 0,
-    note: 'Greedy two-pointer: is "hello" a subsequence of the string? → YES. (TLE CP-31 · CF Chat room)',
+    note: 'Greedy two-pointer: is "hello" a subsequence of the string? → YES. (TLE CP-31 · CF 58A Chat room)',
     difficulty: 'medium',
   },
 
@@ -1181,7 +1181,7 @@ for (auto& s : a) { cur += s[1] - s[0]; mx = max(mx, cur); }
 cout << mx;`,
     options: ['6', '3', '5'],
     answer: 0,
-    note: 'Capacity = the maximum running occupancy (prefix-max over enter−exit) = 6. (TLE CP-31 · CF Tram)',
+    note: 'Capacity = the maximum running occupancy (prefix-max over enter−exit) = 6. (TLE CP-31 · CF 116A Tram)',
     difficulty: 'medium',
   },
   {
@@ -1191,7 +1191,7 @@ for (string s : ops) x += (s[1] == '+' ? 1 : -1);
 cout << x;`,
     options: ['0', '1', '2'],
     answer: 1,
-    note: 'Each statement changes X by ±1; add them up → 1. (TLE CP-31 · CF Bit++)',
+    note: 'Each statement changes X by ±1; add them up → 1. (TLE CP-31 · CF 282A Bit++)',
     difficulty: 'easy',
   },
   {
@@ -1201,7 +1201,7 @@ for (char c : s) if (isupper(c)) up++;
 cout << (2 * up > (int)s.size() ? "HELLO" : "hello");`,
     options: ['HELLO', 'hello'],
     answer: 0,
-    note: 'Uppercase letters are the majority (2·up > n), so print the word uppercase → HELLO. (TLE CP-31 · CF Word)',
+    note: 'Uppercase letters are the majority (2·up > n), so print the word uppercase → HELLO. (TLE CP-31 · CF 59A Word)',
     difficulty: 'easy',
   },
   {
@@ -1210,7 +1210,7 @@ cout << (s.find("0000000") != string::npos ||
          s.find("1111111") != string::npos ? "YES" : "NO");`,
     options: ['NO', 'YES'],
     answer: 1,
-    note: 'Dangerous if a digit repeats 7+ times in a row → it contains "0000000" → YES. (TLE CP-31 · CF Football)',
+    note: 'Dangerous if a digit repeats 7+ times in a row → it contains "0000000" → YES. (TLE CP-31 · CF 96A Football)',
     difficulty: 'easy',
   },
   {
@@ -1220,7 +1220,7 @@ for (char& c : b) c = tolower(c);
 cout << (a == b ? 0 : a < b ? -1 : 1);`,
     options: ['-1', '0', '1'],
     answer: 1,
-    note: 'Compare case-insensitively: lowercase both → "hello" == "hello" → 0. (TLE CP-31 · CF Petya and Strings)',
+    note: 'Compare case-insensitively: lowercase both → "hello" == "hello" → 0. (TLE CP-31 · CF 112A Petya and Strings)',
     difficulty: 'easy',
   },
   {
@@ -1229,7 +1229,7 @@ while (k--) n = (n % 10) ? n - 1 : n / 10;
 cout << n;`,
     options: ['50', '51', '500'],
     answer: 0,
-    note: 'Each step drops a trailing zero, else subtracts 1. After 4 steps 512 → 50. (TLE CP-31 · CF Wrong Subtraction)',
+    note: 'Each step drops a trailing zero, else subtracts 1. After 4 steps 512 → 50. (TLE CP-31 · CF 977A Wrong Subtraction)',
     difficulty: 'easy',
   },
   {
@@ -1239,18 +1239,17 @@ cout << (a > (int)s.size() - a ? "Anton"
        : a < (int)s.size() - a ? "Danik" : "Friendship");`,
     options: ['Danik', 'Anton', 'Friendship'],
     answer: 1,
-    note: 'Count each side; more A than D (5 vs 3) → Anton. (TLE CP-31 · CF Anton and Danik)',
+    note: 'Count each side; more A than D (5 vs 3) → Anton. (TLE CP-31 · CF 734A Anton and Danik)',
     difficulty: 'easy',
   },
   {
-    code: `int c[] = {7,3,5,2,8}, budget = 12, cnt = 0;
-sort(c, c + 5);
-for (int x : c) { if (budget < x) break; budget -= x; cnt++; }
-cout << cnt;`,
-    options: ['4', '2', '3'],
-    answer: 2,
-    note: 'To buy the most items, take the cheapest first: 2+3+5 fits in 12 → 3 items. (TLE CP-31 · greedy: max items within budget)',
-    difficulty: 'medium',
+    code: `long long k = 4, w = 3, n = 17;
+long long need = w * k * (k + 1) / 2;
+cout << max(0LL, need - n);`,
+    options: ['30', '13', '0'],
+    answer: 1,
+    note: 'The i-th banana costs w·i, so k of them cost w·k(k+1)/2 = 30; borrow the shortfall over n → 13. (TLE CP-31 · CF 546A Soldier and Bananas)',
+    difficulty: 'easy',
   },
   {
     code: `string s = "3+2+1", d;
@@ -1259,7 +1258,7 @@ sort(d.begin(), d.end());
 cout << d[0] << '+' << d[1] << '+' << d[2];`,
     options: ['++123', '3+2+1', '1+2+3'],
     answer: 2,
-    note: 'Rearrange the sum non-decreasing: sort the digits, rejoin with + → 1+2+3. (TLE CP-31 · CF Helpful Maths)',
+    note: 'Rearrange the sum non-decreasing: sort the digits, rejoin with + → 1+2+3. (TLE CP-31 · CF 339A Helpful Maths)',
     difficulty: 'medium',
   },
   {
@@ -1269,7 +1268,7 @@ for (int x : a) { s += x; cnt++; if (s * 2 > total) break; }
 cout << cnt;`,
     options: ['3', '1', '2'],
     answer: 2,
-    note: 'Grab the largest coins until your half beats the rest → 2 coins. (TLE CP-31 · CF Twins)',
+    note: 'Grab the largest coins until your half beats the rest → 2 coins. (TLE CP-31 · CF 160A Twins)',
     difficulty: 'medium',
   },
 
@@ -1279,25 +1278,24 @@ cout << cnt;`,
 cout << (a % b == 0 ? 0 : b - a % b);`,
     options: ['0', '1', '2'],
     answer: 2,
-    note: 'Add just enough to reach the next multiple of b: b − a%b = 2. (TLE CP-31 · CF Divisibility Problem)',
+    note: 'Add just enough to reach the next multiple of b: b − a%b = 2. (TLE CP-31 · CF 1328A Divisibility Problem)',
     difficulty: 'easy',
   },
   {
-    code: `int a = 12, b = 18;
-int g = __gcd(a, b);
-cout << a / g * b;`,
-    options: ['6', '36', '216'],
-    answer: 1,
-    note: 'lcm = a/gcd(a,b)*b; divide first to stay overflow-safe → 36. (TLE CP-31 · GCD/LCM)',
-    difficulty: 'easy',
-  },
-  {
-    code: `long long p = 1;
-for (int i = 1; i <= 20; i++) p = p * 2 % 1000;
-cout << p;`,
-    options: ['576', '24', '0'],
+    code: `int n = 10;              // largest gcd(a, b) with 1 <= a < b <= n
+cout << n / 2;           // best pair is (n/2, n)`,
+    options: ['5', '10', '1'],
     answer: 0,
-    note: 'Take the remainder after every multiply so it never overflows: 2^20 mod 1000 = 576. (TLE CP-31 · modular arithmetic)',
+    note: 'The biggest gcd of a pair in [1,n] comes from (n/2, n) → n/2 = 5. (TLE CP-31 · CF 1370A Maximum GCD)',
+    difficulty: 'medium',
+  },
+  {
+    code: `int n = 20, r = 1;
+for (int i = 0; i < n; i++) r = r * 5 % 100;
+cout << r;`,
+    options: ['5', '25', '0'],
+    answer: 1,
+    note: '5^n ends in 25 for every n >= 2 — keep only the last two digits each step and it locks at 25. (TLE CP-31 · CF 630A Again Twenty Five!)',
     difficulty: 'medium',
   },
   {
@@ -1306,7 +1304,7 @@ long long odd = (n + 1) / 2;
 cout << (k <= odd ? 2 * k - 1 : 2 * (k - odd));`,
     options: ['5', '6', '3'],
     answer: 0,
-    note: 'First half are the odds, second half the evens — answer in O(1): k=3 → 5. (TLE CP-31 · CF Even Odds)',
+    note: 'First half are the odds, second half the evens — answer in O(1): k=3 → 5. (TLE CP-31 · CF 318A Even Odds)',
     difficulty: 'medium',
   },
   {
@@ -1316,37 +1314,36 @@ for (int i = 0; i + k <= 5; i++) best = min(best, a[i + k - 1] - a[i]);
 cout << best;`,
     options: ['10', '6', '8'],
     answer: 1,
-    note: 'After sorting, the closest k values sit adjacent; smallest window range = 6. (TLE CP-31 · CF Puzzles)',
+    note: 'After sorting, the closest k values sit adjacent; smallest window range = 6. (TLE CP-31 · CF 337A Puzzles)',
     difficulty: 'medium',
   },
   {
-    code: `long long t = 21, lo = 0, hi = 100;
-while (lo < hi) {
-    long long m = (lo + hi) / 2;
-    if (m * (m + 1) / 2 >= t) hi = m; else lo = m + 1;
-}
-cout << lo;`,
-    options: ['6', '5', '7'],
-    answer: 0,
-    note: 'Binary-search the answer on a monotonic test: smallest x with x(x+1)/2 ≥ 21 is 6. (TLE CP-31 · binary search on answer)',
-    difficulty: 'hard',
+    code: `int n = 5009, cnt = 0;
+while (n) { if (n % 10) cnt++; n /= 10; }
+cout << cnt;`,
+    options: ['4', '2', '3'],
+    answer: 1,
+    note: 'Each nonzero digit is one round number (5000, 9), so the number of summands = count of nonzero digits = 2. (TLE CP-31 · CF 1352A Sum of Round Numbers)',
+    difficulty: 'easy',
   },
   {
-    code: `int a[] = {1, 3, 5, 7, 9};
-int pos = lower_bound(a, a + 5, 6) - a;
-cout << pos;`,
+    code: `int a[] = {1, 3, 5, 7, 9};      // sorted
+int x = 6;
+cout << (upper_bound(a, a + 5, x) - a);`,
     options: ['2', '4', '3'],
     answer: 2,
-    note: 'lower_bound gives the first index whose value is ≥ x → 7 sits at index 3. (TLE CP-31 · STL binary search)',
+    note: 'Count elements <= x on a sorted array in O(log n): upper_bound lands just past the last <= x → 3. (TLE CP-31 · CF 600B Queries about less or equal elements)',
     difficulty: 'medium',
   },
   {
-    code: `int n = 36, cnt = 0;
-for (int i = 1; i <= n; i++) if (n % i == 0) cnt++;
-cout << (cnt % 2 ? "square" : "not");`,
-    options: ['not', 'square'],
+    code: `long long x = 16;
+long long r = (long long) sqrtl((long double) x);
+bool prime = r > 1;
+for (long long i = 2; i * i <= r; i++) if (r % i == 0) prime = false;
+cout << (r * r == x && prime ? "YES" : "NO");`,
+    options: ['YES', 'NO'],
     answer: 1,
-    note: 'Only perfect squares have an odd number of divisors; 36 has 9 → square. (TLE CP-31 · divisor parity)',
+    note: 'A T-prime has exactly 3 divisors <=> it is a prime squared; 16 = 4^2 but 4 is not prime → NO. (TLE CP-31 · CF 230B T-primes)',
     difficulty: 'medium',
   },
   {
@@ -1358,17 +1355,21 @@ for (int t = 0; l <= r; t++) {
 cout << s1;`,
     options: ['14', '10', '12'],
     answer: 2,
-    note: 'Greedy: on your turn always take the larger end. The first player scores 12. (TLE CP-31 · CF Sereja and Dima)',
+    note: 'Greedy: on your turn always take the larger end. The first player scores 12. (TLE CP-31 · CF 381A Sereja and Dima)',
     difficulty: 'medium',
   },
   {
-    code: `int iv[][2] = {{1,3},{2,5},{4,7},{6,8}};   // {start, end}
-int last = -1, cnt = 0;
-for (auto& x : iv) if (x[0] > last) { cnt++; last = x[1]; }
+    code: `int x[] = {1, 2, 5, 10, 13}, h[] = {2, 4, 5, 6, 1}, n = 5;
+int last = -1000000, cnt = 0;
+for (int i = 0; i < n; i++) {
+    if (x[i] - h[i] > last) { cnt++; last = x[i]; }
+    else if (i == n - 1 || x[i] + h[i] < x[i + 1]) { cnt++; last = x[i] + h[i]; }
+    else last = x[i];
+}
 cout << cnt;`,
-    options: ['2', '3', '1'],
-    answer: 0,
-    note: 'Activity selection: keep the earliest-finishing non-overlapping interval → fits 2. (TLE CP-31 · greedy intervals)',
+    options: ['4', '3', '2'],
+    answer: 2,
+    note: 'Fell each tree left if it clears the last stump, else right if it clears the next tree; the two ends always fall → 2 here. (TLE CP-31 · CF 545C Woodcutters)',
     difficulty: 'hard',
   },
 ]
