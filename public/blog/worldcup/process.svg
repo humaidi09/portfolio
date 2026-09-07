@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="520" viewBox="0 0 1080 520" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs>
+    <linearGradient id="lane" x1="90" y1="0" x2="990" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f2b43d"/>
+      <stop offset="1" stop-color="#cf9038"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="520" fill="#000000"/>
+  <rect x="16" y="16" width="1048" height="488" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="69" cy="66" r="5" fill="#f2b43d"/>
+  <text x="84" y="74" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1" fill="#f2b43d">how it got built</text>
+  <text x="62" y="120" font-size="36" font-weight="700" fill="#eae7df">From OOP demo to merged engine</text>
+
+  <!-- timeline -->
+  <line x1="90" y1="300" x2="990" y2="300" stroke="url(#lane)" stroke-width="3"/>
+
+  <g font-family="'JetBrains Mono', monospace" text-anchor="middle">
+    <!-- 1 above -->
+    <circle cx="90" cy="300" r="8" fill="#f2b43d"/>
+    <text x="90" y="252" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">OOP demo</text>
+    <text x="90" y="273" font-size="12.5" fill="#8c897f">Person-Player-Team</text>
+    <!-- 2 below -->
+    <circle cx="203" cy="300" r="8" fill="#f2b43d"/>
+    <text x="203" y="342" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">Phase 1</text>
+    <text x="203" y="363" font-size="12.5" fill="#8c897f">data &#183; Elo &#183; draw</text>
+    <!-- 3 above -->
+    <circle cx="315" cy="300" r="8" fill="#f2b43d"/>
+    <text x="315" y="252" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">Phase 2</text>
+    <text x="315" y="273" font-size="12.5" fill="#8c897f">groups &#183; standings</text>
+    <!-- 4 below -->
+    <circle cx="428" cy="300" r="8" fill="#f2b43d"/>
+    <text x="428" y="342" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">Phase 3</text>
+    <text x="428" y="363" font-size="12.5" fill="#8c897f">knockout &#183; champion</text>
+    <!-- 5 above -->
+    <circle cx="540" cy="300" r="8" fill="#f2b43d"/>
+    <text x="540" y="252" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">Phase 4</text>
+    <text x="540" y="273" font-size="12.5" fill="#8c897f">Monte Carlo &#183; tests</text>
+    <!-- 6 below -->
+    <circle cx="653" cy="300" r="8" fill="#cf9038"/>
+    <text x="653" y="342" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">branch</text>
+    <text x="653" y="363" font-size="12.5" fill="#8c897f">prediction-engine</text>
+    <!-- 7 above -->
+    <circle cx="765" cy="300" r="8" fill="#cf9038"/>
+    <text x="765" y="252" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">PR #1</text>
+    <text x="765" y="273" font-size="12.5" fill="#8c897f">opened</text>
+    <!-- 8 below -->
+    <circle cx="878" cy="300" r="8" fill="#cf9038"/>
+    <text x="878" y="342" font-size="17" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">CI green</text>
+    <text x="878" y="363" font-size="12.5" fill="#8c897f">3 OS x 3.10-3.13</text>
+    <!-- 9 above (merged) -->
+    <circle cx="990" cy="300" r="13" fill="#f2b43d"/>
+    <path d="M983 300 l5 6 l10 -13" stroke="#000000" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="990" y="248" font-size="17" font-weight="700" fill="#f2b43d" font-family="'Fraunces', Georgia, serif">merged</text>
+    <text x="990" y="269" font-size="12.5" fill="#8c897f">-&gt; main</text>
+  </g>
+
+  <text x="540" y="452" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c897f">all real data &#183; simulation output = PREDICTION &#183; original OOP demo left intact</text>
+</svg>

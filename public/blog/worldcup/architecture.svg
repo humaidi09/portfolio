@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1000" height="700" fill="#000000"/>
+  <rect x="16" y="16" width="968" height="668" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="69" cy="64" r="5" fill="#f2b43d"/>
+  <text x="84" y="72" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1" fill="#f2b43d">architecture</text>
+  <text x="62" y="118" font-size="36" font-weight="700" fill="#eae7df">Layered engine &#8212; pure logic, separate I/O</text>
+
+  <!-- band 1: cli -->
+  <rect x="80" y="150" width="840" height="66" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.45"/>
+  <text x="104" y="180" font-family="'JetBrains Mono', monospace" font-size="15" fill="#f2b43d">cli.py</text>
+  <text x="104" y="203" font-size="18" fill="#eae7df">command-line interface &#8212; <tspan font-family="'JetBrains Mono', monospace" font-size="15" fill="#f6d18c">python -m worldcup</tspan> &#8212; all printing lives here</text>
+  <path d="M494 220 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- band 2: tournament facade -->
+  <rect x="80" y="240" width="840" height="66" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.45"/>
+  <text x="104" y="270" font-family="'JetBrains Mono', monospace" font-size="15" fill="#f2b43d">tournament.py</text>
+  <text x="104" y="293" font-size="18" fill="#eae7df">facade: state + Monte Carlo + atomic JSON save/load</text>
+  <path d="M494 310 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- band 3: pure core -->
+  <rect x="80" y="330" width="840" height="118" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.3"/>
+  <text x="104" y="360" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">core &#8212; pure logic, no printing</text>
+  <g font-family="'JetBrains Mono', monospace" font-size="15">
+    <rect x="104" y="376" width="150" height="50" rx="9" fill="#f2b43d" fill-opacity="0.1" stroke="#f2b43d" stroke-opacity="0.4"/>
+    <text x="179" y="406" text-anchor="middle" fill="#eae7df">team</text>
+    <rect x="270" y="376" width="150" height="50" rx="9" fill="#f2b43d" fill-opacity="0.1" stroke="#f2b43d" stroke-opacity="0.4"/>
+    <text x="345" y="406" text-anchor="middle" fill="#eae7df">elo</text>
+    <rect x="436" y="376" width="150" height="50" rx="9" fill="#f2b43d" fill-opacity="0.1" stroke="#f2b43d" stroke-opacity="0.4"/>
+    <text x="511" y="406" text-anchor="middle" fill="#eae7df">draw</text>
+    <rect x="602" y="376" width="150" height="50" rx="9" fill="#f2b43d" fill-opacity="0.1" stroke="#f2b43d" stroke-opacity="0.4"/>
+    <text x="677" y="406" text-anchor="middle" fill="#eae7df">standings</text>
+    <rect x="768" y="376" width="148" height="50" rx="9" fill="#f2b43d" fill-opacity="0.1" stroke="#f2b43d" stroke-opacity="0.4"/>
+    <text x="842" y="406" text-anchor="middle" fill="#eae7df">knockout</text>
+  </g>
+  <path d="M494 452 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- band 4: data -->
+  <rect x="80" y="472" width="840" height="66" rx="12" fill="#f6d18c" fill-opacity="0.06" stroke="#f6d18c" stroke-opacity="0.4"/>
+  <text x="104" y="502" font-family="'JetBrains Mono', monospace" font-size="15" fill="#f6d18c">data/teams_2026.json</text>
+  <text x="104" y="525" font-size="18" fill="#eae7df">48 real team + real Elo snapshot &#8212; date + source cited (only real data)</text>
+
+  <!-- oop demo aside -->
+  <rect x="80" y="560" width="840" height="52" rx="12" fill="#cf9038" fill-opacity="0.05" stroke="#cf9038" stroke-opacity="0.4" stroke-dasharray="6 5"/>
+  <text x="104" y="592" font-size="17" fill="#8c897f"><tspan font-family="'JetBrains Mono', monospace" fill="#cf9038">core/ + main.py</tspan>  &#8212; original OOP teaching demo, completely untouched (runs separately)</text>
+
+  <text x="500" y="648" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">102 tests green &#183; GitHub Actions CI &#183; zero runtime deps (stdlib) &#183; MIT</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="790" viewBox="0 0 900 790" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="900" height="790" fill="#000000"/>
+  <rect x="16" y="16" width="868" height="758" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="69" cy="66" r="5" fill="#f2b43d"/>
+  <text x="84" y="74" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#f2b43d">prediction model</text>
+  <text x="62" y="120" font-size="38" font-weight="700" fill="#eae7df">How one match is simulated</text>
+
+  <!-- team chips -->
+  <rect x="96" y="150" width="316" height="66" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.4"/>
+  <text x="118" y="182" font-size="22" font-weight="700" fill="#eae7df">Spain</text>
+  <text x="118" y="205" font-family="'JetBrains Mono', monospace" font-size="15" fill="#f2b43d">Elo 2259</text>
+  <text x="450" y="192" text-anchor="middle" font-size="20" fill="#8c897f" font-style="italic">vs</text>
+  <rect x="488" y="150" width="316" height="66" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.4"/>
+  <text x="510" y="182" font-size="22" font-weight="700" fill="#eae7df">Argentina</text>
+  <text x="510" y="205" font-family="'JetBrains Mono', monospace" font-size="15" fill="#f2b43d">Elo 2173</text>
+
+  <!-- steps -->
+  <g font-family="'Fraunces', Georgia, serif">
+    <!-- step 1 -->
+    <rect x="96" y="252" width="708" height="80" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.28"/>
+    <circle cx="140" cy="292" r="19" fill="#f2b43d"/>
+    <text x="140" y="299" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">1</text>
+    <text x="180" y="286" font-size="21" font-weight="600" fill="#eae7df">Win expectancy</text>
+    <text x="180" y="315" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">E_A = 1 / (1 + 10^((R_B - R_A) / 400))</text>
+    <path d="M134 336 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+    <!-- step 2 -->
+    <rect x="96" y="352" width="708" height="80" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.28"/>
+    <circle cx="140" cy="392" r="19" fill="#f2b43d"/>
+    <text x="140" y="399" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">2</text>
+    <text x="180" y="386" font-size="21" font-weight="600" fill="#eae7df">Expected goals</text>
+    <text x="180" y="415" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">Elo gap -&gt; lambda_A, lambda_B   (~2.7 goals/match average)</text>
+    <path d="M134 436 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+    <!-- step 3 -->
+    <rect x="96" y="452" width="708" height="80" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f2b43d" stroke-opacity="0.28"/>
+    <circle cx="140" cy="492" r="19" fill="#f2b43d"/>
+    <text x="140" y="499" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">3</text>
+    <text x="180" y="486" font-size="21" font-weight="600" fill="#eae7df">Poisson sample</text>
+    <text x="180" y="515" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">seeded RNG -&gt; goals_A, goals_B   (fully reproducible)</text>
+    <path d="M134 536 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+    <!-- step 4 -->
+    <rect x="96" y="552" width="708" height="80" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#f6d18c" stroke-opacity="0.4"/>
+    <circle cx="140" cy="592" r="19" fill="#f6d18c"/>
+    <text x="140" y="599" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">4</text>
+    <text x="180" y="586" font-size="21" font-weight="600" fill="#eae7df">Scoreline</text>
+    <text x="180" y="615" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">e.g. Spain 2 - 1 Argentina  ->  W / D / L + goal diff + goals for</text>
+  </g>
+
+  <!-- knockout branch -->
+  <path d="M134 636 l6 9 l6 -9" stroke="#cf9038" stroke-width="2" fill="none"/>
+  <rect x="96" y="656" width="708" height="72" rx="12" fill="#cf9038" fill-opacity="0.07" stroke="#cf9038" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="120" y="689" font-size="19" font-weight="600" fill="#f6d18c">Drawn in the knockout?</text>
+  <text x="120" y="713" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">Elo-weighted coin flip &#8212; stands in for extra-time / penalties</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="590" viewBox="0 0 900 590" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="900" height="590" fill="#000000"/>
+  <rect x="16" y="16" width="868" height="558" rx="20" fill="none" stroke="#f2b43d" stroke-opacity="0.14"/>
+
+  <circle cx="69" cy="64" r="5" fill="#f2b43d"/>
+  <text x="84" y="72" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1" fill="#f2b43d">monte carlo &#183; 1000 simulations</text>
+  <text x="62" y="120" font-size="38" font-weight="700" fill="#eae7df">Chance of winning the cup</text>
+
+  <!-- prediction tag -->
+  <rect x="626" y="44" width="212" height="46" rx="23" fill="#f2b43d" fill-opacity="0.08" stroke="#f2b43d" stroke-opacity="0.7"/>
+  <text x="732" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" letter-spacing="2" fill="#f2b43d">PREDICTION</text>
+
+  <!-- bars: real predict output, 1000 sims, seed 7 -->
+  <g font-family="'Fraunces', Georgia, serif">
+    <text x="222" y="228" text-anchor="end" font-size="20" fill="#eae7df">Spain</text>
+    <rect x="240" y="200" width="494" height="44" rx="6" fill="#f2b43d"/>
+    <text x="748" y="229" font-size="20" font-weight="700" fill="#f2b43d">32.9%</text>
+
+    <text x="222" y="300" text-anchor="end" font-size="20" fill="#eae7df">Argentina</text>
+    <rect x="240" y="272" width="306" height="44" rx="6" fill="#f2b43d" fill-opacity="0.9"/>
+    <text x="560" y="301" font-size="20" font-weight="700" fill="#f2b43d">20.4%</text>
+
+    <text x="222" y="372" text-anchor="end" font-size="20" fill="#eae7df">England</text>
+    <rect x="240" y="344" width="186" height="44" rx="6" fill="#cf9038"/>
+    <text x="440" y="373" font-size="20" font-weight="700" fill="#f6d18c">12.4%</text>
+
+    <text x="222" y="444" text-anchor="end" font-size="20" fill="#eae7df">France</text>
+    <rect x="240" y="416" width="132" height="44" rx="6" fill="#cf9038" fill-opacity="0.85"/>
+    <text x="386" y="445" font-size="20" font-weight="700" fill="#f6d18c">8.8%</text>
+
+    <text x="222" y="516" text-anchor="end" font-size="20" fill="#eae7df">Portugal</text>
+    <rect x="240" y="488" width="60" height="44" rx="6" fill="#cf9038" fill-opacity="0.7"/>
+    <text x="314" y="517" font-size="20" font-weight="700" fill="#f6d18c">4.0%</text>
+  </g>
+
+  <text x="62" y="562" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c897f">1000 sims &#183; seed 7 &#183; champion chances total 100% &#183; PREDICTION, not a real result</text>
+</svg>
