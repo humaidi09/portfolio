@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import { api } from '../lib/api'
+import { cldnr } from '../lib/img'
 import { useCollection } from '../hooks/useCollection'
 
 // A pure photo wall, managed in /admin. Everything comes from the DB — the
@@ -33,7 +34,7 @@ export default function Gallery() {
               className="group relative mb-4 block w-full overflow-hidden rounded-2xl glass transition-colors hover:border-hair-strong"
             >
               <img
-                src={photo.image}
+                src={cldnr(photo.image, { width: 800 })}
                 alt={photo.caption || 'Gallery photo'}
                 loading="lazy"
                 className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -152,7 +153,7 @@ function Lightbox({ photos, index, onClose, onNav }) {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-[5] flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl glass-strong"
           >
-            <img src={photo.image} alt={photo.caption || 'Gallery photo'} className="max-h-[80vh] w-full object-contain bg-black/40" />
+            <img src={cldnr(photo.image, { width: 1600 })} alt={photo.caption || 'Gallery photo'} className="max-h-[80vh] w-full object-contain bg-black/40" />
             {photo.caption && <Caption text={photo.caption} />}
           </motion.figure>
         </motion.div>

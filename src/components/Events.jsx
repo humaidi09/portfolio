@@ -4,6 +4,7 @@ import { CalendarDays, ChevronLeft, ChevronRight, Images, MapPin, X } from 'luci
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import { api } from '../lib/api'
+import { cldnr } from '../lib/img'
 import { useCollection } from '../hooks/useCollection'
 import { events as staticEvents } from '../data/portfolioData'
 
@@ -70,7 +71,7 @@ function EventCard({ event, onOpen }) {
           className="relative aspect-[4/3] overflow-hidden"
         >
           <img
-            src={cover}
+            src={cldnr(cover, { width: 800 })}
             alt={event.title}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -169,7 +170,7 @@ function Lightbox({ active, onClose, onNav }) {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-[5] flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl glass-strong"
           >
-            <img src={src} alt={active.event.title} className="max-h-[74vh] w-full object-contain bg-black/40" />
+            <img src={cldnr(src, { width: 1600 })} alt={active.event.title} className="max-h-[74vh] w-full object-contain bg-black/40" />
             <figcaption className="flex items-center justify-between gap-4 border-t border-hair p-4">
               <div className="min-w-0">
                 <p className="truncate font-medium text-ink">{active.event.title}</p>
