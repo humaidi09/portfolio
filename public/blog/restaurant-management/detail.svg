@@ -7,7 +7,7 @@
   <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">transition table</text>
 
   <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Which moves are legal</text>
-  <text x="64" y="214" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">rows = current state &#183; columns = requested move &#183; check = allowed</text>
+  <text x="64" y="214" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">rows = current state &#183; columns = requested move &#183; filled dot = legal move</text>
 
   <!-- column headers (TO) -->
   <g font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">
@@ -50,12 +50,12 @@
     <rect x="784" y="580" width="132" height="60" rx="10"/>
     <rect x="934" y="580" width="132" height="60" rx="10"/>
   </g>
-  <g fill="#8c897f" fill-opacity="0.45">
-    <circle cx="400" cy="322" r="4"/><circle cx="700" cy="322" r="4"/><circle cx="850" cy="322" r="4"/>
-    <circle cx="400" cy="394" r="4"/><circle cx="550" cy="394" r="4"/><circle cx="850" cy="394" r="4"/>
-    <circle cx="400" cy="466" r="4"/><circle cx="550" cy="466" r="4"/><circle cx="700" cy="466" r="4"/><circle cx="1000" cy="466" r="4"/>
-    <circle cx="400" cy="538" r="4"/><circle cx="550" cy="538" r="4"/><circle cx="700" cy="538" r="4"/><circle cx="850" cy="538" r="4"/><circle cx="1000" cy="538" r="4"/>
-    <circle cx="400" cy="610" r="4"/><circle cx="550" cy="610" r="4"/><circle cx="700" cy="610" r="4"/><circle cx="850" cy="610" r="4"/><circle cx="1000" cy="610" r="4"/>
+  <g stroke="#8c897f" stroke-opacity="0.4" stroke-width="3" stroke-linecap="round">
+    <line x1="391" y1="322" x2="409" y2="322"/><line x1="691" y1="322" x2="709" y2="322"/><line x1="841" y1="322" x2="859" y2="322"/>
+    <line x1="391" y1="394" x2="409" y2="394"/><line x1="541" y1="394" x2="559" y2="394"/><line x1="841" y1="394" x2="859" y2="394"/>
+    <line x1="391" y1="466" x2="409" y2="466"/><line x1="541" y1="466" x2="559" y2="466"/><line x1="691" y1="466" x2="709" y2="466"/><line x1="991" y1="466" x2="1009" y2="466"/>
+    <line x1="391" y1="538" x2="409" y2="538"/><line x1="541" y1="538" x2="559" y2="538"/><line x1="691" y1="538" x2="709" y2="538"/><line x1="841" y1="538" x2="859" y2="538"/><line x1="991" y1="538" x2="1009" y2="538"/>
+    <line x1="391" y1="610" x2="409" y2="610"/><line x1="541" y1="610" x2="559" y2="610"/><line x1="691" y1="610" x2="709" y2="610"/><line x1="841" y1="610" x2="859" y2="610"/><line x1="991" y1="610" x2="1009" y2="610"/>
   </g>
 
   <!-- allowed cells -->
@@ -66,12 +66,12 @@
     <rect x="934" y="364" width="132" height="60" rx="10"/>
     <rect x="784" y="436" width="132" height="60" rx="10"/>
   </g>
-  <g stroke="#ff6a4d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M537 322 l8 9 l16 -18"/>
-    <path d="M987 322 l8 9 l16 -18"/>
-    <path d="M687 394 l8 9 l16 -18"/>
-    <path d="M987 394 l8 9 l16 -18"/>
-    <path d="M837 466 l8 9 l16 -18"/>
+  <g fill="#ff6a4d">
+    <circle cx="550" cy="322" r="7"/>
+    <circle cx="1000" cy="322" r="7"/>
+    <circle cx="700" cy="394" r="7"/>
+    <circle cx="1000" cy="394" r="7"/>
+    <circle cx="850" cy="466" r="7"/>
   </g>
 
   <text x="700" y="676" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">every empty cell raises OrderStateError &#183; PAID and CANCELLED are final</text>

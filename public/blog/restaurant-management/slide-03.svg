@@ -11,7 +11,7 @@
   <!-- rejected illegal jump, arcing over the chain -->
   <path d="M187 290 Q611 210 1036 290" fill="none" stroke="#c94f37" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="6 5"/>
   <text x="611" y="236" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#c94f37">skips steps &#8594; rejected</text>
-  <path d="M603 243 l16 16 M619 243 l-16 16" stroke="#c94f37" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <line x1="601" y1="251" x2="621" y2="251" stroke="#c94f37" stroke-width="3" stroke-linecap="round"/>
 
   <!-- main happy path -->
   <g font-family="'JetBrains Mono', monospace">

@@ -41,19 +41,15 @@
     <rect x="744" y="426" width="96" height="60" rx="12"/>
     <rect x="860" y="426" width="96" height="60" rx="12"/>
   </g>
-  <g stroke="#ff6a4d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M547 300 l8 9 l16 -18"/>
-    <path d="M663 300 l8 9 l16 -18"/>
-    <path d="M779 300 l8 9 l16 -18"/>
-    <path d="M895 300 l8 9 l16 -18"/>
-    <path d="M547 378 l8 9 l16 -18"/>
-    <path d="M663 378 l8 9 l16 -18"/>
-    <path d="M779 378 l8 9 l16 -18"/>
-    <path d="M895 378 l8 9 l16 -18"/>
-    <path d="M547 456 l8 9 l16 -18"/>
-    <path d="M663 456 l8 9 l16 -18"/>
-    <path d="M779 456 l8 9 l16 -18"/>
-    <path d="M895 456 l8 9 l16 -18"/>
+  <g fill="none" stroke="#ff6a4d" stroke-opacity="0.28">
+    <circle cx="560" cy="300" r="11"/><circle cx="676" cy="300" r="11"/><circle cx="792" cy="300" r="11"/><circle cx="908" cy="300" r="11"/>
+    <circle cx="560" cy="378" r="11"/><circle cx="676" cy="378" r="11"/><circle cx="792" cy="378" r="11"/><circle cx="908" cy="378" r="11"/>
+    <circle cx="560" cy="456" r="11"/><circle cx="676" cy="456" r="11"/><circle cx="792" cy="456" r="11"/><circle cx="908" cy="456" r="11"/>
+  </g>
+  <g fill="#ff6a4d">
+    <circle cx="560" cy="300" r="6.5"/><circle cx="676" cy="300" r="6.5"/><circle cx="792" cy="300" r="6.5"/><circle cx="908" cy="300" r="6.5"/>
+    <circle cx="560" cy="378" r="6.5"/><circle cx="676" cy="378" r="6.5"/><circle cx="792" cy="378" r="6.5"/><circle cx="908" cy="378" r="6.5"/>
+    <circle cx="560" cy="456" r="6.5"/><circle cx="676" cy="456" r="6.5"/><circle cx="792" cy="456" r="6.5"/><circle cx="908" cy="456" r="6.5"/>
   </g>
   <text x="734" y="524" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">12 build targets &#183; all green</text>
 
