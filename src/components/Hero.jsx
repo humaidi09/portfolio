@@ -222,7 +222,7 @@ export default function Hero() {
               // not index), then the real problems-solved total as a literal.
               { label: '', value: 'CP', suffix: '' },
               contestStat,
-              { label: 'Problems Solved', value: '500', suffix: '+' },
+              { label: 'Problems Solved', value: '150', suffix: '+' },
             ]
               .filter(Boolean)
               .map((s) => (

@@ -24,7 +24,7 @@ export const personalInfo = {
 
 export const stats = [
   { label: "Current CGPA", value: 3.85, suffix: " / 4.00" },
-  { label: "Problems Solved", value: 500, suffix: "+" },
+  { label: "Problems Solved", value: 150, suffix: "+" },
   { label: "Contests & Events", value: 3, suffix: "+" },
   { label: "Projects Built", value: 6, suffix: "" }
 ];
