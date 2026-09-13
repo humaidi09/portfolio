@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs><linearGradient id="lane" x1="150" y1="0" x2="1130" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff6a4d"/><stop offset="1" stop-color="#c94f37"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 07</text>
+  <text x="64" y="164" font-size="52" font-weight="700" fill="#eae7df">From Decimal to a crash-safe service</text>
+  <text x="64" y="206" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">in build order, left to right &#183; every step is real</text>
+  <line x1="150" y1="330" x2="1130" y2="330" stroke="url(#lane)" stroke-width="3"/>
+  <g font-family="'JetBrains Mono', monospace">
+    <circle cx="150" cy="330" r="9" fill="#ff6a4d"/>
+    <text x="150" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">exact Decimal</text>
+    <text x="150" y="398" text-anchor="middle" font-size="13" fill="#8c897f">floats refused</text>
+    <circle cx="346" cy="330" r="9" fill="#ff6a4d"/>
+    <text x="346" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">state machine</text>
+    <text x="346" y="306" text-anchor="middle" font-size="13" fill="#8c897f">one legal table</text>
+    <circle cx="542" cy="330" r="9" fill="#ff6a4d"/>
+    <text x="542" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">billing</text>
+    <text x="542" y="398" text-anchor="middle" font-size="13" fill="#8c897f">fixed order</text>
+    <circle cx="738" cy="330" r="9" fill="#ff6a4d"/>
+    <text x="738" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">atomic saves</text>
+    <text x="738" y="306" text-anchor="middle" font-size="13" fill="#8c897f">temp &#8594; rename</text>
+    <circle cx="934" cy="330" r="9" fill="#ff6a4d"/>
+    <text x="934" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">60 tests</text>
+    <text x="934" y="398" text-anchor="middle" font-size="13" fill="#8c897f">rounding pinned</text>
+    <circle cx="1130" cy="330" r="16" fill="none" stroke="#ff6a4d" stroke-opacity="0.35"/>
+    <circle cx="1130" cy="330" r="13" fill="#ff6a4d"/>
+    <text x="1130" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#ff6a4d" font-family="'Fraunces', Georgia, serif">CI green</text>
+    <text x="1130" y="306" text-anchor="middle" font-size="13" fill="#8c897f">3 OS</text>
+  </g>
+  <rect x="64" y="430" width="1152" height="212" rx="16" fill="#ff6a4d" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.25"/>
+  <text x="92" y="472" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#ff6a4d">how it was built</text>
+  <rect x="1058" y="446" width="130" height="40" rx="20" fill="#ff6a4d" fill-opacity="0.09" stroke="#ff6a4d" stroke-opacity="0.7"/>
+  <text x="1123" y="472" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" letter-spacing="2" fill="#ff6a4d">PYTHON</text>
+  <text x="92" y="524" font-size="24" fill="#eae7df">Exact Decimal money that refuses floats, orders as a state machine, a fixed</text>
+  <text x="92" y="566" font-size="24" fill="#b8b3a6">billing pipeline, and atomic temp-then-rename saves that survive a crash.</text>
+  <text x="92" y="608" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">zero dependencies &#183; 60 tests &#183; CI across Linux, macOS and Windows</text>
+</svg>

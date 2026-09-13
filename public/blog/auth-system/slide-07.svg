@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs><linearGradient id="lane" x1="150" y1="0" x2="1130" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a970ff"/><stop offset="1" stop-color="#7f4fd6"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#a970ff" stroke-opacity="0.14"/>
+  <circle cx="66" cy="70" r="6" fill="#a970ff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#a970ff">auth core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 07</text>
+  <text x="64" y="164" font-size="52" font-weight="700" fill="#eae7df">From raw bytes to a hardened login</text>
+  <text x="64" y="206" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">in build order, left to right &#183; every step is real</text>
+  <line x1="150" y1="330" x2="1130" y2="330" stroke="url(#lane)" stroke-width="3"/>
+  <g font-family="'JetBrains Mono', monospace">
+    <circle cx="150" cy="330" r="9" fill="#a970ff"/>
+    <text x="150" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">SHA-256</text>
+    <text x="150" y="398" text-anchor="middle" font-size="13" fill="#8c897f">from scratch</text>
+    <circle cx="346" cy="330" r="9" fill="#a970ff"/>
+    <text x="346" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">salt + stretch</text>
+    <text x="346" y="306" text-anchor="middle" font-size="13" fill="#8c897f">120,000 rounds</text>
+    <circle cx="542" cy="330" r="9" fill="#a970ff"/>
+    <text x="542" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">login defenses</text>
+    <text x="542" y="398" text-anchor="middle" font-size="13" fill="#8c897f">constant-time</text>
+    <circle cx="738" cy="330" r="9" fill="#a970ff"/>
+    <text x="738" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">file-backed store</text>
+    <text x="738" y="306" text-anchor="middle" font-size="13" fill="#8c897f">no database</text>
+    <circle cx="934" cy="330" r="9" fill="#a970ff"/>
+    <text x="934" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">36 tests</text>
+    <text x="934" y="398" text-anchor="middle" font-size="13" fill="#8c897f">real code path</text>
+    <circle cx="1130" cy="330" r="16" fill="none" stroke="#a970ff" stroke-opacity="0.35"/>
+    <circle cx="1130" cy="330" r="13" fill="#a970ff"/>
+    <text x="1130" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#a970ff" font-family="'Fraunces', Georgia, serif">CI green</text>
+    <text x="1130" y="306" text-anchor="middle" font-size="13" fill="#8c897f">3 OS</text>
+  </g>
+  <rect x="64" y="430" width="1152" height="212" rx="16" fill="#a970ff" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.25"/>
+  <text x="92" y="472" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#a970ff">how it was built</text>
+  <rect x="1076" y="446" width="112" height="40" rx="20" fill="#a970ff" fill-opacity="0.09" stroke="#a970ff" stroke-opacity="0.7"/>
+  <text x="1132" y="472" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" letter-spacing="2" fill="#a970ff">C++17</text>
+  <text x="92" y="524" font-size="24" fill="#eae7df">A hand-written SHA-256, then a salted verifier stretched 120,000 times,</text>
+  <text x="92" y="566" font-size="24" fill="#b8b3a6">a constant-time login with lockout, and a plain file-backed store &#8212; no database.</text>
+  <text x="92" y="608" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">zero dependencies &#183; 36 unit tests &#183; CI on Linux, macOS and Windows</text>
+</svg>

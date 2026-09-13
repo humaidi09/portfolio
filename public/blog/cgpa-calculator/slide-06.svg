@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs><linearGradient id="lane" x1="150" y1="0" x2="1130" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7c9bff"/><stop offset="1" stop-color="#5a74d6"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#7c9bff" stroke-opacity="0.14"/>
+  <circle cx="66" cy="70" r="6" fill="#7c9bff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#7c9bff">gpa engine</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 06</text>
+  <text x="64" y="164" font-size="52" font-weight="700" fill="#eae7df">From a grade map to a clear CGPA</text>
+  <text x="64" y="206" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">in build order, left to right &#183; every step is real</text>
+  <line x1="150" y1="330" x2="1130" y2="330" stroke="url(#lane)" stroke-width="3"/>
+  <g font-family="'JetBrains Mono', monospace">
+    <circle cx="150" cy="330" r="9" fill="#7c9bff"/>
+    <text x="150" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">grade map</text>
+    <text x="150" y="306" text-anchor="middle" font-size="13" fill="#8c897f">letters &#8594; points</text>
+    <circle cx="395" cy="330" r="9" fill="#7c9bff"/>
+    <text x="395" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">weighted GPA</text>
+    <text x="395" y="398" text-anchor="middle" font-size="13" fill="#8c897f">points &#215; credits</text>
+    <circle cx="640" cy="330" r="9" fill="#7c9bff"/>
+    <text x="640" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">cumulative</text>
+    <text x="640" y="306" text-anchor="middle" font-size="13" fill="#8c897f">across semesters</text>
+    <circle cx="885" cy="330" r="9" fill="#7c9bff"/>
+    <text x="885" y="376" text-anchor="middle" font-size="19" font-weight="700" fill="#eae7df" font-family="'Fraunces', Georgia, serif">breakdown</text>
+    <text x="885" y="398" text-anchor="middle" font-size="13" fill="#8c897f">shows the work</text>
+    <circle cx="1130" cy="330" r="16" fill="none" stroke="#7c9bff" stroke-opacity="0.35"/>
+    <circle cx="1130" cy="330" r="13" fill="#7c9bff"/>
+    <text x="1130" y="284" text-anchor="middle" font-size="19" font-weight="700" fill="#7c9bff" font-family="'Fraunces', Georgia, serif">shipped</text>
+    <text x="1130" y="306" text-anchor="middle" font-size="13" fill="#8c897f">&#8594; GitHub</text>
+  </g>
+  <rect x="64" y="430" width="1152" height="212" rx="16" fill="#7c9bff" fill-opacity="0.05" stroke="#7c9bff" stroke-opacity="0.25"/>
+  <text x="92" y="472" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#7c9bff">how it was built</text>
+  <rect x="1092" y="446" width="96" height="40" rx="20" fill="#7c9bff" fill-opacity="0.09" stroke="#7c9bff" stroke-opacity="0.7"/>
+  <text x="1140" y="472" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" letter-spacing="2" fill="#7c9bff">C++</text>
+  <text x="92" y="524" font-size="24" fill="#eae7df">One grade-point lookup and a credit-weighted average that keeps failed courses</text>
+  <text x="92" y="566" font-size="24" fill="#b8b3a6">in the denominator, widened to a cumulative CGPA, with a per-course breakdown.</text>
+  <text x="92" y="608" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">pure C++ &#183; OOP &#183; zero external dependencies</text>
+</svg>
