@@ -63,7 +63,7 @@ export const projects = [
     category: "Python/OOP",
     tech: ["Python", "OOP", "Inheritance", "pytest"],
     summary: "An object-oriented model of a football squad, built to show the four pillars of OOP: one Person → Player → position hierarchy, driven through a shared interface.",
-    details: "Person is the base class; Player extends it with a career ledger; and Goalkeeper, Defender, Midfielder and Forward each extend Player with their own statistics. Every position overrides play_match() but calls up through super(), so shared bookkeeping runs once while each object behaves like itself — polymorphism in action. A Team owns the squad, captaincy and competition record. 25 tests and CI on Linux, macOS and Windows across Python 3.10 to 3.13.",
+    details: "Person is the base class; Player extends it with a career ledger; and Goalkeeper, Defender, Midfielder and Forward each extend Player with their own statistics. Every position overrides play_match() but calls up through super(), so shared bookkeeping runs once while each object behaves like itself — polymorphism in action. A Team owns the squad, captaincy and competition record. 72 tests and CI on Linux, macOS and Windows across Python 3.10 to 3.13.",
     github: "https://github.com/humaidi09/World-Cup-2026",
     demo: "#"
   },

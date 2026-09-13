@@ -9,48 +9,69 @@ import { useProjects } from '../hooks/useProjects'
 
 // Representative source snippets shown in each project's detail modal.
 const CODE_PREVIEWS = {
-  'world-cup-2026': `class Player:
-    def __init__(self, name, position, team):
-        self.name = name
+  'world-cup-2026': `class Person:                      # base: everyone in the tournament
+    def __init__(self, person_id, first_name, last_name, nationality):
+        self.person_id = person_id
+        self.first_name, self.last_name = first_name, last_name
+        self.nationality = nationality
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+
+class Player(Person):              # extends Person with a career ledger
+    def __init__(self, *person, jersey_number, position, overall_rating):
+        super().__init__(*person)
+        self.jersey_number = jersey_number
         self.position = position
-        self.team = team
-        self.goals = 0
+        self.goals = self.assists = 0
+        self.matches_played = self.minutes_played = 0
 
-    def score(self, n=1):
-        self.goals += n
-
-
-class Team:
-    def __init__(self, name, coach):
-        self.name = name
-        self.coach = coach
-        self.players = []
-
-    def register(self, player: Player):
-        self.players.append(player)
-
-    def total_goals(self):
-        return sum(p.goals for p in self.players)`,
-  'restaurant-management': `class MenuItem:
-    def __init__(self, name, price):
-        self.name = name
-        self.price = price
+    def play_match(self, minutes=90):
+        self.matches_played += 1
+        self.minutes_played += minutes
 
 
-class Cart:
-    def __init__(self):
-        self.items = []
-
-    def add(self, item: MenuItem, qty=1):
-        self.items.append((item, qty))
-
-    def total(self):
-        return sum(i.price * q for i, q in self.items)
+class Forward(Player):             # one of four position subclasses
+    def play_match(self, minutes=90):
+        super().play_match(minutes)                    # shared bookkeeping,
+        print(f"{self.full_name} played as Forward.")  # then its own role`,
+  'restaurant-management': `from decimal import Decimal
+from enum import Enum
 
 
-class Admin(User):          # inherits auth from User
-    def add_menu_item(self, name, price):
-        MENU.append(MenuItem(name, price))`,
+class OrderStatus(str, Enum):
+    OPEN = "OPEN"
+    PLACED = "PLACED"
+    SERVED = "SERVED"
+    PAID = "PAID"
+    CANCELLED = "CANCELLED"
+
+
+# Legal moves live in one table, not scattered "if status == ..." checks.
+_ALLOWED = {
+    OrderStatus.OPEN:   {OrderStatus.PLACED, OrderStatus.CANCELLED},
+    OrderStatus.PLACED: {OrderStatus.SERVED, OrderStatus.CANCELLED},
+    OrderStatus.SERVED: {OrderStatus.PAID},
+    OrderStatus.PAID: set(),
+    OrderStatus.CANCELLED: set(),
+}
+
+
+class Order:
+    def _transition(self, target: OrderStatus) -> None:
+        if target not in _ALLOWED[self.status]:
+            raise OrderStateError(
+                f"cannot move order from {self.status.value} to {target.value}")
+        self.status = target
+
+    @property
+    def subtotal(self) -> Decimal:       # exact Decimal money, never float
+        total = money(0)
+        for line in self.lines:
+            total += line.subtotal
+        return money(total)`,
   'cgpa-calculator': `#include <bits/stdc++.h>
 using namespace std;
 
@@ -71,85 +92,74 @@ double semesterGPA(const vector<Course>& courses) {
     }
     return points / credits;   // total points / total credits
 }`,
-  'auth-system': `#include <bits/stdc++.h>
-using namespace std;
+  'auth-system': `#include "sha256.h"
 
-const string DB = "users.txt";
+// Passwords are never stored in the clear. Each gets a random salt, then
+// the verifier is sha256(salt + password) stretched 120,000 times, so a
+// stolen database costs an attacker 120k hashes per guess, not one.
+constexpr int kHashIterations = 120000;
 
-bool userExists(const string& user) {
-    ifstream in(DB);
-    string u; size_t h;
-    while (in >> u >> h)
-        if (u == user) return true;
+std::string derivePassword(const std::string& password,
+                           const std::string& salt) {
+    // First round binds the salt to the password; the rest only stretch.
+    std::string digest = sha256Hex(salt + ":" + password);
+    for (int i = 1; i < kHashIterations; ++i)
+        digest = sha256Hex(digest + salt);
+    return digest;
+}
+
+// Verified in constant time so a timing side-channel can't leak the hash.
+bool constantTimeEquals(const std::string& a, const std::string& b) {
+    if (a.size() != b.size()) return false;
+    unsigned char diff = 0;
+    for (std::size_t i = 0; i < a.size(); ++i)
+        diff |= a[i] ^ b[i];
+    return diff == 0;
+}`,
+  'sudoku-solver': `// Backtracking with two refinements over the naive row/col/box scan:
+//   * a 9-bit mask per row, column and box -> O(1) legality tests
+//   * most-constrained-variable ordering   -> dead branches fail fast
+constexpr int kAllDigits = 0x1FF;   // bits 0-8 set: digits 1-9
+
+int candidatesAt(int row, int col) const {
+    int used = rowMask[row] | colMask[col] | boxMask[boxOf(row, col)];
+    return ~used & kAllDigits;      // the still-legal digits, as a bitmask
+}
+
+bool search(SearchState& s) {
+    int row, col, candidates;
+    if (!s.selectCell(row, col, candidates)) return true;  // solved: grid full
+    if (candidates == 0) return false;                     // dead end: backtrack
+
+    // Try only the digits still legal here, lowest set bit first.
+    for (int m = candidates; m != 0; m &= m - 1) {
+        int value = digitFromBit(m & -m);
+        s.place(row, col, value);
+        if (search(s)) return true;
+        s.unplace(row, col, value);
+    }
     return false;
-}
-
-string registerUser(const string& user, const string& pass) {
-    if (userExists(user)) return "Username already exists.";
-    ofstream out(DB, ios::app);
-    out << user << ' ' << hash<string>{}(pass) << '\\n';
-    return "Registration successful!";
-}
-
-bool login(const string& user, const string& pass) {
-    ifstream in(DB);
-    string u; size_t h;
-    while (in >> u >> h)
-        if (u == user && h == hash<string>{}(pass)) return true;
-    return false;   // invalid credentials
 }`,
-  'sudoku-solver': `bool isValid(int g[9][9], int row, int col, int num) {
-    for (int i = 0; i < 9; ++i) {
-        if (g[row][i] == num) return false;        // row rule
-        if (g[i][col] == num) return false;        // column rule
-    }
-    int br = row - row % 3, bc = col - col % 3;     // 3x3 box
-    for (int r = 0; r < 3; ++r)
-        for (int c = 0; c < 3; ++c)
-            if (g[br + r][bc + c] == num) return false;
-    return true;
-}
+  'banking-system': `#include <cstdint>
 
-bool solve(int g[9][9]) {
-    for (int row = 0; row < 9; ++row)
-        for (int col = 0; col < 9; ++col)
-            if (g[row][col] == 0) {
-                for (int num = 1; num <= 9; ++num)
-                    if (isValid(g, row, col, num)) {
-                        g[row][col] = num;
-                        if (solve(g)) return true;
-                        g[row][col] = 0;            // backtrack
-                    }
-                return false;
-            }
-    return true;
-}`,
-  'banking-system': `#include <bits/stdc++.h>
-using namespace std;
-
-class Account {
-    string owner;
-    double balance;
-    vector<pair<string, double>> history;
+// Money is a whole number of minor units (cents / paisa), never a float:
+// 0.1 + 0.2 != 0.3 in binary floating point, and that rounding error is
+// unacceptable for currency. A signed 64-bit count spans ~+/-92 quadrillion.
+class Money {
 public:
-    Account(string o, double b = 0) : owner(o), balance(b) {}
+    explicit Money(std::int64_t minorUnits) : units_(minorUnits) {}
+    static Money of(std::int64_t major, std::int64_t minor = 0);  // of(12,50)=12.50
+    static bool parse(const std::string& text, Money& out);       // "12.50"
 
-    void deposit(double amt) {
-        balance += amt;
-        history.push_back({"DEPOSIT", amt});
-    }
+    // Checked arithmetic: returns false on 64-bit overflow instead of
+    // wrapping silently, so a corrupted amount can't fabricate money.
+    bool tryAdd(Money other, Money& out) const;
+    bool trySubtract(Money other, Money& out) const;
 
-    void withdraw(double amt) {
-        if (amt > balance) throw runtime_error("Insufficient funds");
-        balance -= amt;
-        history.push_back({"WITHDRAW", amt});
-    }
+    std::string toString() const;    // "1,234.50"
 
-    void transfer(Account& to, double amt) {
-        withdraw(amt);
-        to.deposit(amt);
-        history.push_back({"TRANSFER", amt});
-    }
+private:
+    std::int64_t units_ = 0;
 };`,
 }
 

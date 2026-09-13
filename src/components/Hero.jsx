@@ -110,6 +110,13 @@ export default function Hero() {
   // Stats come from the API (admin-editable), falling back to the static list.
   const { items: stats } = useCollection(api.listStats, staticStats)
 
+  // Pick the contests stat by label, not position: the live DB carries extra
+  // records (e.g. an older "Total Credit") that shift array indexes, so an
+  // index like stats[2] would surface the wrong number.
+  const contestStat =
+    stats.find((s) => /contest/i.test(s.label || '')) ||
+    staticStats.find((s) => /contest/i.test(s.label || ''))
+
   // Prefer a real uploaded PDF (managed from /admin); fall back to the
   // generated text CV if none has been uploaded yet.
   const [hasPdf, setHasPdf] = useState(false)
@@ -210,12 +217,11 @@ export default function Hero() {
             className="mt-10 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-xl border border-hair bg-hair"
           >
             {[
-              // The number row opens with a CP identity cell (shown as just "CP",
-              // no caption), then contests, then the real problems-solved total
-              // (a literal so the live DB's older "Total Credit" record can't
-              // override it).
+              // The number row opens with a CP identity cell (shown as just
+              // "CP", no caption), then the contests stat (matched by label,
+              // not index), then the real problems-solved total as a literal.
               { label: '', value: 'CP', suffix: '' },
-              stats[2],
+              contestStat,
               { label: 'Problems Solved', value: '500', suffix: '+' },
             ]
               .filter(Boolean)
@@ -282,7 +288,7 @@ function Portrait({ reduce }) {
   const onLeave = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
 
   return (
-    <figure className="w-[124px] shrink-0 [perspective:1200px] min-[360px]:w-[150px] sm:w-[175px] lg:w-[224px]">
+    <figure className="w-[96px] shrink-0 [perspective:1200px] min-[360px]:w-[116px] sm:w-[136px] lg:w-[172px]">
       <div
         ref={ref}
         onMouseMove={onMove}
@@ -291,17 +297,17 @@ function Portrait({ reduce }) {
           transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
           transition: tilt.active ? 'transform 120ms ease-out' : 'transform 500ms ease-out',
         }}
-        className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-fill shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] [transform-style:preserve-3d] will-change-transform"
+        className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/15 bg-fill p-1.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] backdrop-blur-xl [transform-style:preserve-3d] will-change-transform"
       >
         {ok ? (
           <img
             src={personalInfo.photo}
             alt={`Portrait of ${personalInfo.name}`}
             onError={() => setOk(false)}
-            className="h-full w-full object-cover object-top"
+            className="h-full w-full rounded-[1.15rem] object-cover object-top"
           />
         ) : (
-          <div className="grid h-full w-full place-items-center font-display text-7xl font-semibold text-neonCyan">
+          <div className="grid h-full w-full place-items-center rounded-[1.15rem] font-display text-6xl font-semibold text-neonCyan">
             HA
           </div>
         )}
@@ -310,19 +316,19 @@ function Portrait({ reduce }) {
         <div
           aria-hidden="true"
           style={{
-            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,0.28), transparent 45%)`,
+            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,0.35), transparent 45%)`,
           }}
           className="pointer-events-none absolute inset-0 z-10 mix-blend-soft-light transition-opacity duration-300"
         />
         {/* Frosted top edge + inner ring for the "glass" body */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 rounded-3xl ring-1 ring-inset ring-white/15 [background:linear-gradient(150deg,rgba(255,255,255,0.14),transparent_30%)]"
+          className="pointer-events-none absolute inset-0 z-10 rounded-3xl ring-1 ring-inset ring-white/25 [background:linear-gradient(150deg,rgba(255,255,255,0.22),transparent_34%)]"
         />
         {/* Warm amber wash at the base, keyed to the signal color */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(to_top,color-mix(in_oklab,var(--color-neon-cyan)_20%,transparent),transparent_42%)]"
+          className="pointer-events-none absolute inset-0 z-10 rounded-3xl bg-[linear-gradient(to_top,color-mix(in_oklab,var(--color-neon-cyan)_20%,transparent),transparent_42%)]"
         />
       </div>
     </figure>
