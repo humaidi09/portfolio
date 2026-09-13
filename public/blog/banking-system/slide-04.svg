@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#26c98a" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#26c98a"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#26c98a">ledger core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 04</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">The append-only ledger</text>
+
+  <!-- ledger (immutable history) -->
+  <rect x="72" y="232" width="440" height="300" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#26c98a" stroke-opacity="0.4"/>
+  <text x="100" y="274" font-family="'JetBrains Mono', monospace" font-size="15" fill="#26c98a">LEDGER &#183; APPEND-ONLY</text>
+  <g font-family="'JetBrains Mono', monospace" font-size="19">
+    <text x="100" y="320" fill="#b8b3a6">open</text><text x="484" y="320" text-anchor="end" fill="#b8b3a6">+0.00</text>
+    <text x="100" y="360" fill="#b8b3a6">deposit</text><text x="484" y="360" text-anchor="end" fill="#b8b3a6">+500.00</text>
+    <text x="100" y="400" fill="#b8b3a6">withdraw</text><text x="484" y="400" text-anchor="end" fill="#b8b3a6">-120.00</text>
+    <text x="100" y="440" fill="#b8b3a6">deposit</text><text x="484" y="440" text-anchor="end" fill="#b8b3a6">+80.00</text>
+  </g>
+  <text x="100" y="500" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c897f">immutable &#183; entries only appended</text>
+
+  <!-- arrow -->
+  <line x1="524" y1="360" x2="596" y2="360" stroke="#26c98a" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M596 360 l-16 -9 l0 18 z" fill="#26c98a" fill-opacity="0.7"/>
+
+  <!-- derived balance -->
+  <rect x="616" y="252" width="540" height="128" rx="16" fill="#8fe6c1" fill-opacity="0.06" stroke="#8fe6c1" stroke-opacity="0.5"/>
+  <text x="644" y="296" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8fe6c1">DERIVED BALANCE</text>
+  <text x="644" y="346" font-size="22" fill="#b8b3a6">replay the whole history</text>
+  <text x="1128" y="352" text-anchor="end" font-size="46" font-weight="700" fill="#8fe6c1">460.00</text>
+
+  <!-- chevron -->
+  <path d="M880 392 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- verify on load -->
+  <rect x="616" y="410" width="540" height="122" rx="16" fill="#178f61" fill-opacity="0.05" stroke="#178f61" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="644" y="452" font-family="'JetBrains Mono', monospace" font-size="15" fill="#26c98a">ON LOAD, VERIFY</text>
+  <text x="644" y="492" font-size="22" fill="#eae7df">stored == derived ?</text>
+  <text x="1128" y="478" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8fe6c1">match &#8594; opens</text>
+  <text x="1128" y="508" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">mismatch &#8594; rejected</text>
+
+  <text x="64" y="592" font-size="24" fill="#b8b3a6">The balance is never the source of truth. It is derived by</text>
+  <text x="64" y="628" font-size="24" fill="#b8b3a6">replaying the ledger. A stored total that disagrees with its</text>
+  <text x="64" y="664" font-size="24" fill="#b8b3a6">history is rejected on load, so tampering can't pass silently.</text>
+</svg>

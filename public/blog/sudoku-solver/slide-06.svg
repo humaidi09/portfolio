@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#35cfe0"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#35cfe0">solver core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 06</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Shipped, tested, portable</text>
+
+  <!-- stat tiles -->
+  <rect x="72" y="236" width="266" height="150" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="205" y="308" text-anchor="middle" font-size="52" font-weight="700" fill="#eae7df">46</text>
+  <text x="205" y="348" text-anchor="middle" font-size="18" fill="#eae7df">unit tests</text>
+  <text x="205" y="374" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#8c897f">board, solver, generator</text>
+
+  <rect x="362" y="236" width="266" height="150" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="495" y="308" text-anchor="middle" font-size="52" font-weight="700" fill="#eae7df">3</text>
+  <text x="495" y="348" text-anchor="middle" font-size="18" fill="#eae7df">OS in CI</text>
+  <text x="495" y="374" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#8c897f">Linux &#183; macOS &#183; Windows</text>
+
+  <rect x="652" y="236" width="266" height="150" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="785" y="308" text-anchor="middle" font-size="52" font-weight="700" fill="#eae7df">0</text>
+  <text x="785" y="348" text-anchor="middle" font-size="18" fill="#eae7df">dependencies</text>
+  <text x="785" y="374" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#8c897f">pure C++17 stdlib</text>
+
+  <rect x="942" y="236" width="266" height="150" rx="16" fill="#8fe8f1" fill-opacity="0.06" stroke="#8fe8f1" stroke-opacity="0.5"/>
+  <text x="1075" y="308" text-anchor="middle" font-size="52" font-weight="700" fill="#8fe8f1">~2 ms</text>
+  <text x="1075" y="348" text-anchor="middle" font-size="18" fill="#eae7df">world&#8217;s hardest</text>
+  <text x="1075" y="374" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#8c897f">hard grids in ms</text>
+
+  <!-- CLI panel -->
+  <rect x="72" y="414" width="1136" height="176" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.28"/>
+  <text x="104" y="452" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#35cfe0">the command line</text>
+  <g font-family="'JetBrains Mono', monospace" font-size="20">
+    <text x="112" y="492" fill="#8fe8f1">--solve</text><text x="380" y="492" fill="#b8b3a6">fill any 81-character grid</text>
+    <text x="112" y="522" fill="#8fe8f1">--check</text><text x="380" y="522" fill="#b8b3a6">legal? how many solutions?</text>
+    <text x="112" y="552" fill="#8fe8f1">--generate</text><text x="380" y="552" fill="#b8b3a6">easy | medium | hard | expert</text>
+    <text x="112" y="582" fill="#8fe8f1">--benchmark</text><text x="380" y="582" fill="#b8b3a6">time the solver on reference puzzles</text>
+  </g>
+
+  <!-- repo -->
+  <rect x="360" y="636" width="560" height="48" rx="24" fill="#35cfe0" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <circle cx="404" cy="660" r="5" fill="#35cfe0"/>
+  <text x="644" y="667" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" fill="#eae7df">github.com/humaidi09/Sudoku-Solver</text>
+</svg>

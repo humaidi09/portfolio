@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 04</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Every bill, in a fixed order</text>
+  <text x="1112" y="200" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="1" fill="#8c897f">RUNNING TOTAL</text>
+
+  <!-- subtotal -->
+  <rect x="140" y="212" width="1000" height="54" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.28"/>
+  <circle cx="184" cy="239" r="6" fill="#8c897f"/>
+  <text x="216" y="247" font-size="23" font-weight="600" fill="#eae7df">Subtotal</text>
+  <text x="470" y="246" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">3 line items</text>
+  <text x="1112" y="248" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="24" fill="#eae7df">36.50</text>
+  <path d="M634 274 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- discount -->
+  <rect x="140" y="282" width="1000" height="54" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <circle cx="184" cy="309" r="17" fill="#ff6a4d"/>
+  <text x="184" y="316" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" font-weight="700" fill="#000000">1</text>
+  <text x="216" y="317" font-size="23" font-weight="600" fill="#eae7df">Discount</text>
+  <text x="470" y="316" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">10% off</text>
+  <text x="884" y="317" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" fill="#c94f37">&#8722;3.65</text>
+  <text x="1112" y="318" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="24" fill="#eae7df">32.85</text>
+  <path d="M634 344 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- service charge -->
+  <rect x="140" y="352" width="1000" height="54" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <circle cx="184" cy="379" r="17" fill="#ff6a4d"/>
+  <text x="184" y="386" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" font-weight="700" fill="#000000">2</text>
+  <text x="216" y="387" font-size="23" font-weight="600" fill="#eae7df">Service charge</text>
+  <text x="470" y="386" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">12.5% of 32.85 = 4.10625</text>
+  <text x="884" y="387" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" fill="#8c897f">+4.11</text>
+  <text x="1112" y="388" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="24" fill="#eae7df">36.96</text>
+  <path d="M634 414 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- tax -->
+  <rect x="140" y="422" width="1000" height="54" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <circle cx="184" cy="449" r="17" fill="#ff6a4d"/>
+  <text x="184" y="456" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" font-weight="700" fill="#000000">3</text>
+  <text x="216" y="457" font-size="23" font-weight="600" fill="#eae7df">Tax</text>
+  <text x="470" y="456" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">5%</text>
+  <text x="884" y="457" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" fill="#8c897f">+1.85</text>
+  <text x="1112" y="458" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="24" fill="#eae7df">38.81</text>
+  <path d="M634 484 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- total -->
+  <rect x="140" y="492" width="1000" height="70" rx="16" fill="#ffb199" fill-opacity="0.07" stroke="#ffb199" stroke-opacity="0.6"/>
+  <text x="216" y="536" font-size="28" font-weight="700" fill="#ffb199">TOTAL</text>
+  <text x="470" y="535" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">what the guest pays</text>
+  <text x="1112" y="537" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="30" font-weight="700" fill="#ffb199">38.81</text>
+
+  <text x="64" y="608" font-size="24" fill="#b8b3a6">Service is 12.5% of 32.85 = 4.10625, rounds to 4.11. Each step</text>
+  <text x="64" y="644" font-size="24" fill="#b8b3a6">rounds to two decimals before the next, so the total is exact.</text>
+</svg>

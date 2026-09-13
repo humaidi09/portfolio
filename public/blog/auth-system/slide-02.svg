@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#a970ff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#a970ff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#a970ff">the one rule</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 02</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Never store a recoverable password</text>
+
+  <!-- IN box -->
+  <rect x="72" y="252" width="360" height="188" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.45"/>
+  <text x="252" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">WHAT YOU TYPE</text>
+  <text x="252" y="356" text-anchor="middle" font-size="27" font-weight="700" fill="#eae7df">a password</text>
+  <text x="252" y="404" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#a970ff">held in memory only</text>
+
+  <!-- engine -->
+  <line x1="440" y1="346" x2="516" y2="346" stroke="#a970ff" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M516 346 l-15 -8 l0 16 z" fill="#a970ff" fill-opacity="0.7"/>
+  <rect x="520" y="300" width="240" height="92" rx="14" fill="#a970ff" fill-opacity="0.1" stroke="#a970ff" stroke-opacity="0.6"/>
+  <text x="640" y="342" text-anchor="middle" font-size="24" font-weight="700" fill="#a970ff">one-way derive</text>
+  <text x="640" y="372" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">salt + SHA-256 x120k</text>
+  <line x1="764" y1="346" x2="840" y2="346" stroke="#a970ff" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M840 346 l-15 -8 l0 16 z" fill="#a970ff" fill-opacity="0.7"/>
+
+  <!-- OUT box -->
+  <rect x="844" y="252" width="364" height="188" rx="16" fill="#cbb2ff" fill-opacity="0.06" stroke="#cbb2ff" stroke-opacity="0.5"/>
+  <text x="1026" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">WHAT WE STORE</text>
+  <text x="1026" y="356" text-anchor="middle" font-size="27" font-weight="700" fill="#eae7df">salt + hash</text>
+  <text x="1026" y="404" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#cbb2ff">cannot be reversed</text>
+
+  <!-- one-way stamp -->
+  <rect x="470" y="486" width="340" height="60" rx="30" fill="#a970ff" fill-opacity="0.09" stroke="#a970ff" stroke-opacity="0.75"/>
+  <text x="640" y="525" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="26" letter-spacing="3" fill="#a970ff">ONE-WAY ONLY</text>
+
+  <text x="64" y="626" font-size="24" fill="#b8b3a6">The stored verifier can confirm the right password. It cannot</text>
+  <text x="64" y="662" font-size="24" fill="#b8b3a6">be reversed into it, so a stolen file leaks nothing usable.</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs>
+    <radialGradient id="glow" cx="24%" cy="34%" r="60%">
+      <stop offset="0" stop-color="#ff6a4d" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#ff6a4d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <!-- receipt motif, top-right -->
+  <path d="M992 118 L1128 118 Q1140 118 1140 130 L1140 272 l-10 12 l-10 -12 l-10 12 l-10 -12 l-10 12 l-10 -12 l-10 12 l-10 -12 L980 130 Q980 118 992 118 Z" fill="none" stroke="#ff6a4d" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"/>
+  <g stroke="#ff6a4d" stroke-opacity="0.4" stroke-width="3" stroke-linecap="round">
+    <line x1="1000" y1="150" x2="1082" y2="150"/>
+    <line x1="1100" y1="150" x2="1120" y2="150"/>
+    <line x1="1000" y1="178" x2="1074" y2="178"/>
+    <line x1="1096" y1="178" x2="1120" y2="178"/>
+    <line x1="1000" y1="206" x2="1066" y2="206"/>
+    <line x1="1092" y1="206" x2="1120" y2="206"/>
+  </g>
+  <line x1="1000" y1="230" x2="1120" y2="230" stroke="#ff6a4d" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <g stroke="#ffb199" stroke-opacity="0.85" stroke-width="3.5" stroke-linecap="round">
+    <line x1="1000" y1="252" x2="1046" y2="252"/>
+    <line x1="1088" y1="252" x2="1120" y2="252"/>
+  </g>
+
+  <circle cx="101" cy="144" r="5.5" fill="#ff6a4d"/>
+  <text x="118" y="152" font-family="'JetBrains Mono', monospace" font-size="24" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+
+  <text x="90" y="330" font-size="90" font-weight="700" letter-spacing="-1" fill="#f6f4ef">Restaurant</text>
+  <text x="90" y="434" font-size="90" font-weight="700" letter-spacing="-1" fill="#f6f4ef">Management System</text>
+  <rect x="96" y="470" width="132" height="5" rx="2.5" fill="#ff6a4d"/>
+
+  <text x="96" y="552" font-family="'JetBrains Mono', monospace" font-size="25" fill="#b8b3a6">python &#183; decimal money &#183; state machine</text>
+  <text x="96" y="592" font-family="'JetBrains Mono', monospace" font-size="19" fill="#8a8578">receipts that always add up, orders that can't skip a step</text>
+  <text x="1184" y="650" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" fill="#8a8578">Hussain Ahmed</text>
+</svg>

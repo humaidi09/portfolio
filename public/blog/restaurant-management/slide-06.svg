@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 06</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Green on every target</text>
+
+  <!-- big stat -->
+  <text x="212" y="388" text-anchor="middle" font-size="150" font-weight="700" fill="#ff6a4d">60</text>
+  <text x="212" y="436" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" fill="#eae7df">tests</text>
+  <text x="212" y="470" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">zero deps &#183; stdlib only</text>
+
+  <!-- CI matrix -->
+  <text x="734" y="232" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" letter-spacing="2" fill="#8c897f">GITHUB ACTIONS CI</text>
+  <g font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">
+    <text x="560" y="262" text-anchor="middle">3.10</text>
+    <text x="676" y="262" text-anchor="middle">3.11</text>
+    <text x="792" y="262" text-anchor="middle">3.12</text>
+    <text x="908" y="262" text-anchor="middle">3.13</text>
+  </g>
+  <g font-family="'JetBrains Mono', monospace" font-size="18" fill="#eae7df">
+    <text x="496" y="307" text-anchor="end">Linux</text>
+    <text x="496" y="385" text-anchor="end">macOS</text>
+    <text x="496" y="463" text-anchor="end">Windows</text>
+  </g>
+
+  <g fill="#ff6a4d" fill-opacity="0.08" stroke="#ff6a4d" stroke-opacity="0.4">
+    <rect x="512" y="270" width="96" height="60" rx="12"/>
+    <rect x="628" y="270" width="96" height="60" rx="12"/>
+    <rect x="744" y="270" width="96" height="60" rx="12"/>
+    <rect x="860" y="270" width="96" height="60" rx="12"/>
+    <rect x="512" y="348" width="96" height="60" rx="12"/>
+    <rect x="628" y="348" width="96" height="60" rx="12"/>
+    <rect x="744" y="348" width="96" height="60" rx="12"/>
+    <rect x="860" y="348" width="96" height="60" rx="12"/>
+    <rect x="512" y="426" width="96" height="60" rx="12"/>
+    <rect x="628" y="426" width="96" height="60" rx="12"/>
+    <rect x="744" y="426" width="96" height="60" rx="12"/>
+    <rect x="860" y="426" width="96" height="60" rx="12"/>
+  </g>
+  <g stroke="#ff6a4d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M547 300 l8 9 l16 -18"/>
+    <path d="M663 300 l8 9 l16 -18"/>
+    <path d="M779 300 l8 9 l16 -18"/>
+    <path d="M895 300 l8 9 l16 -18"/>
+    <path d="M547 378 l8 9 l16 -18"/>
+    <path d="M663 378 l8 9 l16 -18"/>
+    <path d="M779 378 l8 9 l16 -18"/>
+    <path d="M895 378 l8 9 l16 -18"/>
+    <path d="M547 456 l8 9 l16 -18"/>
+    <path d="M663 456 l8 9 l16 -18"/>
+    <path d="M779 456 l8 9 l16 -18"/>
+    <path d="M895 456 l8 9 l16 -18"/>
+  </g>
+  <text x="734" y="524" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">12 build targets &#183; all green</text>
+
+  <!-- repo -->
+  <rect x="290" y="596" width="700" height="52" rx="26" fill="#ff6a4d" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.5"/>
+  <text x="640" y="630" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" fill="#ff6a4d">github.com/humaidi09/Restaurant-Management-System</text>
+</svg>

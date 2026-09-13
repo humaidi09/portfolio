@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none">
+  <defs>
+    <radialGradient id="glow" cx="22%" cy="30%" r="64%">
+      <stop offset="0" stop-color="#a970ff" stop-opacity="0.17"/>
+      <stop offset="1" stop-color="#a970ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#a970ff" stroke-opacity="0.14"/>
+
+  <!-- padlock motif -->
+  <path d="M1064 176 v-18 a32 32 0 0 1 64 0 v18" fill="none" stroke="#a970ff" stroke-width="9" stroke-linecap="round"/>
+  <rect x="1046" y="176" width="100" height="86" rx="16" fill="#a970ff" fill-opacity="0.08" stroke="#a970ff" stroke-width="3"/>
+  <circle cx="1096" cy="204" r="8" fill="#a970ff"/>
+  <path d="M1096 208 l-7 28 l14 0 z" fill="#a970ff"/>
+
+  <circle cx="101" cy="144" r="5.5" fill="#a970ff"/>
+  <text x="118" y="152" font-family="'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace" font-size="24" letter-spacing="1" fill="#a970ff">auth core</text>
+  <text x="90" y="330" font-family="Georgia,'Times New Roman',serif" font-size="92" font-weight="700" letter-spacing="-1" fill="#f6f4ef">Login &amp; Registration</text>
+  <text x="90" y="436" font-family="Georgia,'Times New Roman',serif" font-size="92" font-weight="700" letter-spacing="-1" fill="#f6f4ef">System</text>
+  <rect x="96" y="474" width="132" height="5" rx="2.5" fill="#a970ff"/>
+  <text x="96" y="556" font-family="'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace" font-size="25" fill="#b8b3a6">c++17 &#183; sha-256 &#183; salt &#183; key-stretch</text>
+  <text x="96" y="596" font-family="'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace" font-size="19" fill="#8a8578">a password is never stored in recoverable form</text>
+  <text x="1184" y="650" text-anchor="end" font-family="'JetBrains Mono',Menlo,Consolas,monospace" font-size="22" fill="#8a8578">Hussain Ahmed</text>
+</svg>

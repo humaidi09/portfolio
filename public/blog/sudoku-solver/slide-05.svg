@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#35cfe0"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#35cfe0">solver core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 05</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Proving there is exactly one</text>
+
+  <text x="64" y="228" font-size="24" fill="#b8b3a6">Uniqueness is proved, not assumed. A counting search reuses the</text>
+  <text x="64" y="264" font-size="24" fill="#b8b3a6">solver and stops the instant a second solution appears.</text>
+  <text x="64" y="308" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8fe8f1">countSolutions(board, limit = 2)  <tspan fill="#8c897f">// is it unique?</tspan></text>
+
+  <!-- return arrow: recheck -> carve -->
+  <path d="M1034 360 C1034 330, 640 330, 640 360" stroke="#35cfe0" stroke-opacity="0.6" stroke-width="2.5" fill="none"/>
+  <path d="M640 361 l-7 -13 l14 0 z" fill="#35cfe0" fill-opacity="0.75"/>
+  <text x="837" y="326" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#35cfe0">yes &#8594; carve again</text>
+
+  <!-- card 1: fill -->
+  <rect x="96" y="360" width="300" height="150" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="246" y="400" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" letter-spacing="1" fill="#35cfe0">1 &#183; fill</text>
+  <text x="246" y="438" text-anchor="middle" font-size="18" fill="#b8b3a6">Solve an empty grid,</text>
+  <text x="246" y="464" text-anchor="middle" font-size="18" fill="#b8b3a6">digits shuffled &#8594; a</text>
+  <text x="246" y="490" text-anchor="middle" font-size="18" fill="#b8b3a6">random full solution.</text>
+
+  <!-- arrow 1 -->
+  <line x1="404" y1="435" x2="482" y2="435" stroke="#35cfe0" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M482 435 l-15 -8 l0 16 z" fill="#35cfe0" fill-opacity="0.7"/>
+
+  <!-- card 2: carve -->
+  <rect x="490" y="360" width="300" height="150" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="640" y="400" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" letter-spacing="1" fill="#35cfe0">2 &#183; carve</text>
+  <text x="640" y="450" text-anchor="middle" font-size="18" fill="#b8b3a6">Remove one clue</text>
+  <text x="640" y="478" text-anchor="middle" font-size="18" fill="#b8b3a6">at random.</text>
+
+  <!-- arrow 2 -->
+  <line x1="798" y1="435" x2="876" y2="435" stroke="#35cfe0" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M876 435 l-15 -8 l0 16 z" fill="#35cfe0" fill-opacity="0.7"/>
+
+  <!-- card 3: re-check (emphasis) -->
+  <rect x="884" y="360" width="300" height="150" rx="16" fill="#8fe8f1" fill-opacity="0.06" stroke="#8fe8f1" stroke-opacity="0.5"/>
+  <text x="1034" y="400" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="17" letter-spacing="1" fill="#8fe8f1">3 &#183; re-check</text>
+  <text x="1034" y="450" text-anchor="middle" font-size="18" fill="#b8b3a6">Still exactly</text>
+  <text x="1034" y="478" text-anchor="middle" font-size="18" fill="#b8b3a6">one solution?</text>
+
+  <!-- down note: undo -->
+  <line x1="1034" y1="510" x2="1034" y2="536" stroke="#8c897f" stroke-width="2"/>
+  <path d="M1034 538 l-6 -12 l12 0 z" fill="#8c897f"/>
+  <text x="1034" y="560" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">not unique &#8594; undo</text>
+
+  <!-- result strip -->
+  <rect x="72" y="590" width="1136" height="56" rx="16" fill="#8fe8f1" fill-opacity="0.06" stroke="#8fe8f1" stroke-opacity="0.5"/>
+  <text x="640" y="625" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="21" fill="#8fe8f1">guarded at every removal &#8594; unique by construction</text>
+</svg>

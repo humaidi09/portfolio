@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 03</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">The order state machine</text>
+
+  <!-- rejected illegal jump, arcing over the chain -->
+  <path d="M187 290 Q611 210 1036 290" fill="none" stroke="#c94f37" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="611" y="236" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#c94f37">skips steps &#8594; rejected</text>
+  <path d="M603 243 l16 16 M619 243 l-16 16" stroke="#c94f37" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- main happy path -->
+  <g font-family="'JetBrains Mono', monospace">
+    <rect x="112" y="290" width="150" height="64" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.5"/>
+    <text x="187" y="330" text-anchor="middle" font-size="22" font-weight="700" fill="#eae7df">OPEN</text>
+
+    <line x1="262" y1="322" x2="388" y2="322" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="3"/>
+    <path d="M390 322 l-16 -9 l0 18 z" fill="#ff6a4d" fill-opacity="0.7"/>
+
+    <rect x="392" y="290" width="150" height="64" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.5"/>
+    <text x="467" y="330" text-anchor="middle" font-size="22" font-weight="700" fill="#eae7df">PLACED</text>
+
+    <line x1="542" y1="322" x2="668" y2="322" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="3"/>
+    <path d="M670 322 l-16 -9 l0 18 z" fill="#ff6a4d" fill-opacity="0.7"/>
+
+    <rect x="672" y="290" width="150" height="64" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.5"/>
+    <text x="747" y="330" text-anchor="middle" font-size="22" font-weight="700" fill="#eae7df">SERVED</text>
+
+    <line x1="822" y1="322" x2="948" y2="322" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="3"/>
+    <path d="M950 322 l-16 -9 l0 18 z" fill="#ff6a4d" fill-opacity="0.7"/>
+
+    <rect x="952" y="290" width="168" height="64" rx="14" fill="#ffb199" fill-opacity="0.07" stroke="#ffb199" stroke-opacity="0.6"/>
+    <text x="1036" y="330" text-anchor="middle" font-size="22" font-weight="700" fill="#ffb199">PAID</text>
+  </g>
+
+  <text x="187" y="392" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c897f">edit only when OPEN</text>
+
+  <!-- cancelled branch -->
+  <line x1="210" y1="356" x2="410" y2="484" stroke="#c94f37" stroke-opacity="0.7" stroke-width="2.5"/>
+  <path d="M412 486 l-4 -14 l13 5 z" fill="#c94f37" fill-opacity="0.8"/>
+  <line x1="474" y1="356" x2="478" y2="484" stroke="#c94f37" stroke-opacity="0.7" stroke-width="2.5"/>
+  <path d="M478 486 l-7 -12 l14 0 z" fill="#c94f37" fill-opacity="0.8"/>
+
+  <rect x="392" y="486" width="182" height="60" rx="14" fill="#c94f37" fill-opacity="0.08" stroke="#c94f37" stroke-opacity="0.6" stroke-dasharray="6 5"/>
+  <text x="483" y="523" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#c94f37">CANCELLED</text>
+
+  <text x="64" y="612" font-size="24" fill="#b8b3a6">Legal moves live in one table. Anything else raises an error:</text>
+  <text x="64" y="648" font-size="24" fill="#b8b3a6">you can't pay an unserved order, or edit one already placed.</text>
+</svg>

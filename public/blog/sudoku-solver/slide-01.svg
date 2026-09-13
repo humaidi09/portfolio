@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#35cfe0"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#35cfe0">solver core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 01</text>
+
+  <text x="64" y="176" font-size="48" font-weight="700" fill="#eae7df">Sudoku Solver, Generator &amp; Checker</text>
+
+  <!-- 9x9 grid, centred -->
+  <g stroke="#35cfe0" stroke-opacity="0.16" stroke-width="1">
+    <line x1="478" y1="220" x2="478" y2="544"/><line x1="514" y1="220" x2="514" y2="544"/><line x1="550" y1="220" x2="550" y2="544"/><line x1="586" y1="220" x2="586" y2="544"/><line x1="622" y1="220" x2="622" y2="544"/><line x1="658" y1="220" x2="658" y2="544"/><line x1="694" y1="220" x2="694" y2="544"/><line x1="730" y1="220" x2="730" y2="544"/><line x1="766" y1="220" x2="766" y2="544"/><line x1="802" y1="220" x2="802" y2="544"/>
+    <line x1="478" y1="220" x2="802" y2="220"/><line x1="478" y1="256" x2="802" y2="256"/><line x1="478" y1="292" x2="802" y2="292"/><line x1="478" y1="328" x2="802" y2="328"/><line x1="478" y1="364" x2="802" y2="364"/><line x1="478" y1="400" x2="802" y2="400"/><line x1="478" y1="436" x2="802" y2="436"/><line x1="478" y1="472" x2="802" y2="472"/><line x1="478" y1="508" x2="802" y2="508"/><line x1="478" y1="544" x2="802" y2="544"/>
+  </g>
+  <g stroke="#35cfe0" stroke-opacity="0.45" stroke-width="2.5">
+    <line x1="478" y1="220" x2="478" y2="544"/><line x1="586" y1="220" x2="586" y2="544"/><line x1="694" y1="220" x2="694" y2="544"/><line x1="802" y1="220" x2="802" y2="544"/>
+    <line x1="478" y1="220" x2="802" y2="220"/><line x1="478" y1="328" x2="802" y2="328"/><line x1="478" y1="436" x2="802" y2="436"/><line x1="478" y1="544" x2="802" y2="544"/>
+  </g>
+  <g fill="#eae7df" font-size="26" font-weight="600" text-anchor="middle">
+    <text x="496" y="247">5</text><text x="532" y="247">3</text><text x="640" y="247">7</text>
+    <text x="496" y="283">6</text><text x="604" y="283">1</text><text x="640" y="283">9</text><text x="676" y="283">5</text>
+    <text x="532" y="319">9</text><text x="568" y="319">8</text><text x="748" y="319">6</text>
+    <text x="496" y="355">8</text><text x="640" y="355">6</text><text x="784" y="355">3</text>
+    <text x="496" y="391">4</text><text x="604" y="391">8</text><text x="676" y="391">3</text><text x="784" y="391">1</text>
+    <text x="496" y="427">7</text><text x="640" y="427">2</text><text x="784" y="427">6</text>
+    <text x="532" y="463">6</text><text x="712" y="463">2</text><text x="748" y="463">8</text>
+    <text x="604" y="499">4</text><text x="640" y="499">1</text><text x="676" y="499">9</text><text x="784" y="499">5</text>
+    <text x="640" y="535">8</text><text x="748" y="535">7</text><text x="784" y="535">9</text>
+  </g>
+  <text x="640" y="584" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">one board &#183; three jobs: solve, check, generate</text>
+
+  <text x="64" y="636" font-size="24" fill="#b8b3a6">A zero-dependency C++17 toolkit. Solve any grid, check if it is</text>
+  <text x="64" y="672" font-size="24" fill="#b8b3a6">well-posed, generate puzzles proven to have a single solution.</text>
+</svg>

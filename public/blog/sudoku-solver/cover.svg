@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs>
+    <radialGradient id="glow" cx="22%" cy="30%" r="62%">
+      <stop offset="0" stop-color="#35cfe0" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#35cfe0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <!-- top-right motif: a 3x3 grid with a few faint digits -->
+  <g stroke="#35cfe0" stroke-opacity="0.3" stroke-width="1.5">
+    <line x1="1052" y1="118" x2="1052" y2="316"/>
+    <line x1="1118" y1="118" x2="1118" y2="316"/>
+    <line x1="986" y1="184" x2="1184" y2="184"/>
+    <line x1="986" y1="250" x2="1184" y2="250"/>
+  </g>
+  <rect x="986" y="118" width="198" height="198" rx="8" fill="none" stroke="#35cfe0" stroke-opacity="0.5" stroke-width="2"/>
+  <g fill="#35cfe0" fill-opacity="0.5" font-family="'Fraunces', Georgia, serif" font-size="40" font-weight="600" text-anchor="middle">
+    <text x="1019" y="165">5</text>
+    <text x="1151" y="165">3</text>
+    <text x="1085" y="231">8</text>
+    <text x="1019" y="297">1</text>
+    <text x="1151" y="297">6</text>
+  </g>
+
+  <circle cx="101" cy="144" r="5.5" fill="#35cfe0"/>
+  <text x="118" y="152" font-family="'JetBrains Mono', monospace" font-size="24" letter-spacing="1" fill="#35cfe0">solver core</text>
+
+  <text x="90" y="330" font-size="92" font-weight="700" letter-spacing="-1" fill="#f6f4ef">Sudoku</text>
+  <text x="90" y="436" font-size="92" font-weight="700" letter-spacing="-1" fill="#f6f4ef">Solver &amp; Generator</text>
+  <rect x="96" y="474" width="150" height="5" rx="2.5" fill="#35cfe0"/>
+
+  <text x="96" y="556" font-family="'JetBrains Mono', monospace" font-size="25" fill="#b8b3a6">c++17 &#183; backtracking &#183; bitmask &#183; mrv</text>
+  <text x="96" y="596" font-family="'JetBrains Mono', monospace" font-size="19" fill="#8a8578">cracks the hardest grid in ~2 ms, and proves uniqueness</text>
+  <text x="1184" y="650" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" fill="#8a8578">Hussain Ahmed</text>
+</svg>

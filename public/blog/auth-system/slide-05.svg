@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#a970ff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#a970ff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#a970ff">the build</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 05</text>
+
+  <text x="64" y="170" font-size="56" font-weight="700" fill="#eae7df">How it is built</text>
+
+  <!-- layer 1: hash -->
+  <rect x="150" y="200" width="980" height="78" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.4"/>
+  <text x="176" y="238" font-size="24" font-weight="700" fill="#eae7df">The hash, from scratch</text>
+  <text x="176" y="266" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">SHA-256 implemented by hand &#8212; no crypto library</text>
+  <text x="1106" y="246" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#a970ff">sha256.cpp</text>
+
+  <path d="M634 284 l6 8 l6 -8" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- layer 2: derivation -->
+  <rect x="150" y="298" width="980" height="78" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.4"/>
+  <text x="176" y="336" font-size="24" font-weight="700" fill="#eae7df">Key derivation</text>
+  <text x="176" y="364" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">random per-user salt, stretched 120,000 iterations</text>
+  <text x="1106" y="344" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#a970ff">derive</text>
+
+  <path d="M634 382 l6 8 l6 -8" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- layer 3: auth logic (star) -->
+  <rect x="150" y="396" width="980" height="90" rx="14" fill="#a970ff" fill-opacity="0.08" stroke="#a970ff" stroke-opacity="0.6"/>
+  <text x="176" y="436" font-size="24" font-weight="700" fill="#eae7df">Auth logic</text>
+  <text x="176" y="466" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">register &#183; login &#183; lockout &#183; constant-time verify</text>
+  <text x="1106" y="442" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#a970ff">auth</text>
+
+  <path d="M634 492 l6 8 l6 -8" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- layer 4: store -->
+  <rect x="150" y="506" width="980" height="78" rx="14" fill="#cbb2ff" fill-opacity="0.06" stroke="#cbb2ff" stroke-opacity="0.45"/>
+  <text x="176" y="544" font-size="24" font-weight="700" fill="#eae7df">File-backed store</text>
+  <text x="176" y="572" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">users saved to a local file &#8212; no database, no server</text>
+  <text x="1106" y="552" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#cbb2ff">store</text>
+
+  <!-- badges -->
+  <g font-family="'JetBrains Mono', monospace" font-size="16">
+    <rect x="150" y="612" width="204" height="44" rx="22" fill="#a970ff" fill-opacity="0.07" stroke="#a970ff" stroke-opacity="0.4"/>
+    <text x="252" y="640" text-anchor="middle" fill="#cbb2ff">0 dependencies</text>
+    <rect x="370" y="612" width="170" height="44" rx="22" fill="#a970ff" fill-opacity="0.07" stroke="#a970ff" stroke-opacity="0.4"/>
+    <text x="455" y="640" text-anchor="middle" fill="#cbb2ff">36 unit tests</text>
+    <rect x="556" y="612" width="280" height="44" rx="22" fill="#a970ff" fill-opacity="0.07" stroke="#a970ff" stroke-opacity="0.4"/>
+    <text x="696" y="640" text-anchor="middle" fill="#cbb2ff">C++17 &#183; stdlib only</text>
+  </g>
+</svg>

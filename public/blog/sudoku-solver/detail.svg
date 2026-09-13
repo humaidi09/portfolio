@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1080" height="620" fill="#000000"/>
+  <rect x="16" y="16" width="1048" height="588" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <circle cx="69" cy="66" r="5" fill="#35cfe0"/>
+  <text x="84" y="74" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1" fill="#35cfe0">solver core</text>
+  <text x="62" y="120" font-size="34" font-weight="700" fill="#eae7df">One step of the search</text>
+
+  <!-- node 1 -->
+  <rect x="90" y="152" width="520" height="80" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <circle cx="130" cy="192" r="19" fill="#35cfe0"/>
+  <text x="130" y="200" text-anchor="middle" font-size="22" font-weight="700" fill="#000000">1</text>
+  <text x="170" y="186" font-size="21" font-weight="600" fill="#eae7df">Select the most-constrained cell</text>
+  <text x="170" y="214" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">fewest candidates first (MRV)</text>
+
+  <path d="M344 236 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- node 2 -->
+  <rect x="90" y="272" width="520" height="80" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <circle cx="130" cy="312" r="19" fill="#35cfe0"/>
+  <text x="130" y="320" text-anchor="middle" font-size="22" font-weight="700" fill="#000000">2</text>
+  <text x="170" y="306" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8fe8f1">~(row | col | box) &amp; 0x1FF</text>
+  <text x="170" y="334" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">the digits still legal, as a mask</text>
+
+  <path d="M344 356 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- node 3 -->
+  <rect x="90" y="392" width="520" height="90" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <circle cx="130" cy="437" r="19" fill="#35cfe0"/>
+  <text x="130" y="445" text-anchor="middle" font-size="22" font-weight="700" fill="#000000">3</text>
+  <text x="170" y="430" font-size="21" font-weight="600" fill="#eae7df">Try each legal digit, lowest bit first</text>
+  <text x="170" y="460" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">place &#8594; recurse &#8594; unplace</text>
+
+  <!-- branch: solved -->
+  <line x1="610" y1="192" x2="668" y2="192" stroke="#8fe8f1" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M668 192 l-15 -8 l0 16 z" fill="#8fe8f1" fill-opacity="0.7"/>
+  <rect x="672" y="152" width="360" height="80" rx="16" fill="#8fe8f1" fill-opacity="0.06" stroke="#8fe8f1" stroke-opacity="0.5"/>
+  <text x="700" y="188" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8fe8f1">no cell left &#8594; SOLVED</text>
+  <text x="700" y="214" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">return true</text>
+
+  <!-- branch: backtrack -->
+  <line x1="610" y1="312" x2="668" y2="312" stroke="#2597a3" stroke-opacity="0.8" stroke-width="3"/>
+  <path d="M668 312 l-15 -8 l0 16 z" fill="#2597a3" fill-opacity="0.8"/>
+  <rect x="672" y="272" width="360" height="80" rx="16" fill="#eae7df" fill-opacity="0.03" stroke="#2597a3" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="700" y="308" font-family="'JetBrains Mono', monospace" font-size="18" fill="#b8b3a6">candidates == 0 &#8594; dead end</text>
+  <text x="700" y="334" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">return false, back up the tree</text>
+
+  <text x="90" y="540" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">on success the recursion unwinds true; otherwise it undoes the digit and tries the next.</text>
+</svg>

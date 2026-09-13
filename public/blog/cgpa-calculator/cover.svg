@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <defs>
+    <radialGradient id="glow" cx="24%" cy="30%" r="60%">
+      <stop offset="0" stop-color="#7c9bff" stop-opacity="0.17"/>
+      <stop offset="1" stop-color="#7c9bff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#7c9bff" stroke-opacity="0.14"/>
+
+  <!-- rising bar chart motif, top-right -->
+  <line x1="922" y1="300" x2="1178" y2="300" stroke="#7c9bff" stroke-opacity="0.45" stroke-width="2"/>
+  <g fill="#7c9bff">
+    <rect x="930" y="240" width="40" height="60" rx="4" fill-opacity="0.35"/>
+    <rect x="994" y="200" width="40" height="100" rx="4" fill-opacity="0.5"/>
+    <rect x="1058" y="160" width="40" height="140" rx="4" fill-opacity="0.68"/>
+    <rect x="1122" y="118" width="40" height="182" rx="4" fill-opacity="0.9"/>
+  </g>
+
+  <circle cx="101" cy="144" r="5.5" fill="#7c9bff"/>
+  <text x="118" y="152" font-family="'JetBrains Mono', monospace" font-size="24" letter-spacing="1" fill="#7c9bff">gpa engine</text>
+
+  <text x="90" y="330" font-size="96" font-weight="700" letter-spacing="-1" fill="#f6f4ef">CGPA</text>
+  <text x="90" y="436" font-size="96" font-weight="700" letter-spacing="-1" fill="#f6f4ef">Calculator</text>
+  <rect x="96" y="474" width="132" height="5" rx="2.5" fill="#7c9bff"/>
+
+  <text x="96" y="556" font-family="'JetBrains Mono', monospace" font-size="25" fill="#b8b3a6">c++ &#183; oop &#183; cli</text>
+  <text x="96" y="596" font-family="'JetBrains Mono', monospace" font-size="19" fill="#8a8578">semester GPA and cumulative CGPA, with a clear breakdown</text>
+  <text x="1184" y="650" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" fill="#8a8578">Hussain Ahmed</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#a970ff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#a970ff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#a970ff">the derivation</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 03</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">How a stored verifier is derived</text>
+
+  <!-- step 1 -->
+  <rect x="96" y="224" width="1088" height="76" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.28"/>
+  <circle cx="146" cy="262" r="19" fill="#a970ff"/>
+  <text x="146" y="269" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">1</text>
+  <text x="190" y="256" font-size="21" font-weight="600" fill="#eae7df">Generate a random salt</text>
+  <text x="190" y="284" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">random bytes, unique to every user</text>
+  <text x="1160" y="270" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#a970ff">per user</text>
+  <path d="M140 304 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- step 2 -->
+  <rect x="96" y="314" width="1088" height="76" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.28"/>
+  <circle cx="146" cy="352" r="19" fill="#a970ff"/>
+  <text x="146" y="359" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">2</text>
+  <text x="190" y="346" font-size="21" font-weight="600" fill="#eae7df">Bind the salt to the password</text>
+  <text x="190" y="374" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">digest = sha256Hex(salt + ":" + password)</text>
+  <text x="1160" y="360" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#a970ff">round 1</text>
+  <path d="M140 394 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- step 3 -->
+  <rect x="96" y="404" width="1088" height="76" rx="14" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.28"/>
+  <circle cx="146" cy="442" r="19" fill="#a970ff"/>
+  <text x="146" y="449" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">3</text>
+  <text x="190" y="436" font-size="21" font-weight="600" fill="#eae7df">Stretch it 120,000 times</text>
+  <text x="190" y="464" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">digest = sha256Hex(digest + salt), 119,999 more rounds</text>
+  <text x="1160" y="450" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#a970ff">x 120,000</text>
+  <path d="M140 484 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+  <!-- step 4 (final) -->
+  <rect x="96" y="494" width="1088" height="84" rx="14" fill="#cbb2ff" fill-opacity="0.06" stroke="#cbb2ff" stroke-opacity="0.5"/>
+  <circle cx="146" cy="536" r="19" fill="#cbb2ff"/>
+  <text x="146" y="543" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">4</text>
+  <text x="190" y="528" font-size="21" font-weight="600" fill="#eae7df">Store the salt and the final digest</text>
+  <text x="190" y="556" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">the password itself is never written to disk</text>
+  <text x="1160" y="542" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="16" fill="#cbb2ff">on disk</text>
+
+  <text x="64" y="648" font-size="24" fill="#b8b3a6">A stolen database costs <tspan font-family="'JetBrains Mono', monospace" font-size="20" fill="#cbb2ff">~120,000</tspan> hashes per guess, not one.</text>
+</svg>

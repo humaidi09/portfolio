@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 02</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Built on two guarantees</text>
+
+  <!-- guarantee 1: money -->
+  <rect x="72" y="248" width="536" height="300" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <text x="340" y="296" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#ff6a4d">GUARANTEE 1</text>
+  <text x="340" y="342" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df">Money is exact</text>
+
+  <path d="M120 396 l7 8 l14 -16" stroke="#ff6a4d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="156" y="406" font-family="'JetBrains Mono', monospace" font-size="20" fill="#eae7df">Decimal("36.50")</text>
+  <text x="560" y="406" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#ff6a4d">kept</text>
+
+  <path d="M119 440 l16 16 M135 440 l-16 16" stroke="#c94f37" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <text x="156" y="454" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">36.50  (float)</text>
+  <text x="560" y="454" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#c94f37">refused</text>
+
+  <text x="340" y="512" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">two-decimal Decimal &#183; never a float</text>
+
+  <!-- guarantee 2: state -->
+  <rect x="672" y="248" width="536" height="300" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <text x="940" y="296" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#ff6a4d">GUARANTEE 2</text>
+  <text x="940" y="342" text-anchor="middle" font-size="30" font-weight="700" fill="#eae7df">No skipped steps</text>
+
+  <g font-family="'JetBrains Mono', monospace">
+    <rect x="688" y="402" width="96" height="44" rx="12" fill="#eae7df" fill-opacity="0.06" stroke="#ff6a4d" stroke-opacity="0.5"/>
+    <text x="736" y="430" text-anchor="middle" font-size="14" font-weight="700" fill="#eae7df">OPEN</text>
+    <line x1="788" y1="424" x2="820" y2="424" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="2.5"/>
+    <path d="M820 424 l-11 -6 l0 12 z" fill="#ff6a4d" fill-opacity="0.7"/>
+    <rect x="824" y="402" width="104" height="44" rx="12" fill="#eae7df" fill-opacity="0.06" stroke="#ff6a4d" stroke-opacity="0.5"/>
+    <text x="876" y="430" text-anchor="middle" font-size="14" font-weight="700" fill="#eae7df">PLACED</text>
+    <line x1="932" y1="424" x2="964" y2="424" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="2.5"/>
+    <path d="M964 424 l-11 -6 l0 12 z" fill="#ff6a4d" fill-opacity="0.7"/>
+    <rect x="968" y="402" width="104" height="44" rx="12" fill="#eae7df" fill-opacity="0.06" stroke="#ff6a4d" stroke-opacity="0.5"/>
+    <text x="1020" y="430" text-anchor="middle" font-size="14" font-weight="700" fill="#eae7df">SERVED</text>
+    <line x1="1076" y1="424" x2="1108" y2="424" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="2.5"/>
+    <path d="M1108 424 l-11 -6 l0 12 z" fill="#ff6a4d" fill-opacity="0.7"/>
+    <rect x="1112" y="402" width="80" height="44" rx="12" fill="#ffb199" fill-opacity="0.08" stroke="#ffb199" stroke-opacity="0.6"/>
+    <text x="1152" y="430" text-anchor="middle" font-size="14" font-weight="700" fill="#ffb199">PAID</text>
+  </g>
+  <text x="940" y="512" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">a state machine &#183; illegal moves rejected</text>
+
+  <text x="64" y="606" font-size="24" fill="#b8b3a6">Every legal move lives in one table, not scattered checks.</text>
+  <text x="64" y="642" font-size="24" fill="#b8b3a6">Money stays Decimal end to end, so the receipt adds up.</text>
+</svg>

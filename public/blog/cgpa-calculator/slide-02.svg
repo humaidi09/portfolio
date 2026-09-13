@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#7c9bff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#7c9bff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#7c9bff">inputs and outputs</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 02</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">What you type in &#8594; what it prints</text>
+
+  <!-- IN box -->
+  <rect x="72" y="252" width="360" height="188" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#7c9bff" stroke-opacity="0.45"/>
+  <text x="252" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">INPUT</text>
+  <text x="252" y="348" text-anchor="middle" font-size="26" font-weight="700" fill="#eae7df">number of courses</text>
+  <text x="252" y="392" text-anchor="middle" font-size="26" font-weight="700" fill="#eae7df">grade + credit hours</text>
+  <text x="252" y="426" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#5a74d6">entered per course</text>
+
+  <!-- engine -->
+  <line x1="440" y1="346" x2="516" y2="346" stroke="#7c9bff" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M516 346 l-15 -8 l0 16 z" fill="#7c9bff" fill-opacity="0.7"/>
+  <rect x="520" y="300" width="240" height="92" rx="14" fill="#7c9bff" fill-opacity="0.1" stroke="#7c9bff" stroke-opacity="0.6"/>
+  <text x="640" y="342" text-anchor="middle" font-size="24" font-weight="700" fill="#7c9bff">the calculator</text>
+  <text x="640" y="372" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">computes</text>
+  <line x1="764" y1="346" x2="840" y2="346" stroke="#7c9bff" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M840 346 l-15 -8 l0 16 z" fill="#7c9bff" fill-opacity="0.7"/>
+
+  <!-- OUT box -->
+  <rect x="844" y="252" width="364" height="188" rx="16" fill="#b3c4ff" fill-opacity="0.06" stroke="#b3c4ff" stroke-opacity="0.5"/>
+  <text x="1026" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">OUTPUT</text>
+  <text x="1026" y="348" text-anchor="middle" font-size="26" font-weight="700" fill="#eae7df">semester GPA</text>
+  <text x="1026" y="392" text-anchor="middle" font-size="26" font-weight="700" fill="#eae7df">overall CGPA</text>
+  <text x="1026" y="426" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#b3c4ff">+ per-course breakdown</text>
+
+  <text x="64" y="560" font-size="24" fill="#b8b3a6">You enter how many courses, then each course's grade and</text>
+  <text x="64" y="596" font-size="24" fill="#b8b3a6">credit hours. Credits carry the weight: a 4-credit course</text>
+  <text x="64" y="632" font-size="24" fill="#b8b3a6">moves your average far more than a 1-credit one.</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#35cfe0"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#35cfe0">solver core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 02</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Three tools, one binary</text>
+
+  <!-- card 1: solve -->
+  <rect x="72" y="250" width="360" height="250" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="252" y="306" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" letter-spacing="1" fill="#35cfe0">--solve</text>
+  <text x="252" y="366" text-anchor="middle" font-size="36" font-weight="700" fill="#eae7df">Solve</text>
+  <text x="252" y="416" text-anchor="middle" font-size="20" fill="#b8b3a6">Fill any valid grid.</text>
+  <text x="252" y="448" text-anchor="middle" font-size="20" fill="#b8b3a6">Hard ones in milliseconds.</text>
+
+  <!-- card 2: check -->
+  <rect x="460" y="250" width="360" height="250" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.4"/>
+  <text x="640" y="306" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" letter-spacing="1" fill="#35cfe0">--check</text>
+  <text x="640" y="366" text-anchor="middle" font-size="36" font-weight="700" fill="#eae7df">Check</text>
+  <text x="640" y="416" text-anchor="middle" font-size="20" fill="#b8b3a6">Is it well-posed?</text>
+  <text x="640" y="448" text-anchor="middle" font-size="20" fill="#b8b3a6">One solution, or many?</text>
+
+  <!-- card 3: generate (emphasis) -->
+  <rect x="848" y="250" width="360" height="250" rx="16" fill="#8fe8f1" fill-opacity="0.06" stroke="#8fe8f1" stroke-opacity="0.5"/>
+  <text x="1028" y="306" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" letter-spacing="1" fill="#8fe8f1">--generate</text>
+  <text x="1028" y="366" text-anchor="middle" font-size="36" font-weight="700" fill="#8fe8f1">Generate</text>
+  <text x="1028" y="416" text-anchor="middle" font-size="20" fill="#b8b3a6">Fresh puzzles, unique</text>
+  <text x="1028" y="448" text-anchor="middle" font-size="20" fill="#b8b3a6">by construction.</text>
+
+  <text x="64" y="580" font-size="24" fill="#b8b3a6">One 81-character board in. Solve it, check if well-posed, or</text>
+  <text x="64" y="616" font-size="24" fill="#b8b3a6">generate a fresh puzzle that is unique by construction.</text>
+
+  <text x="64" y="668" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">one solver core powers all three.</text>
+</svg>

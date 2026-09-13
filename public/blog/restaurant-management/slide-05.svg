@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 05</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">State that survives a crash</text>
+  <text x="64" y="222" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">python 3.10+ &#183; standard library only &#183; zero dependencies</text>
+
+  <!-- step 1: write -->
+  <rect x="90" y="286" width="320" height="170" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <text x="250" y="330" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#ff6a4d">1 &#183; write</text>
+  <text x="250" y="388" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" fill="#eae7df">orders.json.tmp</text>
+  <text x="250" y="426" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">serialize to a temp file</text>
+
+  <line x1="414" y1="371" x2="462" y2="371" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M464 371 l-15 -8 l0 16 z" fill="#ff6a4d" fill-opacity="0.7"/>
+
+  <!-- step 2: replace -->
+  <rect x="466" y="286" width="320" height="170" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#ff6a4d" stroke-opacity="0.4"/>
+  <text x="626" y="330" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#ff6a4d">2 &#183; replace</text>
+  <text x="626" y="388" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" fill="#eae7df">os.replace()</text>
+  <text x="626" y="426" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">one atomic rename</text>
+
+  <line x1="790" y1="371" x2="838" y2="371" stroke="#ff6a4d" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M840 371 l-15 -8 l0 16 z" fill="#ff6a4d" fill-opacity="0.7"/>
+
+  <!-- step 3: durable -->
+  <rect x="842" y="286" width="320" height="170" rx="16" fill="#ffb199" fill-opacity="0.06" stroke="#ffb199" stroke-opacity="0.5"/>
+  <text x="1002" y="330" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#ffb199">3 &#183; durable</text>
+  <text x="1002" y="388" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" fill="#eae7df">orders.json</text>
+  <text x="1002" y="426" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">the live file, swapped in</text>
+
+  <!-- safety aside -->
+  <rect x="90" y="498" width="1072" height="60" rx="14" fill="#c94f37" fill-opacity="0.05" stroke="#c94f37" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="626" y="535" text-anchor="middle" font-size="22" fill="#b8b3a6">A crash before the rename leaves the old <tspan font-family="'JetBrains Mono', monospace" font-size="19" fill="#ffb199">orders.json</tspan> untouched.</text>
+
+  <text x="64" y="606" font-size="24" fill="#b8b3a6">The CLI needs no third-party packages. State is one JSON file,</text>
+  <text x="64" y="642" font-size="24" fill="#b8b3a6">written to a temp copy, then swapped in by one atomic rename.</text>
+</svg>

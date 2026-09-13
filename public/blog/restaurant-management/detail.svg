@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#ff6a4d" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#ff6a4d"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#ff6a4d">restaurant os</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">transition table</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">Which moves are legal</text>
+  <text x="64" y="214" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">rows = current state &#183; columns = requested move &#183; check = allowed</text>
+
+  <!-- column headers (TO) -->
+  <g font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">
+    <text x="400" y="250" text-anchor="middle">OPEN</text>
+    <text x="550" y="250" text-anchor="middle">PLACED</text>
+    <text x="700" y="250" text-anchor="middle">SERVED</text>
+    <text x="850" y="250" text-anchor="middle">PAID</text>
+    <text x="1000" y="250" text-anchor="middle">CANCELLED</text>
+  </g>
+
+  <!-- row labels (FROM) -->
+  <g font-family="'JetBrains Mono', monospace" font-size="18">
+    <text x="300" y="328" text-anchor="end" fill="#eae7df">OPEN</text>
+    <text x="300" y="400" text-anchor="end" fill="#eae7df">PLACED</text>
+    <text x="300" y="472" text-anchor="end" fill="#eae7df">SERVED</text>
+    <text x="300" y="544" text-anchor="end" fill="#ffb199">PAID</text>
+    <text x="300" y="616" text-anchor="end" fill="#c94f37">CANCELLED</text>
+  </g>
+
+  <!-- disallowed cells -->
+  <g fill="none" stroke="#8c897f" stroke-opacity="0.18">
+    <rect x="334" y="292" width="132" height="60" rx="10"/>
+    <rect x="634" y="292" width="132" height="60" rx="10"/>
+    <rect x="784" y="292" width="132" height="60" rx="10"/>
+    <rect x="334" y="364" width="132" height="60" rx="10"/>
+    <rect x="484" y="364" width="132" height="60" rx="10"/>
+    <rect x="784" y="364" width="132" height="60" rx="10"/>
+    <rect x="334" y="436" width="132" height="60" rx="10"/>
+    <rect x="484" y="436" width="132" height="60" rx="10"/>
+    <rect x="634" y="436" width="132" height="60" rx="10"/>
+    <rect x="934" y="436" width="132" height="60" rx="10"/>
+    <rect x="334" y="508" width="132" height="60" rx="10"/>
+    <rect x="484" y="508" width="132" height="60" rx="10"/>
+    <rect x="634" y="508" width="132" height="60" rx="10"/>
+    <rect x="784" y="508" width="132" height="60" rx="10"/>
+    <rect x="934" y="508" width="132" height="60" rx="10"/>
+    <rect x="334" y="580" width="132" height="60" rx="10"/>
+    <rect x="484" y="580" width="132" height="60" rx="10"/>
+    <rect x="634" y="580" width="132" height="60" rx="10"/>
+    <rect x="784" y="580" width="132" height="60" rx="10"/>
+    <rect x="934" y="580" width="132" height="60" rx="10"/>
+  </g>
+  <g fill="#8c897f" fill-opacity="0.45">
+    <circle cx="400" cy="322" r="4"/><circle cx="700" cy="322" r="4"/><circle cx="850" cy="322" r="4"/>
+    <circle cx="400" cy="394" r="4"/><circle cx="550" cy="394" r="4"/><circle cx="850" cy="394" r="4"/>
+    <circle cx="400" cy="466" r="4"/><circle cx="550" cy="466" r="4"/><circle cx="700" cy="466" r="4"/><circle cx="1000" cy="466" r="4"/>
+    <circle cx="400" cy="538" r="4"/><circle cx="550" cy="538" r="4"/><circle cx="700" cy="538" r="4"/><circle cx="850" cy="538" r="4"/><circle cx="1000" cy="538" r="4"/>
+    <circle cx="400" cy="610" r="4"/><circle cx="550" cy="610" r="4"/><circle cx="700" cy="610" r="4"/><circle cx="850" cy="610" r="4"/><circle cx="1000" cy="610" r="4"/>
+  </g>
+
+  <!-- allowed cells -->
+  <g fill="#ff6a4d" fill-opacity="0.13" stroke="#ff6a4d" stroke-opacity="0.55">
+    <rect x="484" y="292" width="132" height="60" rx="10"/>
+    <rect x="934" y="292" width="132" height="60" rx="10"/>
+    <rect x="634" y="364" width="132" height="60" rx="10"/>
+    <rect x="934" y="364" width="132" height="60" rx="10"/>
+    <rect x="784" y="436" width="132" height="60" rx="10"/>
+  </g>
+  <g stroke="#ff6a4d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M537 322 l8 9 l16 -18"/>
+    <path d="M987 322 l8 9 l16 -18"/>
+    <path d="M687 394 l8 9 l16 -18"/>
+    <path d="M987 394 l8 9 l16 -18"/>
+    <path d="M837 466 l8 9 l16 -18"/>
+  </g>
+
+  <text x="700" y="676" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">every empty cell raises OrderStateError &#183; PAID and CANCELLED are final</text>
+</svg>

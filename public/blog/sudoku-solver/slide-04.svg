@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#35cfe0" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#35cfe0"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#35cfe0">solver core</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 04</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">The bitmask, one cell</text>
+  <text x="64" y="216" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">one empty cell &#183; which digits may still go here?</text>
+
+  <!-- left labels -->
+  <g font-family="'JetBrains Mono', monospace" font-size="18" text-anchor="end">
+    <text x="336" y="284" fill="#8c897f">row</text>
+    <text x="336" y="334" fill="#8c897f">col</text>
+    <text x="336" y="384" fill="#8c897f">box</text>
+    <text x="336" y="452" fill="#35cfe0">used</text>
+    <text x="336" y="512" fill="#8fe8f1">legal</text>
+  </g>
+
+  <!-- row strip: uses 1,2,5 -->
+  <g>
+    <rect x="352" y="258" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="398" y="258" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="444" y="258" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="490" y="258" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="536" y="258" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="582" y="258" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="628" y="258" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="674" y="258" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="720" y="258" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+  </g>
+  <g font-size="20" text-anchor="middle">
+    <text x="372" y="284" fill="#000000" font-weight="700">1</text>
+    <text x="418" y="284" fill="#000000" font-weight="700">2</text>
+    <text x="464" y="284" fill="#8c897f">3</text>
+    <text x="510" y="284" fill="#8c897f">4</text>
+    <text x="556" y="284" fill="#000000" font-weight="700">5</text>
+    <text x="602" y="284" fill="#8c897f">6</text>
+    <text x="648" y="284" fill="#8c897f">7</text>
+    <text x="694" y="284" fill="#8c897f">8</text>
+    <text x="740" y="284" fill="#8c897f">9</text>
+  </g>
+
+  <!-- col strip: uses 3,6,8 -->
+  <g>
+    <rect x="352" y="308" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="398" y="308" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="444" y="308" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="490" y="308" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="536" y="308" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="582" y="308" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="628" y="308" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="674" y="308" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="720" y="308" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+  </g>
+  <g font-size="20" text-anchor="middle">
+    <text x="372" y="334" fill="#8c897f">1</text>
+    <text x="418" y="334" fill="#8c897f">2</text>
+    <text x="464" y="334" fill="#000000" font-weight="700">3</text>
+    <text x="510" y="334" fill="#8c897f">4</text>
+    <text x="556" y="334" fill="#8c897f">5</text>
+    <text x="602" y="334" fill="#000000" font-weight="700">6</text>
+    <text x="648" y="334" fill="#8c897f">7</text>
+    <text x="694" y="334" fill="#000000" font-weight="700">8</text>
+    <text x="740" y="334" fill="#8c897f">9</text>
+  </g>
+
+  <!-- box strip: uses 2,5,7 -->
+  <g>
+    <rect x="352" y="358" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="398" y="358" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="444" y="358" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="490" y="358" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="536" y="358" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="582" y="358" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="628" y="358" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.8"/>
+    <rect x="674" y="358" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="720" y="358" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+  </g>
+  <g font-size="20" text-anchor="middle">
+    <text x="372" y="384" fill="#8c897f">1</text>
+    <text x="418" y="384" fill="#000000" font-weight="700">2</text>
+    <text x="464" y="384" fill="#8c897f">3</text>
+    <text x="510" y="384" fill="#8c897f">4</text>
+    <text x="556" y="384" fill="#000000" font-weight="700">5</text>
+    <text x="602" y="384" fill="#8c897f">6</text>
+    <text x="648" y="384" fill="#000000" font-weight="700">7</text>
+    <text x="694" y="384" fill="#8c897f">8</text>
+    <text x="740" y="384" fill="#8c897f">9</text>
+  </g>
+
+  <!-- combine chevron -->
+  <path d="M544 402 l12 11 l12 -11" stroke="#8c897f" stroke-width="2" fill="none"/>
+  <text x="600" y="417" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c897f">combine (OR)</text>
+
+  <!-- used strip: 1,2,3,5,6,7,8 -->
+  <g>
+    <rect x="352" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="398" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="444" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="490" y="426" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="536" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="582" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="628" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="674" y="426" width="40" height="38" rx="6" fill="#35cfe0" fill-opacity="0.55"/>
+    <rect x="720" y="426" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+  </g>
+  <g font-size="20" text-anchor="middle">
+    <text x="372" y="452" fill="#000000" font-weight="700">1</text>
+    <text x="418" y="452" fill="#000000" font-weight="700">2</text>
+    <text x="464" y="452" fill="#000000" font-weight="700">3</text>
+    <text x="510" y="452" fill="#8c897f">4</text>
+    <text x="556" y="452" fill="#000000" font-weight="700">5</text>
+    <text x="602" y="452" fill="#000000" font-weight="700">6</text>
+    <text x="648" y="452" fill="#000000" font-weight="700">7</text>
+    <text x="694" y="452" fill="#000000" font-weight="700">8</text>
+    <text x="740" y="452" fill="#8c897f">9</text>
+  </g>
+
+  <!-- invert chevron -->
+  <path d="M544 468 l12 11 l12 -11" stroke="#8c897f" stroke-width="2" fill="none"/>
+  <text x="600" y="483" font-family="'JetBrains Mono', monospace" font-size="14" fill="#8c897f">~used &amp; 0x1FF</text>
+
+  <!-- legal strip: 4,9 -->
+  <g>
+    <rect x="352" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="398" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="444" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="490" y="486" width="40" height="38" rx="6" fill="#8fe8f1" fill-opacity="0.9"/>
+    <rect x="536" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="582" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="628" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="674" y="486" width="40" height="38" rx="6" fill="#eae7df" fill-opacity="0.05" stroke="#35cfe0" stroke-opacity="0.22"/>
+    <rect x="720" y="486" width="40" height="38" rx="6" fill="#8fe8f1" fill-opacity="0.9"/>
+  </g>
+  <g font-size="20" text-anchor="middle">
+    <text x="372" y="512" fill="#8c897f">1</text>
+    <text x="418" y="512" fill="#8c897f">2</text>
+    <text x="464" y="512" fill="#8c897f">3</text>
+    <text x="510" y="512" fill="#000000" font-weight="700">4</text>
+    <text x="556" y="512" fill="#8c897f">5</text>
+    <text x="602" y="512" fill="#8c897f">6</text>
+    <text x="648" y="512" fill="#8c897f">7</text>
+    <text x="694" y="512" fill="#8c897f">8</text>
+    <text x="740" y="512" fill="#000000" font-weight="700">9</text>
+  </g>
+
+  <!-- right aside: the code -->
+  <rect x="792" y="258" width="416" height="200" rx="14" fill="#eae7df" fill-opacity="0.03" stroke="#2597a3" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="814" y="296" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">// digits still legal here</text>
+  <text x="814" y="342" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8fe8f1">used = row | col | box</text>
+  <text x="814" y="382" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8fe8f1">cand = ~used &amp; 0x1FF</text>
+  <line x1="814" y1="406" x2="1186" y2="406" stroke="#2597a3" stroke-opacity="0.35" stroke-width="1"/>
+  <text x="814" y="440" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">&#8594; <tspan fill="#eae7df" font-weight="700">0x108</tspan>  (digits 4, 9)</text>
+
+  <text x="792" y="512" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8fe8f1">&#8594; 4 and 9 fit here</text>
+
+  <text x="64" y="582" font-size="24" fill="#b8b3a6">Each mask is 9 bits: bit 0 means digit 1, bit 8 means digit 9.</text>
+  <text x="64" y="618" font-size="24" fill="#b8b3a6">Placing a digit is three ORs; backtracking, three ANDs.</text>
+  <text x="64" y="662" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">legality drops from a 27-cell scan to one bitwise op.</text>
+</svg>

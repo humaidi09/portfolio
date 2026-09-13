@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#7c9bff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#7c9bff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#7c9bff">the formula</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 04</text>
+
+  <text x="64" y="176" font-size="50" font-weight="700" fill="#eae7df">Weighted points, over total credits</text>
+
+  <!-- formula panel -->
+  <rect x="64" y="222" width="1152" height="94" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#7c9bff" stroke-opacity="0.4"/>
+  <text x="640" y="278" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" fill="#eae7df">semester GPA = sum(<tspan fill="#b3c4ff">grade point &#215; credits</tspan>) &#247; sum(<tspan fill="#b3c4ff">credits</tspan>)</text>
+
+  <!-- worked example -->
+  <text x="90" y="368" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#8c897f">WORKED EXAMPLE &#183; 3 COURSES</text>
+
+  <text x="100" y="412" font-size="24" font-weight="700" fill="#eae7df">A</text>
+  <text x="164" y="412" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">3.75 &#215; 4 credits</text>
+  <text x="500" y="412" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#b8b3a6">15.00</text>
+
+  <text x="100" y="456" font-size="24" font-weight="700" fill="#eae7df">B</text>
+  <text x="164" y="456" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">3.00 &#215; 3 credits</text>
+  <text x="500" y="456" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#b8b3a6">9.00</text>
+
+  <text x="100" y="500" font-size="24" font-weight="700" fill="#eae7df">A-</text>
+  <text x="164" y="500" font-family="'JetBrains Mono', monospace" font-size="18" fill="#8c897f">3.50 &#215; 3 credits</text>
+  <text x="500" y="500" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#b8b3a6">10.50</text>
+
+  <line x1="100" y1="524" x2="500" y2="524" stroke="#7c9bff" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="100" y="562" font-size="20" font-weight="600" fill="#eae7df">total</text>
+  <text x="200" y="562" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">over 10 credits</text>
+  <text x="500" y="562" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="22" font-weight="700" fill="#b3c4ff">34.50</text>
+
+  <!-- arrow to result -->
+  <line x1="560" y1="466" x2="812" y2="466" stroke="#7c9bff" stroke-opacity="0.7" stroke-width="3"/>
+  <path d="M812 466 l-16 -9 l0 18 z" fill="#7c9bff" fill-opacity="0.7"/>
+
+  <!-- result panel -->
+  <rect x="820" y="368" width="396" height="196" rx="16" fill="#b3c4ff" fill-opacity="0.06" stroke="#b3c4ff" stroke-opacity="0.5"/>
+  <text x="1018" y="418" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#b3c4ff">SEMESTER GPA</text>
+  <text x="1018" y="508" text-anchor="middle" font-size="76" font-weight="700" fill="#eae7df">3.45</text>
+  <text x="1018" y="548" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">34.50 &#247; 10</text>
+
+  <text x="64" y="628" font-size="24" fill="#b8b3a6">Overall CGPA rolls every semester up the same way: all the</text>
+  <text x="64" y="664" font-size="24" fill="#b8b3a6">grade points earned, over all the credits taken.</text>
+</svg>

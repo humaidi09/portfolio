@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#7c9bff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#7c9bff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#7c9bff">what you get</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 05</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">A breakdown, next to your CGPA</text>
+
+  <!-- breakdown panel -->
+  <rect x="64" y="224" width="720" height="372" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#7c9bff" stroke-opacity="0.4"/>
+  <text x="92" y="268" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#8c897f">PER-COURSE BREAKDOWN</text>
+
+  <text x="92" y="316" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="1" fill="#8c897f">COURSE</text>
+  <text x="392" y="316" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="1" fill="#8c897f">GRADE</text>
+  <text x="560" y="316" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="1" fill="#8c897f">CREDITS</text>
+  <text x="756" y="316" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="14" letter-spacing="1" fill="#8c897f">POINTS</text>
+  <line x1="92" y1="334" x2="756" y2="334" stroke="#7c9bff" stroke-opacity="0.25" stroke-width="1"/>
+
+  <text x="92" y="378" font-family="'JetBrains Mono', monospace" font-size="19" fill="#eae7df">Course 1</text>
+  <text x="392" y="378" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">A</text>
+  <text x="560" y="378" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">4</text>
+  <text x="756" y="378" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">15.00</text>
+
+  <text x="92" y="418" font-family="'JetBrains Mono', monospace" font-size="19" fill="#eae7df">Course 2</text>
+  <text x="392" y="418" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">B</text>
+  <text x="560" y="418" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">3</text>
+  <text x="756" y="418" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">9.00</text>
+
+  <text x="92" y="458" font-family="'JetBrains Mono', monospace" font-size="19" fill="#eae7df">Course 3</text>
+  <text x="392" y="458" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">A-</text>
+  <text x="560" y="458" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">3</text>
+  <text x="756" y="458" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="19" fill="#b8b3a6">10.50</text>
+
+  <line x1="92" y1="486" x2="756" y2="486" stroke="#7c9bff" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="92" y="532" font-size="21" font-weight="600" fill="#eae7df">Totals</text>
+  <text x="560" y="532" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#eae7df">10</text>
+  <text x="756" y="532" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#b3c4ff">34.50</text>
+  <text x="92" y="566" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">semester GPA = 34.50 &#247; 10 = 3.45</text>
+
+  <!-- CGPA panel -->
+  <rect x="812" y="224" width="404" height="372" rx="16" fill="#b3c4ff" fill-opacity="0.06" stroke="#b3c4ff" stroke-opacity="0.5"/>
+  <text x="1014" y="300" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="1" fill="#b3c4ff">CUMULATIVE CGPA</text>
+  <text x="1014" y="432" text-anchor="middle" font-size="96" font-weight="700" fill="#eae7df">3.45</text>
+  <line x1="900" y1="480" x2="1128" y2="480" stroke="#b3c4ff" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="1014" y="524" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">one semester so far</text>
+  <text x="1014" y="552" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#8c897f">10 credits</text>
+
+  <!-- bottom strip -->
+  <rect x="64" y="622" width="72" height="40" rx="20" fill="#7c9bff" fill-opacity="0.1" stroke="#7c9bff" stroke-opacity="0.5"/>
+  <text x="100" y="647" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#b3c4ff">c++</text>
+  <rect x="148" y="622" width="72" height="40" rx="20" fill="#7c9bff" fill-opacity="0.1" stroke="#7c9bff" stroke-opacity="0.5"/>
+  <text x="184" y="647" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#b3c4ff">oop</text>
+  <rect x="232" y="622" width="72" height="40" rx="20" fill="#7c9bff" fill-opacity="0.1" stroke="#7c9bff" stroke-opacity="0.5"/>
+  <text x="268" y="647" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#b3c4ff">cli</text>
+  <text x="326" y="647" font-size="20" fill="#b8b3a6">no external dependencies</text>
+  <text x="1216" y="647" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="17" fill="#8c897f">github.com/humaidi09/CGPA-Calculator</text>
+</svg>

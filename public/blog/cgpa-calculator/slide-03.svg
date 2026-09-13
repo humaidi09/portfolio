@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="24" y="24" width="1232" height="672" rx="20" fill="none" stroke="#7c9bff" stroke-opacity="0.14"/>
+
+  <circle cx="66" cy="70" r="6" fill="#7c9bff"/>
+  <text x="86" y="78" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="1" fill="#7c9bff">the grade-point map</text>
+  <text x="1216" y="78" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="20" fill="#8c897f">slide 03</text>
+
+  <text x="64" y="176" font-size="56" font-weight="700" fill="#eae7df">A letter grade &#8594; a grade point</text>
+
+  <!-- left: lead + aside -->
+  <text x="64" y="300" font-size="24" fill="#b8b3a6">Each letter grade maps to a fixed</text>
+  <text x="64" y="336" font-size="24" fill="#b8b3a6">grade point on a 4.0 scale. The map</text>
+  <text x="64" y="372" font-size="24" fill="#b8b3a6">is the one lookup the whole tool</text>
+  <text x="64" y="408" font-size="24" fill="#b8b3a6">is built around.</text>
+
+  <rect x="64" y="452" width="548" height="150" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#5a74d6" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="88" y="496" font-size="20" font-weight="600" fill="#b3c4ff">F still counts against you</text>
+  <text x="88" y="530" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">0.0 grade points &#8212; but its credit hours stay</text>
+  <text x="88" y="554" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">in the denominator, so they pull the average down.</text>
+
+  <!-- right: the table -->
+  <rect x="680" y="228" width="520" height="430" rx="16" fill="#eae7df" fill-opacity="0.05" stroke="#7c9bff" stroke-opacity="0.28"/>
+  <text x="724" y="278" font-family="'JetBrains Mono', monospace" font-size="15" letter-spacing="1" fill="#8c897f">GRADE</text>
+  <text x="1160" y="278" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" letter-spacing="1" fill="#8c897f">GRADE POINT</text>
+  <line x1="712" y1="298" x2="1168" y2="298" stroke="#7c9bff" stroke-opacity="0.25" stroke-width="1"/>
+
+  <g>
+    <text x="724" y="348" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">A+</text>
+    <text x="1160" y="348" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#b3c4ff">4.00</text>
+
+    <text x="724" y="392" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">A</text>
+    <text x="1160" y="392" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#b3c4ff">3.75</text>
+
+    <text x="724" y="436" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">A-</text>
+    <text x="1160" y="436" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#b3c4ff">3.50</text>
+
+    <text x="724" y="480" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">B+</text>
+    <text x="1160" y="480" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#b3c4ff">3.25</text>
+
+    <text x="724" y="524" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">B</text>
+    <text x="1160" y="524" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#b3c4ff">3.00</text>
+
+    <text x="724" y="568" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">C</text>
+    <text x="1160" y="568" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#b3c4ff">2.50</text>
+
+    <text x="724" y="612" font-family="'JetBrains Mono', monospace" font-size="23" font-weight="700" fill="#eae7df">F</text>
+    <text x="1160" y="612" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="23" fill="#8c897f">0.00</text>
+  </g>
+</svg>

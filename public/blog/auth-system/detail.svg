@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="720" viewBox="0 0 1000 720" fill="none" font-family="'Fraunces', Georgia, serif">
+  <rect width="1000" height="720" fill="#000000"/>
+  <rect x="16" y="16" width="968" height="688" rx="20" fill="none" stroke="#a970ff" stroke-opacity="0.14"/>
+
+  <circle cx="69" cy="66" r="5" fill="#a970ff"/>
+  <text x="84" y="74" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1" fill="#a970ff">login check</text>
+  <text x="62" y="120" font-size="36" font-weight="700" fill="#eae7df">How a login is checked</text>
+
+  <!-- input row -->
+  <rect x="96" y="150" width="808" height="60" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.4"/>
+  <text x="120" y="188" font-size="22" font-weight="700" fill="#eae7df">username + password entered</text>
+  <text x="880" y="188" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">from the form</text>
+
+  <!-- steps -->
+  <g font-family="'Fraunces', Georgia, serif">
+    <!-- step 1 -->
+    <rect x="96" y="234" width="808" height="76" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.28"/>
+    <circle cx="140" cy="272" r="19" fill="#a970ff"/>
+    <text x="140" y="279" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">1</text>
+    <text x="180" y="266" font-size="21" font-weight="600" fill="#eae7df">Look up the user</text>
+    <text x="180" y="294" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">not found? fall through with the same work and timing</text>
+    <text x="880" y="280" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#a970ff">lookup</text>
+    <path d="M134 314 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+    <!-- step 2 -->
+    <rect x="96" y="322" width="808" height="76" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.28"/>
+    <circle cx="140" cy="360" r="19" fill="#a970ff"/>
+    <text x="140" y="367" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">2</text>
+    <text x="180" y="354" font-size="21" font-weight="600" fill="#eae7df">Re-derive with the stored salt</text>
+    <text x="180" y="382" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">candidate = derivePassword(entered, stored_salt)</text>
+    <text x="880" y="368" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#a970ff">derive</text>
+    <path d="M134 402 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+    <!-- step 3 -->
+    <rect x="96" y="410" width="808" height="76" rx="12" fill="#eae7df" fill-opacity="0.05" stroke="#a970ff" stroke-opacity="0.28"/>
+    <circle cx="140" cy="448" r="19" fill="#a970ff"/>
+    <text x="140" y="455" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">3</text>
+    <text x="180" y="442" font-size="21" font-weight="600" fill="#eae7df">Compare in constant time</text>
+    <text x="180" y="470" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">constantTimeEquals(candidate, stored_hash)</text>
+    <text x="880" y="456" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#a970ff">compare</text>
+    <path d="M134 490 l6 9 l6 -9" stroke="#8c897f" stroke-width="2" fill="none"/>
+
+    <!-- step 4 -->
+    <rect x="96" y="498" width="808" height="84" rx="12" fill="#cbb2ff" fill-opacity="0.06" stroke="#cbb2ff" stroke-opacity="0.5"/>
+    <circle cx="140" cy="540" r="19" fill="#cbb2ff"/>
+    <text x="140" y="547" text-anchor="middle" font-size="20" font-weight="700" fill="#000000">4</text>
+    <text x="180" y="533" font-size="21" font-weight="600" fill="#eae7df">Allow, or count a failure</text>
+    <text x="180" y="561" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">too many failures &#8594; the account is locked</text>
+    <text x="880" y="546" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="15" fill="#cbb2ff">decide</text>
+  </g>
+
+  <!-- anti-enumeration aside -->
+  <rect x="96" y="600" width="808" height="86" rx="12" fill="#7f4fd6" fill-opacity="0.07" stroke="#7f4fd6" stroke-opacity="0.5" stroke-dasharray="6 5"/>
+  <text x="120" y="636" font-size="19" font-weight="600" fill="#cbb2ff">Same answer, either way</text>
+  <text x="120" y="662" font-family="'JetBrains Mono', monospace" font-size="15" fill="#8c897f">unknown user and wrong password return one identical message</text>
+</svg>
