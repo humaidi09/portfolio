@@ -38,6 +38,8 @@ async function main() {
       details: p.details || '',
       github: p.github || '',
       demo: p.demo && p.demo !== '#' ? p.demo : '',
+      liveUrl: p.liveUrl || '',
+      alwaysShow: !!p.alwaysShow,
       order: i,
     }
     const existing = await Project.findOne({ slug: doc.slug })

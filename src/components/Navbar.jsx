@@ -60,10 +60,9 @@ export default function Navbar() {
   const path = pathname.replace(/\/+$/, '') || '/'
   const onBlog = path === '/blog' || path.startsWith('/blog/')
   const onApps = path === '/apps'
-  const onWorldCup = path === '/worldcup'
   // Any route with no scroll sections of its own — section links must jump to
   // the home page (a full load), not scroll the current page.
-  const offHome = onBlog || onApps || onWorldCup
+  const offHome = onBlog || onApps
 
   // Off the home page the section links navigate home (full load): Home → "/",
   // the rest → "/#id". On the home page they stay in-page scroll anchors.

@@ -57,10 +57,11 @@ router.delete('/:id', requireAdmin, async (req, res) => {
 /** Keep only known fields; coerce `tech` from a comma string if needed. */
 function sanitize(body = {}) {
   const out = {}
-  for (const key of ['slug', 'title', 'category', 'summary', 'details', 'github', 'demo']) {
+  for (const key of ['slug', 'title', 'category', 'summary', 'details', 'github', 'demo', 'liveUrl']) {
     if (body[key] !== undefined) out[key] = String(body[key]).trim()
   }
   if (body.order !== undefined) out.order = Number(body.order) || 0
+  if (body.alwaysShow !== undefined) out.alwaysShow = Boolean(body.alwaysShow)
   if (body.tech !== undefined) {
     out.tech = Array.isArray(body.tech)
       ? body.tech.map((t) => String(t).trim()).filter(Boolean)

@@ -3,8 +3,8 @@
   "rewrites": [
     { "source": "/nonet", "destination": "/nonet/index.html" },
     { "source": "/nonet/(.*)", "destination": "/nonet/index.html" },
-    { "source": "/worldcup", "destination": "/index.html" },
-    { "source": "/worldcup/(.*)", "destination": "/index.html" },
+    { "source": "/worldcup", "destination": "/worldcup/index.html" },
+    { "source": "/worldcup/(.*)", "destination": "/worldcup/index.html" },
     { "source": "/banking", "destination": "/banking/index.html" },
     { "source": "/banking/(.*)", "destination": "/banking/index.html" },
     { "source": "/login", "destination": "/login/index.html" },

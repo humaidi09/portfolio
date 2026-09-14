@@ -15,6 +15,10 @@ const projectSchema = new mongoose.Schema(
     details: { type: String, default: '' },
     github: { type: String, default: '' },
     demo: { type: String, default: '' },
+    // The standalone app's live URL under the portfolio (e.g. "/banking/") and
+    // whether it must always lead the grid ahead of the rest.
+    liveUrl: { type: String, default: '' },
+    alwaysShow: { type: Boolean, default: false },
     // Controls display order (lower = shown first). Falls back to createdAt.
     order: { type: Number, default: 0 },
   },

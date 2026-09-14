@@ -323,7 +323,7 @@ function Dashboard({ token, onLogout }) {
 
 /* ─────────────────────────── Projects ─────────────────────────── */
 
-const EMPTY = { slug: '', title: '', category: '', tech: '', summary: '', details: '', github: '', demo: '', order: 0 }
+const EMPTY = { slug: '', title: '', category: '', tech: '', summary: '', details: '', github: '', demo: '', liveUrl: '', alwaysShow: false, order: 0 }
 
 function ProjectsTab({ token, onLogout }) {
   const { toast } = useToast()
@@ -481,6 +481,18 @@ function ProjectForm({ initial, onCancel, onSave }) {
           <div>
             <label className={label} htmlFor="demo">Demo URL</label>
             <input id="demo" value={form.demo} onChange={set('demo')} className={field} placeholder="https://… (optional)" />
+          </div>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className={label} htmlFor="liveUrl">Live app URL</label>
+            <input id="liveUrl" value={form.liveUrl || ''} onChange={set('liveUrl')} className={field} placeholder="/banking/ — in-house app path" />
+          </div>
+          <div className="flex items-end">
+            <label className="inline-flex cursor-pointer items-center gap-2.5 pb-2.5 text-sm font-medium text-ink">
+              <input type="checkbox" checked={!!form.alwaysShow} onChange={toggle('alwaysShow')} className="h-4 w-4 rounded border-hair bg-fill accent-neonCyan" />
+              Always show in the grid
+            </label>
           </div>
         </div>
         <div className="flex gap-3 pt-2">

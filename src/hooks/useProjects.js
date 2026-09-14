@@ -2,18 +2,20 @@ import { useEffect, useState } from 'react'
 import { api } from '../lib/api'
 import { projects as staticProjects } from '../data/portfolioData'
 
-// Projects that must always appear even when the API list omits them — the live
-// in-house apps that aren't stored in the projects database (e.g. Nonet). Merged
-// in by key, ahead of the API list, so the flagship app leads the grid.
-const PINNED = staticProjects.filter((p) => p.alwaysShow)
+// Bundled static entries indexed by slug/id, used to backfill fields a DB doc
+// may not carry yet (liveUrl / alwaysShow before a re-seed) so the live in-house
+// app links never disappear from the grid.
+const STATIC_BY_KEY = new Map(staticProjects.map((p) => [p.id, p]))
 
 /**
- * Load projects from the API, falling back to the bundled static list if the
- * backend is unreachable (so the site never renders an empty Projects section).
+ * Load projects from the API — the source of truth managed from /admin — and
+ * fall back to the bundled static list if the backend is unreachable (so the
+ * site never renders an empty Projects section).
  *
- * The API returns each project with a `slug` (the old static `id`) plus a Mongo
- * `id`. Static entries only have `id`. We expose a `key` on every project that
- * matches the CODE_PREVIEWS map either way.
+ * Each API project has a `slug` (the old static `id`) plus a Mongo `id`; static
+ * entries only have `id`. We expose a `key` on every project that matches the
+ * CODE_PREVIEWS map either way. The always-show apps (the six standalone builds)
+ * are floated to the front so the flagship apps lead the grid.
  */
 export function useProjects() {
   const [projects, setProjects] = useState(staticProjects.map(withKey))
@@ -24,13 +26,21 @@ export function useProjects() {
     api
       .listProjects()
       .then((data) => {
-        if (alive && Array.isArray(data) && data.length) {
-          // Keep the pinned in-house apps present and first, even though the DB
-          // doesn't know about them; drop any API duplicate by key.
-          const pinnedKeys = new Set(PINNED.map((p) => p.id))
-          const rest = data.filter((p) => !pinnedKeys.has(p.slug || p.id))
-          setProjects([...PINNED, ...rest].map(withKey))
-        }
+        if (!alive || !Array.isArray(data) || !data.length) return
+        // Backfill liveUrl/alwaysShow from the bundled static entry by slug when
+        // a doc predates those fields, then float always-show apps to the front.
+        // Array.prototype.sort is stable, so relative `order` is preserved within
+        // each group.
+        const merged = data.map((p) => {
+          const s = STATIC_BY_KEY.get(p.slug || p.id)
+          return withKey({
+            ...p,
+            liveUrl: p.liveUrl || s?.liveUrl || '',
+            alwaysShow: p.alwaysShow ?? s?.alwaysShow ?? false,
+          })
+        })
+        merged.sort((a, b) => Number(b.alwaysShow) - Number(a.alwaysShow))
+        setProjects(merged)
       })
       .catch(() => {
         // Keep the static fallback already in state.
