@@ -1,0 +1,32 @@
+name: Keep API warm
+
+# The portfolio's API runs on Render's free tier, which spins the instance down
+# after ~15 minutes of inactivity. The next visitor then waits 30-50s for a cold
+# start before any DB-backed content (events, projects, skills, …) appears — the
+# "posts show up very late" problem. A lightweight scheduled ping to the health
+# endpoint keeps the instance awake so first loads stay fast.
+#
+# Notes:
+#   - Scheduled runs are free and unlimited on public repositories. On a private
+#     repo they draw from the monthly Actions minutes, so make the repo public or
+#     use an external pinger (see below) instead.
+#   - GitHub disables scheduled workflows after 60 days with no repo activity, and
+#     can delay cron runs under load — a 10-minute schedule leaves headroom under
+#     the 15-minute idle window. A dedicated free pinger (cron-job.org,
+#     UptimeRobot) is more punctual if you want belt-and-braces.
+
+on:
+  schedule:
+    # Every 10 minutes, offset off :00 — GitHub delays cron most at the top of
+    # the hour, so firing at :03,:13,:23,… lands closer to on-time.
+    - cron: '3-59/10 * * * *'
+  workflow_dispatch: {} # allow a manual run from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: |
+          curl -fsS --max-time 90 --retry 3 --retry-delay 15 \
+            https://portfolio-api-y7vm.onrender.com/api/health

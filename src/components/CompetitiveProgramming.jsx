@@ -18,7 +18,7 @@ import { competitiveProgramming } from '../data/portfolioData'
 export default function CompetitiveProgramming() {
   // Judges are managed in /admin and served from the API; the static list ships
   // as a fallback so the section still renders when the API is asleep.
-  const { items: platforms } = useCollection(api.listCp, competitiveProgramming)
+  const { items: platforms } = useCollection(api.listCp, competitiveProgramming, 'cp')
   const data = useCpData(platforms)
   const [selected, setSelected] = useState(null)
 

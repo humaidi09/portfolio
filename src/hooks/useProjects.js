@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../lib/api'
+import { readCache, writeCache } from '../lib/cache'
 import { projects as staticProjects } from '../data/portfolioData'
 
 // Bundled static entries indexed by slug/id, used to backfill fields a DB doc
@@ -18,7 +19,10 @@ const STATIC_BY_KEY = new Map(staticProjects.map((p) => [p.id, p]))
  * are floated to the front so the flagship apps lead the grid.
  */
 export function useProjects() {
-  const [projects, setProjects] = useState(staticProjects.map(withKey))
+  // Seed from the last DB response (already merged/sorted) so a returning visitor
+  // sees the real grid instantly while the API cold-starts; fall back to the
+  // bundled static list on a first-ever visit.
+  const [projects, setProjects] = useState(() => readCache('projects') || staticProjects.map(withKey))
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -41,9 +45,10 @@ export function useProjects() {
         })
         merged.sort((a, b) => Number(b.alwaysShow) - Number(a.alwaysShow))
         setProjects(merged)
+        writeCache('projects', merged)
       })
       .catch(() => {
-        // Keep the static fallback already in state.
+        // Keep the cached/static fallback already in state.
       })
       .finally(() => alive && setLoading(false))
     return () => {

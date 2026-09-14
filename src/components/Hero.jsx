@@ -108,7 +108,7 @@ export default function Hero() {
   const focusLine = reduce ? phrases[0] : typed
 
   // Stats come from the API (admin-editable), falling back to the static list.
-  const { items: stats } = useCollection(api.listStats, staticStats)
+  const { items: stats } = useCollection(api.listStats, staticStats, 'stats')
 
   // Pick the contests stat by label, not position: the live DB carries extra
   // records (e.g. an older "Total Credit") that shift array indexes, so an

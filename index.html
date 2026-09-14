@@ -11,6 +11,11 @@
     <meta name="theme-color" content="#000000" />
     <meta name="author" content="Hussain Ahmed" />
 
+    <!-- Open the connection to the content API early so the first data fetch
+         doesn't pay for DNS + TLS setup on top of everything else. -->
+    <link rel="preconnect" href="https://portfolio-api-y7vm.onrender.com" crossorigin />
+    <link rel="dns-prefetch" href="https://portfolio-api-y7vm.onrender.com" />
+
     <!--
       Social share preview + SEO. Canonical + social URLs use the live custom
       domain humaidi.me. If it ever changes, update it here and in

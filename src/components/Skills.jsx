@@ -56,7 +56,7 @@ function SkillIcon({ name, className }) {
  * when the API is unreachable (local dev, Render cold starts).
  */
 export default function Skills() {
-  const { items: groups } = useCollection(api.listSkillGroups, fallbackGroups)
+  const { items: groups } = useCollection(api.listSkillGroups, fallbackGroups, 'skillGroups')
 
   return (
     <section id="skills" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">

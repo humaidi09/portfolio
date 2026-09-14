@@ -33,9 +33,9 @@ export default function Blog() {
   const [tab, setTab] = useState('all')
   const [query, setQuery] = useState('')
 
-  const { items: posts, loading: lPosts } = useCollection(api.listPosts, [])
-  const { items: videos, loading: lVideos } = useCollection(api.listVideos, [])
-  const { items: photos, loading: lPhotos } = useCollection(api.listPhotos, [])
+  const { items: posts, loading: lPosts } = useCollection(api.listPosts, [], 'posts')
+  const { items: videos, loading: lVideos } = useCollection(api.listVideos, [], 'videos')
+  const { items: photos, loading: lPhotos } = useCollection(api.listPhotos, [], 'photos')
   const loading = lPosts || lVideos || lPhotos
 
   const q = query.trim().toLowerCase()

@@ -40,7 +40,7 @@ function makeOrder(total, n) {
 
 export default function CodeTerminal({ className = '' }) {
   // Puzzles come from the API; fall back to the bundled list until it loads.
-  const { items: puzzles } = useCollection(api.listPuzzles, STATIC_PUZZLES)
+  const { items: puzzles } = useCollection(api.listPuzzles, STATIC_PUZZLES, 'puzzles')
   const list = puzzles.length ? puzzles : STATIC_PUZZLES
 
   // Skip the "run" animation when the visitor prefers less motion.

@@ -7,7 +7,7 @@ import { useCollection } from '../hooks/useCollection'
 // No static source for results yet — the section simply hides if the API
 // returns nothing (and no fallback is bundled).
 export default function Results() {
-  const { items: results } = useCollection(api.listResults, [])
+  const { items: results } = useCollection(api.listResults, [], 'results')
   if (!results.length) return null
 
   return (

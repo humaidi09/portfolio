@@ -14,7 +14,7 @@ import { events as staticEvents } from '../data/portfolioData'
 // cold starts); the live API overrides it with the same records when it
 // responds. It only hides if there are genuinely no events at all.
 export default function Events() {
-  const { items: events } = useCollection(api.listEvents, staticEvents)
+  const { items: events } = useCollection(api.listEvents, staticEvents, 'events')
   const [active, setActive] = useState(null) // { event, index } for the open photo
 
   if (!events.length) return null

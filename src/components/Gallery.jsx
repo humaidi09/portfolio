@@ -10,7 +10,7 @@ import { useCollection } from '../hooks/useCollection'
 // A pure photo wall, managed in /admin. Everything comes from the DB — the
 // section hides itself until at least one photo has been uploaded.
 export default function Gallery() {
-  const { items: photos } = useCollection(api.listGallery, [])
+  const { items: photos } = useCollection(api.listGallery, [], 'gallery')
   const [active, setActive] = useState(-1) // index of the open photo, or -1
 
   if (!photos.length) return null

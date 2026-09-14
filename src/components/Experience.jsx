@@ -19,8 +19,12 @@ const CHIP = {
 }
 
 export default function Experience() {
-  const { items: experiences } = useCollection(api.listExperiences, staticExperiences)
-  const { items: certifications } = useCollection(api.listCertifications, staticCertifications)
+  const { items: experiences } = useCollection(api.listExperiences, staticExperiences, 'experiences')
+  const { items: certifications } = useCollection(
+    api.listCertifications,
+    staticCertifications,
+    'certifications',
+  )
 
   // One continuous timeline: involvement first, then certifications. The API
   // returns certs with `credentialId`; static data uses `id` — accept either.
