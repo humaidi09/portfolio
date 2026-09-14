@@ -6,8 +6,6 @@ import SpotlightCard from './ui/SpotlightCard'
 import Reveal from './ui/Reveal'
 import { GithubIcon } from './ui/BrandIcons'
 import { useProjects } from '../hooks/useProjects'
-import { Link } from '../lib/router'
-import { getDemo } from './demos/registry'
 
 // Representative source snippets shown in each project's detail modal.
 const CODE_PREVIEWS = {
@@ -220,7 +218,9 @@ export default function Projects() {
         <AnimatePresence mode="popLayout">
           {visible.map((p, i) => {
             const accent = ACCENTS[i % ACCENTS.length]
-            const hasDemo = Boolean(getDemo(p.key))
+            // The live action opens the full standalone app served under the
+            // domain (liveUrl → full load).
+            const live = p.liveUrl ? { el: 'a', props: { href: p.liveUrl }, label: 'Open the app' } : null
             return (
               <motion.div
                 key={p.key}
@@ -270,17 +270,17 @@ export default function Projects() {
                     </div>
                   </button>
 
-                  {/* Direct route to the live, interactive version of this project. */}
-                  {hasDemo && (
-                    <Link
-                      to={`/demos/${p.key}`}
-                      aria-label={`Open the live demo for ${p.title}`}
+                  {/* Direct link to the live standalone app (plain full load). */}
+                  {live && (
+                    <live.el
+                      {...live.props}
+                      aria-label={`${live.label}: ${p.title}`}
                       className="group/live flex items-center justify-center gap-2 border-t border-hair px-6 py-3 font-mono text-xs font-semibold text-neonCyan transition-colors hover:bg-neonCyan/[0.06]"
                     >
                       <Play className="h-3.5 w-3.5 fill-current" />
-                      Try it live
+                      {live.label}
                       <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/live:-translate-y-0.5 group-hover/live:translate-x-0.5" />
-                    </Link>
+                    </live.el>
                   )}
                 </SpotlightCard>
               </motion.div>
@@ -308,6 +308,8 @@ function ProjectModal({ project, onClose }) {
       window.removeEventListener('keydown', onKey)
     }
   }, [project, onClose])
+
+  const live = project?.liveUrl ? { el: 'a', props: { href: project.liveUrl }, label: 'Open the app' } : null
 
   return (
     <AnimatePresence>
@@ -400,25 +402,27 @@ function ProjectModal({ project, onClose }) {
 
             {/* Footer actions */}
             <div className="flex flex-wrap items-center gap-3 border-t border-hair p-6">
-              {getDemo(project.key) && (
-                <Link
-                  to={`/demos/${project.key}`}
+              {live && (
+                <live.el
+                  {...live.props}
                   onClick={onClose}
                   className="inline-flex items-center gap-2 rounded-xl bg-neonCyan px-5 py-2.5 font-semibold text-void transition-opacity duration-200 hover:opacity-90"
                 >
                   <Play className="h-4 w-4 fill-current" />
-                  Try it live
-                </Link>
+                  {live.label}
+                </live.el>
               )}
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-5 py-2.5 font-semibold text-ink transition-colors hover:bg-fill-strong"
-              >
-                <GithubIcon className="h-4 w-4" />
-                View on GitHub
-              </a>
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-5 py-2.5 font-semibold text-ink transition-colors hover:bg-fill-strong"
+                >
+                  <GithubIcon className="h-4 w-4" />
+                  View on GitHub
+                </a>
+              )}
             </div>
           </motion.div>
         </motion.div>

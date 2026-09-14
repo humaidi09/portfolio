@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/nonet/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Nonet — a Sudoku practice studio. Play beautiful puzzles, see how you actually solve, and improve with a coach that reads your game."
+    />
+    <title>Nonet — Sudoku practice studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Set the theme class before first paint so there is no flash of the wrong theme. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('nonet:theme') || 'dark'
+          var dark =
+            t === 'dark' ||
+            (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {}
+      })()
+    </script>
+    <script type="module" crossorigin src="/nonet/assets/index-DoaDJ3ti.js"></script>
+    <link rel="stylesheet" crossorigin href="/nonet/assets/index-Bnwsx0iG.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

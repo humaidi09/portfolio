@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, Award, Download, GraduationCap, Zap } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
@@ -246,7 +246,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
           className="flex min-w-0 items-stretch gap-3 sm:gap-5"
         >
-          <Portrait reduce={reduce} />
+          <Portrait />
           <NowCard />
         </motion.div>
       </div>
@@ -264,72 +264,26 @@ export default function Hero() {
   )
 }
 
-/** Framed headshot as a glassy 3D card that tilts toward the cursor, with a
-    moving specular sheen. Falls back to a monogram if /profile.jpg is missing,
-    and stays perfectly still under prefers-reduced-motion. */
-function Portrait({ reduce }) {
+/** Clean framed headshot beside the "currently" card — a subtle hairline
+    border with the photo filling the frame (no glass, ring, or tilt). Falls
+    back to a monogram if /profile.jpg is missing. */
+function Portrait() {
   const [ok, setOk] = useState(true)
-  const ref = useRef(null)
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
-
-  const onMove = (e) => {
-    if (reduce || !ref.current) return
-    const r = ref.current.getBoundingClientRect()
-    const px = (e.clientX - r.left) / r.width // 0..1
-    const py = (e.clientY - r.top) / r.height
-    setTilt({
-      rx: (0.5 - py) * 12, // rotateX: up when cursor high
-      ry: (px - 0.5) * 14, // rotateY: right when cursor right
-      gx: px * 100,
-      gy: py * 100,
-      active: true,
-    })
-  }
-  const onLeave = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
-
   return (
-    <figure className="w-[96px] shrink-0 [perspective:1200px] min-[360px]:w-[116px] sm:w-[136px] lg:w-[172px]">
-      <div
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        style={{
-          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-          transition: tilt.active ? 'transform 120ms ease-out' : 'transform 500ms ease-out',
-        }}
-        className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/15 bg-fill p-1.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] backdrop-blur-xl [transform-style:preserve-3d] will-change-transform"
-      >
+    <figure className="w-[96px] shrink-0 min-[360px]:w-[116px] sm:w-[136px] lg:w-[172px]">
+      <div className="overflow-hidden rounded-2xl border border-hair bg-fill">
         {ok ? (
           <img
             src={personalInfo.photo}
             alt={`Portrait of ${personalInfo.name}`}
             onError={() => setOk(false)}
-            className="h-full w-full rounded-[1.15rem] object-cover object-top"
+            className="aspect-[4/5] w-full object-cover object-top"
           />
         ) : (
-          <div className="grid h-full w-full place-items-center rounded-[1.15rem] font-display text-6xl font-semibold text-neonCyan">
+          <div className="grid aspect-[4/5] w-full place-items-center font-display text-6xl font-semibold text-neonCyan">
             HA
           </div>
         )}
-
-        {/* Glass sheen — a specular highlight that follows the cursor */}
-        <div
-          aria-hidden="true"
-          style={{
-            background: `radial-gradient(circle at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,0.35), transparent 45%)`,
-          }}
-          className="pointer-events-none absolute inset-0 z-10 mix-blend-soft-light transition-opacity duration-300"
-        />
-        {/* Frosted top edge + inner ring for the "glass" body */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 rounded-3xl ring-1 ring-inset ring-white/25 [background:linear-gradient(150deg,rgba(255,255,255,0.22),transparent_34%)]"
-        />
-        {/* Warm amber wash at the base, keyed to the signal color */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 rounded-3xl bg-[linear-gradient(to_top,color-mix(in_oklab,var(--color-neon-cyan)_20%,transparent),transparent_42%)]"
-        />
       </div>
     </figure>
   )

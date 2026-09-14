@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/restaurant/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <!-- >>> Per app: set the description + <title> to this app. -->
+    <meta name="description" content="A front-of-house order console: an order lifecycle enforced by a real state machine, and a bill computed to the exact cent — discount, then 12.5% service, then 5% tax, applied in a fixed, reproducible order." />
+
+    <!-- Set the theme class before first paint so there's no flash of the wrong
+         theme. Dark-first, matching the portfolio; localStorage key 'theme'. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var theme = stored || 'dark'
+          document.documentElement.classList.add(theme)
+        } catch (e) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
+
+    <!-- Fonts: Fraunces (display serif), Inter (body/UI), JetBrains Mono (structure/code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Instant splash: paint the black (or paper) background before the JS
+         bundle loads, so there's no white/black flash. React clears #root on mount. -->
+    <style>html{background:#000}body{color:#eae7df;background:0 0;min-height:100vh;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}html.light{background:#f4f2ea}.light body{color:#1c1a15}#app-splash{z-index:9999;place-items:center;display:grid;position:fixed;inset:0}#app-splash .ring{border:2px solid #f2843d;border-color:#f2843d #cf9038 #eae7df1f #eae7df1f;border-radius:50%;width:44px;height:44px;animation:.85s linear infinite splash-spin}@keyframes splash-spin{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){#app-splash .ring{animation:none}}</style>
+
+    <title>Restaurant Management</title>
+    <script type="module" crossorigin src="/restaurant/assets/index-B-ed4P41.js"></script>
+    <link rel="stylesheet" crossorigin href="/restaurant/assets/index-q4OtUSU4.css">
+  </head>
+  <body>
+    <div id="root">
+      <div id="app-splash" aria-hidden="true"><div class="ring"></div></div>
+    </div>
+  </body>
+</html>

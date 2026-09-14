@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowUpRight, Clock, Play } from 'lucide-react'
 import { Link } from '../../lib/router'
 import { api } from '../../lib/api'
-import { getDemo } from '../demos/registry'
+import { apps } from '../../data/portfolioData'
 import Markdown from './Markdown'
 
 /** "Sep 5, 2026" — or '' for a missing/invalid date. */
@@ -53,10 +53,10 @@ export default function BlogPost({ slug }) {
   if (status === 'notfound' || !post) return <NotFound />
 
   const date = formatDate(post.publishedAt || post.createdAt)
-  // By convention a post's slug matches its project's demo slug (see
-  // demos/registry.js), so a write-up about one of the six projects links
-  // straight to the live, in-browser version — derived, never hand-wired.
-  const demo = getDemo(post.slug)
+  // By convention a post's slug matches its project id (see portfolioData `apps`),
+  // so a write-up about one of the apps links straight to the live standalone
+  // app — derived, never hand-wired.
+  const app = apps.find((a) => a.slug === post.slug)
 
   return (
     <article className="relative mx-auto max-w-3xl px-4 pt-28 pb-20 sm:px-6 md:pt-32">
@@ -92,9 +92,9 @@ export default function BlogPost({ slug }) {
       </h1>
       {post.subtitle ? <p className="mt-4 text-lg leading-relaxed text-muted">{post.subtitle}</p> : null}
 
-      {demo ? (
-        <Link
-          to={`/demos/${demo.slug}`}
+      {app ? (
+        <a
+          href={app.url}
           className="group mt-8 flex items-center gap-4 rounded-2xl border border-neonCyan/30 bg-neonCyan/[0.06] p-5 transition-colors hover:border-neonCyan/50 hover:bg-neonCyan/[0.1]"
         >
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-neonCyan text-void">
@@ -102,15 +102,15 @@ export default function BlogPost({ slug }) {
           </span>
           <span className="min-w-0 flex-1">
             <span className="block font-mono text-[11px] uppercase tracking-wider text-neonCyan">
-              Live demo
+              Live app
             </span>
             <span className="mt-0.5 block font-display text-lg font-semibold leading-snug text-ink">
-              Try {demo.title} in your browser
+              Open {app.title} in your browser
             </span>
-            <span className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">{demo.tagline}</span>
+            <span className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">{app.tagline}</span>
           </span>
           <ArrowUpRight className="h-5 w-5 shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neonCyan" />
-        </Link>
+        </a>
       ) : null}
 
       <div className="mt-8">

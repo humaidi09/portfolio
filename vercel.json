@@ -1,4 +1,18 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/nonet", "destination": "/nonet/index.html" },
+    { "source": "/nonet/(.*)", "destination": "/nonet/index.html" },
+    { "source": "/worldcup", "destination": "/worldcup/index.html" },
+    { "source": "/worldcup/(.*)", "destination": "/worldcup/index.html" },
+    { "source": "/banking", "destination": "/banking/index.html" },
+    { "source": "/banking/(.*)", "destination": "/banking/index.html" },
+    { "source": "/login", "destination": "/login/index.html" },
+    { "source": "/login/(.*)", "destination": "/login/index.html" },
+    { "source": "/restaurant", "destination": "/restaurant/index.html" },
+    { "source": "/restaurant/(.*)", "destination": "/restaurant/index.html" },
+    { "source": "/cgpa", "destination": "/cgpa/index.html" },
+    { "source": "/cgpa/(.*)", "destination": "/cgpa/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

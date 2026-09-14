@@ -58,14 +58,25 @@ export const skillGroups = [
 
 export const projects = [
   {
+    id: "nonet",
+    title: "Nonet — Sudoku Practice Studio",
+    category: "Web App",
+    tech: ["React", "Vite", "Tailwind CSS", "Zustand"],
+    summary: "A standalone Sudoku studio that doesn't just serve puzzles — it reads how you actually solve and helps you get better: play, measure, and train.",
+    details: "Every puzzle comes from a verified generator that carves to a single solution, so difficulty and hints are always sound. Three systems sit on top of the game: a Coach that analyses your real solves — pace, accuracy, recurring mistakes — and recommends what to practise next; a move-by-move Replay that reconstructs any solve from its log; and a transparent skill rating that bands you from Novice to Master. Everything shown is derived from your own history, never faked. Built with React, Vite and Tailwind, with a persisted local store and a full light/dark theme.",
+    liveUrl: "/nonet/",
+    alwaysShow: true
+  },
+  {
     id: "world-cup-2026",
     title: "World Cup 2026 Management System",
     category: "Python/OOP",
     tech: ["Python", "OOP", "Inheritance", "pytest"],
     summary: "An object-oriented model of a football squad, built to show the four pillars of OOP: one Person → Player → position hierarchy, driven through a shared interface.",
     details: "Person is the base class; Player extends it with a career ledger; and Goalkeeper, Defender, Midfielder and Forward each extend Player with their own statistics. Every position overrides play_match() but calls up through super(), so shared bookkeeping runs once while each object behaves like itself — polymorphism in action. A Team owns the squad, captaincy and competition record. 102 tests and CI on Linux, macOS and Windows across Python 3.10 to 3.13.",
+    liveUrl: "/worldcup/",
     github: "https://github.com/humaidi09/World-Cup-2026",
-    demo: "#"
+    alwaysShow: true
   },
   {
     id: "restaurant-management",
@@ -74,8 +85,9 @@ export const projects = [
     tech: ["Python", "Decimal", "State Machine", "pytest"],
     summary: "A dependency-free CLI for a restaurant's front of house: build a menu, move orders through their lifecycle, and compute bills with discount, service charge and tax.",
     details: "Money is exact two-decimal Decimal that refuses floats outright, so receipts always add up. Orders are a state machine (OPEN to PLACED to SERVED to PAID, or CANCELLED) that rejects illegal moves, and editing is only allowed while open. Billing applies discount then service charge then tax in a fixed, rounded order. State persists to JSON via write-temp-then-rename so an interrupted save cannot corrupt data. 60 tests run on Linux, macOS and Windows across Python 3.10 to 3.13.",
+    liveUrl: "/restaurant/",
     github: "https://github.com/humaidi09/Restaurant-Management-System",
-    demo: "#"
+    alwaysShow: true
   },
   {
     id: "cgpa-calculator",
@@ -84,8 +96,9 @@ export const projects = [
     tech: ["C++", "OOP", "CLI"],
     summary: "An interactive calculator that computes semester GPA and cumulative CGPA from per-course grades and credit hours.",
     details: "Takes the number of courses, then each course's grade and credit hours. Computes total credits and total grade points (grade point × credit hours), derives the semester GPA, and rolls the results up into an overall CGPA. Prints a clear per-course breakdown alongside the final CGPA.",
+    liveUrl: "/cgpa/",
     github: "https://github.com/humaidi09/CGPA-Calculator",
-    demo: "#"
+    alwaysShow: true
   },
   {
     id: "auth-system",
@@ -94,8 +107,9 @@ export const projects = [
     tech: ["C++17", "SHA-256", "Salting", "Key Stretching"],
     summary: "A file-backed authentication system built around one rule: a password is never stored in any recoverable form. Self-implemented SHA-256, salted and key-stretched.",
     details: "Registration enforces a password strength policy and rejects duplicate usernames; credentials are stored as a per-user salt plus a SHA-256 hash stretched over 120,000 iterations, never plain text. Login uses constant-time comparison, locks an account after repeated failures, and returns identical messages for unknown users and wrong passwords to prevent username enumeration. Zero dependencies, 36 unit tests, and CI on Linux, macOS and Windows.",
+    liveUrl: "/login/",
     github: "https://github.com/humaidi09/Login-Registration-System",
-    demo: "#"
+    alwaysShow: true
   },
   {
     id: "sudoku-solver",
@@ -104,8 +118,7 @@ export const projects = [
     tech: ["C++17", "Backtracking", "Bitmask", "MRV Heuristic"],
     summary: "A zero-dependency C++17 Sudoku toolkit that cracks the 'world's hardest' puzzle in ~2 ms, generates puzzles guaranteed to have a single solution, and proves that uniqueness.",
     details: "Recursive backtracking accelerated by 9-bit row/column/box constraint masks for O(1) candidate lookup and most-constrained-variable ordering, so hard 17-clue puzzles finish in milliseconds. A counting search that stops at the second solution proves whether a puzzle is well-posed; the generator carves clues while re-checking uniqueness after every removal, so its output is unique by construction. Ships with a full CLI (solve / check / generate / benchmark), 46 unit tests, and CI across Linux, macOS and Windows.",
-    github: "https://github.com/humaidi09/Sudoku-Solver",
-    demo: "#"
+    github: "https://github.com/humaidi09/Sudoku-Solver"
   },
   {
     id: "banking-system",
@@ -114,8 +127,65 @@ export const projects = [
     tech: ["C++17", "Ledger Integrity", "File Handling"],
     summary: "A file-backed banking backend built around two invariants: every amount is exact, and every balance is backed by a ledger that proves it.",
     details: "Money is stored as an exact integer count of minor units (never a float, eliminating the 0.1 + 0.2 bug) with checked arithmetic that reports overflow instead of wrapping. Each account keeps an immutable ledger from which its balance is derived; a stored balance that does not match its history is rejected on load, so a tampered file cannot pass silently. Transfers are atomic — everything that could fail is checked before either leg moves — and saves are written via temp-then-rename so a crash cannot corrupt the data. 29 unit tests and CI on Linux, macOS and Windows.",
+    liveUrl: "/banking/",
     github: "https://github.com/humaidi09/Banking-System",
-    demo: "#"
+    alwaysShow: true
+  }
+];
+
+// The six standalone apps in the ecosystem, in showcase order. Each is its own
+// Vite build served under the portfolio at `url` (a real navigation, not a
+// client route), so this is the source of truth for the /apps hub and for the
+// "Open the app" links on projects and blog posts. `slug` matches the project
+// id and the blog post slug, so those links stay derived, never hand-wired.
+export const apps = [
+  {
+    slug: "nonet",
+    title: "Nonet",
+    tagline: "Play verified Sudoku while a Coach reads how you solve, Replay rebuilds any game, and a transparent rating bands you Novice to Master.",
+    tech: ["React", "Vite", "Zustand", "Sudoku engine"],
+    accent: "amber",
+    url: "/nonet/"
+  },
+  {
+    slug: "world-cup-2026",
+    title: "World Cup 2026",
+    tagline: "Draw the 48-team field into groups, then run thousands of Monte-Carlo tournaments to turn Elo ratings into each nation's title odds.",
+    tech: ["React", "Monte Carlo", "Elo", "Web Worker"],
+    accent: "azure",
+    url: "/worldcup/"
+  },
+  {
+    slug: "banking-system",
+    title: "Banking System",
+    tagline: "Open accounts and post transactions against an append-only ledger that proves every balance — money kept as exact integer units, never floats.",
+    tech: ["React", "BigInt money", "Ledger", "Zustand"],
+    accent: "jade",
+    url: "/banking/"
+  },
+  {
+    slug: "auth-system",
+    title: "Login & Registration",
+    tagline: "Register and sign in against a real salted, 120,000-iteration SHA-256 hash — computed live in your browser and never stored in recoverable form.",
+    tech: ["React", "SHA-256", "Salt + stretch", "Constant-time"],
+    accent: "cyan",
+    url: "/login/"
+  },
+  {
+    slug: "restaurant-management",
+    title: "Restaurant Management",
+    tagline: "Build an order, move it through a strict state machine, and print a bill that applies discount, service and tax to the exact cent.",
+    tech: ["React", "State machine", "Exact cents", "Zustand"],
+    accent: "orange",
+    url: "/restaurant/"
+  },
+  {
+    slug: "cgpa-calculator",
+    title: "CGPA Calculator",
+    tagline: "Enter courses, grades and credits for a credit-weighted GPA and cumulative CGPA — with a what-if planner for the grades you still need.",
+    tech: ["React", "Credit-weighted", "What-if planner"],
+    accent: "indigo",
+    url: "/cgpa/"
   }
 ];
 

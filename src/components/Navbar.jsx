@@ -7,7 +7,7 @@ import { personalInfo } from '../data/portfolioData'
 import { Link, useRoute } from '../lib/router'
 
 // Anchor items scroll to a section on the home page; items with `to` are real
-// routes (the Blog subtree and the Demos subtree). Contact is intentionally
+// routes (the Blog subtree and the Apps hub). Contact is intentionally
 // omitted here — the "Let's talk" button covers it — leaving room for the
 // brand/logo.
 const NAV_ITEMS = [
@@ -18,7 +18,7 @@ const NAV_ITEMS = [
   { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
   { id: 'events', label: 'Events' },
-  { id: 'demos', label: 'Demos', to: '/demos' },
+  { id: 'apps', label: 'Apps', to: '/apps' },
   { id: 'blog', label: 'Blog', to: '/blog' },
 ]
 
@@ -59,10 +59,10 @@ export default function Navbar() {
   const pathname = useRoute()
   const path = pathname.replace(/\/+$/, '') || '/'
   const onBlog = path === '/blog' || path.startsWith('/blog/')
-  const onDemos = path === '/demos' || path.startsWith('/demos/')
+  const onApps = path === '/apps'
   // Any route with no scroll sections of its own — section links must jump to
   // the home page (a full load), not scroll the current page.
-  const offHome = onBlog || onDemos
+  const offHome = onBlog || onApps
 
   // Off the home page the section links navigate home (full load): Home → "/",
   // the rest → "/#id". On the home page they stay in-page scroll anchors.
@@ -95,7 +95,7 @@ export default function Navbar() {
   }, [])
 
   // Highlight the nav item for the section currently in view. Only runs on the
-  // home page — the /blog and /demos subtrees have no scroll sections to observe.
+  // home page — the /blog and /apps routes have no scroll sections to observe.
   useEffect(() => {
     if (offHome) return
     const obs = new IntersectionObserver(
