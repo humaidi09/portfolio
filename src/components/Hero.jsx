@@ -156,7 +156,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-grid-lines opacity-[0.05] mask-radial-fade" />
       </div>
 
-      <div className="grid items-start gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
+      <div className="grid items-start gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         {/* ---- Left: the pitch, set like a page ---- */}
         <motion.div initial="hidden" animate="show" className="max-w-2xl">
           {/* Warm greeting — sets the human tone before the display name */}
@@ -298,7 +298,7 @@ function NowCard() {
     { Icon: Zap, label: 'Focus', value: 'DSA · OOP · CP' },
   ]
   return (
-    <div className="glass flex min-w-0 flex-1 flex-col justify-between rounded-2xl p-3.5 sm:p-4">
+    <div className="glass flex min-w-0 flex-1 flex-col justify-between rounded-2xl p-3 lg:p-4">
       <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neonCyan/70" />
@@ -306,15 +306,15 @@ function NowCard() {
         </span>
         current status
       </div>
-      <dl className="mt-3 space-y-3">
+      <dl className="mt-2 space-y-1.5 lg:mt-3 lg:space-y-3">
         {rows.map(({ Icon, label, value }) => (
-          <div key={label} className="flex items-center gap-2.5">
-            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-hair bg-fill text-neonCyan">
-              <Icon className="h-3.5 w-3.5" />
+          <div key={label} className="flex items-center gap-2 lg:gap-2.5">
+            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg border border-hair bg-fill text-neonCyan lg:h-7 lg:w-7">
+              <Icon className="h-3 w-3 lg:h-3.5 lg:w-3.5" />
             </span>
-            <div className="min-w-0">
+            <div className="min-w-0 leading-tight lg:leading-normal">
               <dt className="font-mono text-[10px] uppercase tracking-wide text-muted">{label}</dt>
-              <dd className="truncate text-sm font-medium text-ink">{value}</dd>
+              <dd className="truncate text-[13px] font-medium text-ink lg:text-sm">{value}</dd>
             </div>
           </div>
         ))}
