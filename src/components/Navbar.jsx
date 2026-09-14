@@ -6,9 +6,10 @@ import { useTheme } from '../context/ThemeContext'
 import { personalInfo } from '../data/portfolioData'
 import { Link, useRoute } from '../lib/router'
 
-// Anchor items scroll to a section on the home page; the item with `to` is a
-// real route (the Blog subtree). Contact is intentionally omitted here — the
-// "Let's talk" button covers it — leaving room for the brand/logo.
+// Anchor items scroll to a section on the home page; items with `to` are real
+// routes (the Blog subtree and the Demos subtree). Contact is intentionally
+// omitted here — the "Let's talk" button covers it — leaving room for the
+// brand/logo.
 const NAV_ITEMS = [
   { id: 'top', label: 'Home' },
   { id: 'about', label: 'About' },
@@ -17,6 +18,7 @@ const NAV_ITEMS = [
   { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
   { id: 'events', label: 'Events' },
+  { id: 'demos', label: 'Demos', to: '/demos' },
   { id: 'blog', label: 'Blog', to: '/blog' },
 ]
 
@@ -55,14 +57,22 @@ export default function Navbar() {
   const rafRef = useRef(0)
 
   const pathname = useRoute()
-  const onBlog = pathname.replace(/\/+$/, '') === '/blog' || pathname.startsWith('/blog/')
+  const path = pathname.replace(/\/+$/, '') || '/'
+  const onBlog = path === '/blog' || path.startsWith('/blog/')
+  const onDemos = path === '/demos' || path.startsWith('/demos/')
+  // Any route with no scroll sections of its own — section links must jump to
+  // the home page (a full load), not scroll the current page.
+  const offHome = onBlog || onDemos
 
-  // On /blog the section links navigate home (full load): Home → "/", the rest
-  // → "/#id". On the home page they stay in-page scroll anchors ("#id").
-  const sectionHref = (id) => (onBlog ? (id === 'top' ? '/' : `/#${id}`) : `#${id}`)
-  // Anchor items highlight from the scroll spy (home only); the Blog route item
-  // highlights whenever we're anywhere under /blog.
-  const isActive = (n) => (n.to ? onBlog : !onBlog && active === n.id)
+  // Off the home page the section links navigate home (full load): Home → "/",
+  // the rest → "/#id". On the home page they stay in-page scroll anchors.
+  const sectionHref = (id) => (offHome ? (id === 'top' ? '/' : `/#${id}`) : `#${id}`)
+  // Route items (Blog, Demos) highlight whenever we're anywhere under that
+  // route; anchor items highlight from the scroll spy (home only).
+  const isActive = (n) => {
+    if (n.to) return path === n.to || path.startsWith(n.to + '/')
+    return !offHome && active === n.id
+  }
 
   // Scroll progress + frosted state, throttled with rAF for smoothness.
   useEffect(() => {
@@ -85,9 +95,9 @@ export default function Navbar() {
   }, [])
 
   // Highlight the nav item for the section currently in view. Only runs on the
-  // home page — the /blog subtree has no scroll sections to observe.
+  // home page — the /blog and /demos subtrees have no scroll sections to observe.
   useEffect(() => {
-    if (onBlog) return
+    if (offHome) return
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -102,7 +112,7 @@ export default function Navbar() {
       if (el) obs.observe(el)
     })
     return () => obs.disconnect()
-  }, [onBlog])
+  }, [offHome])
 
   // Lock body scroll while the mobile drawer is open, and close on Escape.
   useEffect(() => {
@@ -134,7 +144,7 @@ export default function Navbar() {
             scrolled ? 'py-2.5 shadow-xl shadow-black/40' : 'py-2 shadow-lg shadow-black/20'
           }`}
         >
-          <a href={onBlog ? '/' : '#top'} className="flex items-center gap-2.5 font-mono text-sm font-semibold">
+          <a href={offHome ? '/' : '#top'} className="flex items-center gap-2.5 font-mono text-sm font-semibold">
             <span className="rounded-full bg-gradient-to-br from-neonCyan to-neonPurple p-[1.5px] shadow-[0_0_16px_-4px_rgba(242,180,61,0.55)]">
               <img
                 src={personalInfo.photo}

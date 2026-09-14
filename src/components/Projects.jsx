@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowUpRight, Code2, ExternalLink, Folder, X } from 'lucide-react'
+import { ArrowUpRight, Code2, Folder, Play, X } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import SpotlightCard from './ui/SpotlightCard'
 import Reveal from './ui/Reveal'
 import { GithubIcon } from './ui/BrandIcons'
 import { useProjects } from '../hooks/useProjects'
+import { Link } from '../lib/router'
+import { getDemo } from './demos/registry'
 
 // Representative source snippets shown in each project's detail modal.
 const CODE_PREVIEWS = {
@@ -218,6 +220,7 @@ export default function Projects() {
         <AnimatePresence mode="popLayout">
           {visible.map((p, i) => {
             const accent = ACCENTS[i % ACCENTS.length]
+            const hasDemo = Boolean(getDemo(p.key))
             return (
               <motion.div
                 key={p.key}
@@ -231,7 +234,7 @@ export default function Projects() {
                   <button
                     type="button"
                     onClick={() => setSelected(p)}
-                    className="flex h-full flex-col text-left"
+                    className="flex flex-1 flex-col text-left"
                     aria-label={`Open details for ${p.title}`}
                   >
                     {/* Banner */}
@@ -266,6 +269,19 @@ export default function Projects() {
                       </span>
                     </div>
                   </button>
+
+                  {/* Direct route to the live, interactive version of this project. */}
+                  {hasDemo && (
+                    <Link
+                      to={`/demos/${p.key}`}
+                      aria-label={`Open the live demo for ${p.title}`}
+                      className="group/live flex items-center justify-center gap-2 border-t border-hair px-6 py-3 font-mono text-xs font-semibold text-neonCyan transition-colors hover:bg-neonCyan/[0.06]"
+                    >
+                      <Play className="h-3.5 w-3.5 fill-current" />
+                      Try it live
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/live:-translate-y-0.5 group-hover/live:translate-x-0.5" />
+                    </Link>
+                  )}
                 </SpotlightCard>
               </motion.div>
             )
@@ -384,26 +400,25 @@ function ProjectModal({ project, onClose }) {
 
             {/* Footer actions */}
             <div className="flex flex-wrap items-center gap-3 border-t border-hair p-6">
+              {getDemo(project.key) && (
+                <Link
+                  to={`/demos/${project.key}`}
+                  onClick={onClose}
+                  className="inline-flex items-center gap-2 rounded-xl bg-neonCyan px-5 py-2.5 font-semibold text-void transition-opacity duration-200 hover:opacity-90"
+                >
+                  <Play className="h-4 w-4 fill-current" />
+                  Try it live
+                </Link>
+              )}
               <a
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-neonCyan px-5 py-2.5 font-semibold text-void transition-opacity duration-200 hover:opacity-90"
+                className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-5 py-2.5 font-semibold text-ink transition-colors hover:bg-fill-strong"
               >
                 <GithubIcon className="h-4 w-4" />
                 View on GitHub
               </a>
-              {project.demo && project.demo !== '#' && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-5 py-2.5 font-semibold text-ink transition-colors hover:bg-fill-strong"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Live demo
-                </a>
-              )}
             </div>
           </motion.div>
         </motion.div>
