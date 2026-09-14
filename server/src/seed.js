@@ -9,6 +9,12 @@ import Puzzle from './models/Puzzle.js'
 import CpProfile from './models/CpProfile.js'
 import SkillGroup from './models/SkillGroup.js'
 
+// Insert-only mode: create rows that don't exist yet, but never overwrite an
+// existing row — so anything edited in /admin is preserved. Enable it with
+// `node src/seed.js --insert-only` (or SEED_INSERT_ONLY=1). Without the flag the
+// seed keeps its original behaviour: sync every row to the static data file.
+const INSERT_ONLY = process.argv.includes('--insert-only') || process.env.SEED_INSERT_ONLY === '1'
+
 /**
  * One-time (idempotent) seed: pull the static content from the frontend's data
  * file and upsert it into MongoDB. Safe to re-run — each collection matches on a
@@ -44,14 +50,14 @@ async function main() {
     }
     const existing = await Project.findOne({ slug: doc.slug })
     if (existing) {
-      await Project.updateOne({ slug: doc.slug }, doc)
+      if (!INSERT_ONLY) await Project.updateOne({ slug: doc.slug }, doc)
       pUpdated += 1
     } else {
       await Project.create(doc)
       pCreated += 1
     }
   }
-  console.log(`✓ Projects — ${pCreated} created, ${pUpdated} updated.`)
+  console.log(`✓ Projects — ${pCreated} created, ${pUpdated} ${INSERT_ONLY ? 'skipped (exists)' : 'updated'}.`)
 
   // Experiences — match on role + organization.
   await upsertMany(Experience, experiences, (e, i) => ({
@@ -169,14 +175,14 @@ async function upsertMany(Model, items, map) {
     const { match, doc } = map(item, i)
     const existing = await Model.findOne(match)
     if (existing) {
-      await Model.updateOne(match, doc)
+      if (!INSERT_ONLY) await Model.updateOne(match, doc)
       updated += 1
     } else {
       await Model.create(doc)
       created += 1
     }
   }
-  console.log(`✓ ${Model.modelName} — ${created} created, ${updated} updated.`)
+  console.log(`✓ ${Model.modelName} — ${created} created, ${updated} ${INSERT_ONLY ? 'skipped (exists)' : 'updated'}.`)
 }
 
 main().catch((err) => {
