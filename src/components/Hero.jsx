@@ -264,27 +264,31 @@ export default function Hero() {
   )
 }
 
-/** Clean framed headshot beside the "currently" card — a subtle hairline
-    border with the photo filling the frame (no glass, ring, or tilt). Falls
-    back to a monogram if /profile.jpg is missing. */
+/** Clean framed headshot beside the "currently" card. The photo's edges are
+    feathered with a soft radial mask so the rectangle dissolves into the page
+    background (works in dark and light — it fades to whatever's behind, no hard
+    hairline). Falls back to a framed monogram if /profile.jpg is missing. */
 function Portrait() {
   const [ok, setOk] = useState(true)
+  // Bias the opaque core slightly high (face sits near the top on object-top)
+  // so only the outer rim melts away, never the face.
+  const fade =
+    'radial-gradient(125% 116% at 50% 40%, #000 70%, rgba(0,0,0,0.55) 86%, transparent 100%)'
   return (
     <figure className="w-[96px] shrink-0 min-[360px]:w-[116px] sm:w-[136px] lg:w-[172px]">
-      <div className="overflow-hidden rounded-2xl border border-hair bg-fill">
-        {ok ? (
-          <img
-            src={personalInfo.photo}
-            alt={`Portrait of ${personalInfo.name}`}
-            onError={() => setOk(false)}
-            className="aspect-[4/5] w-full object-cover object-top"
-          />
-        ) : (
-          <div className="grid aspect-[4/5] w-full place-items-center font-display text-6xl font-semibold text-neonCyan">
-            HA
-          </div>
-        )}
-      </div>
+      {ok ? (
+        <img
+          src={personalInfo.photo}
+          alt={`Portrait of ${personalInfo.name}`}
+          onError={() => setOk(false)}
+          style={{ WebkitMaskImage: fade, maskImage: fade }}
+          className="aspect-[4/5] w-full rounded-2xl object-cover object-top"
+        />
+      ) : (
+        <div className="grid aspect-[4/5] w-full place-items-center overflow-hidden rounded-2xl border border-hair bg-fill font-display text-6xl font-semibold text-neonCyan">
+          HA
+        </div>
+      )}
     </figure>
   )
 }

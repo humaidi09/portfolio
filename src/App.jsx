@@ -37,6 +37,11 @@ export default function App() {
   const isAdmin = path === '/admin'
   const isBlog = path === '/blog' || path.startsWith('/blog/')
 
+  // A manual refresh (reload) always lands on the hero: we opt out of the
+  // browser restoring the old scroll position and drop any leftover #section
+  // from the URL. Deep links opened fresh and cross-page jumps (/blog →
+  // /#section) are 'navigate', not 'reload', so they still recover below.
+  //
   // Recover the #hash scroll after a hard load onto the home page. Crossing
   // /blog → /#section is a full reload (see lib/router.jsx), and the browser
   // tries to jump to the anchor before React has mounted the sections, so it
@@ -48,6 +53,20 @@ export default function App() {
   // anchoring, which moves scrollY on its own during those reflows, is ignored.
   useEffect(() => {
     if (isAdmin || isBlog) return
+
+    // Decide where a load lands ourselves, not from the browser's saved position.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+
+    // A reload starts at the top and drops any stale #section from the URL.
+    const navType = performance.getEntriesByType('navigation')[0]?.type
+    if (navType === 'reload') {
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search)
+      }
+      window.scrollTo(0, 0)
+      return
+    }
+
     const id = decodeURIComponent(window.location.hash.replace(/^#/, ''))
     if (!id) return
 
