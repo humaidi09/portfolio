@@ -19,7 +19,9 @@ function serveStandaloneApps() {
     const pathname = (req.url || '').split('?')[0]
     const app = APP_SUBPATHS.find((a) => pathname === `/${a}` || pathname === `/${a}/`)
     if (!app) return next()
-    const file = path.join(root, app, 'index.html')
+    // World Cup is rendered by the portfolio's real React simulator. The other
+    // five remain independently-built apps under public/<app>/.
+    const file = app === 'worldcup' ? path.join(root, 'index.html') : path.join(root, app, 'index.html')
     if (!fs.existsSync(file)) return next() // not built yet → normal fallback
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
     res.end(fs.readFileSync(file))

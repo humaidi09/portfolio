@@ -13,6 +13,7 @@ import Events from './components/Events'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import AppsHub from './components/AppsHub'
+import WorldCupApp from './components/WorldCupApp'
 import { useRoute } from './lib/router'
 
 // Admin (/admin) and the Blog subtree (/blog) are their own routes — a visitor
@@ -38,6 +39,7 @@ export default function App() {
   const isAdmin = path === '/admin'
   const isBlog = path === '/blog' || path.startsWith('/blog/')
   const isApps = path === '/apps'
+  const isWorldCup = path === '/worldcup'
 
   // Recover the #hash scroll after a hard load onto the home page. Crossing
   // /blog → /#section is a full reload (see lib/router.jsx), and the browser
@@ -49,7 +51,7 @@ export default function App() {
   // (wheel / touch / arrow keys) so we never fight them; browser scroll
   // anchoring, which moves scrollY on its own during those reflows, is ignored.
   useEffect(() => {
-    if (isAdmin || isBlog || isApps) return
+    if (isAdmin || isBlog || isApps || isWorldCup) return
     const id = decodeURIComponent(window.location.hash.replace(/^#/, ''))
     if (!id) return
 
@@ -76,7 +78,7 @@ export default function App() {
     window.addEventListener('touchstart', stop, { passive: true })
     window.addEventListener('keydown', onKey)
     return stop
-  }, [isAdmin, isBlog, isApps])
+  }, [isAdmin, isBlog, isApps, isWorldCup])
 
   return (
     <ThemeProvider>
@@ -96,6 +98,8 @@ export default function App() {
                 </Suspense>
               ) : isApps ? (
                 <AppsHub />
+              ) : isWorldCup ? (
+                <WorldCupApp />
               ) : (
                 <>
                   <Hero />
