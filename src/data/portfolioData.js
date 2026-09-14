@@ -135,9 +135,9 @@ export const projects = [
 
 // The six standalone apps in the ecosystem, in showcase order. Each is its own
 // Vite build served under the portfolio at `url` (a real navigation, not a
-// client route), so this is the source of truth for the /apps hub and for the
-// "Open the app" links on projects and blog posts. `slug` matches the project
-// id and the blog post slug, so those links stay derived, never hand-wired.
+// client route). Blog posts use this list to link a write-up straight to its
+// live app; `slug` matches the project id and the blog post slug, so those
+// links stay derived, never hand-wired.
 export const apps = [
   {
     slug: "nonet",
