@@ -265,13 +265,13 @@ export default function CodeTerminal({ className = '' }) {
     <section
       ref={sectionRef}
       aria-label="C++ output guessing game"
-      className={`flex flex-col overflow-hidden rounded-2xl border border-hair-strong bg-void/80 font-mono text-[13px] leading-relaxed shadow-lg shadow-black/30 ${className}`}
+      className={`edge-fade flex flex-col overflow-hidden rounded-2xl font-mono text-[12px] leading-relaxed ${className}`}
     >
       {/* Title bar — three dots + the filename, with the streak on the right */}
-      <div className="flex items-center gap-2 border-b border-hair bg-fill/60 px-3.5 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-neon-magenta/70" />
-        <span className="h-2.5 w-2.5 rounded-full bg-neonCyan/70" />
-        <span className="h-2.5 w-2.5 rounded-full bg-neonPurple/70" />
+      <div className="flex items-center gap-2 border-b border-hair bg-fill/60 px-3 py-2 sm:px-3.5 sm:py-2.5">
+        <span className="h-2 w-2 rounded-full bg-neon-magenta/70 sm:h-2.5 sm:w-2.5" />
+        <span className="h-2 w-2 rounded-full bg-neonCyan/70 sm:h-2.5 sm:w-2.5" />
+        <span className="h-2 w-2 rounded-full bg-neonPurple/70 sm:h-2.5 sm:w-2.5" />
         <span className="ml-2 text-[11px] text-muted">guess.cpp</span>
         <span className="ml-auto flex items-center gap-1.5 text-[11px]" title="Current streak">
           <Flame className={`h-3.5 w-3.5 ${streak > 0 ? 'text-neonCyan' : 'text-muted/50'}`} />
@@ -313,7 +313,7 @@ export default function CodeTerminal({ className = '' }) {
         </div>
       ) : (
         /* Body — snippet on the left, the answers on the right (desktop) */
-        <div className="grid gap-4 p-4 lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:p-5">
+        <div className="grid gap-3 p-3 sm:gap-4 sm:p-4 lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:p-5">
           {/* Left: the snippet as a real editor pane (line-number gutter), with
               the result + controls seated directly below it */}
           <div className="flex min-w-0 flex-col gap-3">
@@ -321,7 +321,7 @@ export default function CodeTerminal({ className = '' }) {
               {/* line-number gutter */}
               <div
                 aria-hidden="true"
-                className="flex flex-col items-end gap-0 border-r border-hair bg-fill/50 px-2.5 py-3 text-[12px] text-muted/50 select-none"
+                className="flex flex-col items-end gap-0 border-r border-hair bg-fill/50 px-2 py-2.5 text-[11px] text-muted/50 select-none sm:px-2.5 sm:py-3 sm:text-[12px]"
               >
                 {p.code.split('\n').map((_, n) => (
                   <span key={n} className="leading-relaxed tabular-nums">
@@ -330,7 +330,7 @@ export default function CodeTerminal({ className = '' }) {
                 ))}
               </div>
               {/* code — top-aligned so each line sits on its gutter number */}
-              <pre className="min-w-0 flex-1 overflow-x-auto px-3.5 py-3 text-ink/90">{p.code}</pre>
+              <pre className="min-w-0 flex-1 overflow-x-auto px-3 py-2.5 text-[11px] text-ink/90 sm:px-3.5 sm:py-3 sm:text-[12px]">{p.code}</pre>
             </div>
 
             {/* "Run", then the result row (with back / show-output / next) */}
@@ -436,7 +436,7 @@ export default function CodeTerminal({ className = '' }) {
                   type="button"
                   onClick={() => handlePick(oi)}
                   disabled={picked !== null}
-                  className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors disabled:cursor-default ${tone}`}
+                  className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors disabled:cursor-default sm:py-3 ${tone}`}
                 >
                   <span
                     className={`grid h-6 w-6 shrink-0 place-items-center rounded-md border text-[11px] font-semibold transition-colors ${badge}`}

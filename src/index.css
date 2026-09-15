@@ -245,6 +245,31 @@
     background: none;
   }
 
+  /* Frameless card whose fill + hairline dissolve into the page at the edges,
+     instead of a hard rounded rectangle sitting on top of the background. The
+     fill and border live on a background layer (::before, z-index -1) that is
+     feathered with a radial mask, so the content above it stays perfectly
+     crisp — only the frame melts. Theme-agnostic: it fades to whatever is
+     behind it (black in dark, paper in light). Used by the hero terminal. */
+  .edge-fade {
+    position: relative;
+    isolation: isolate;
+  }
+  .edge-fade::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--color-ink) 6%, transparent), transparent 42%),
+      var(--glass-bg);
+    box-shadow: inset 0 0 0 1px var(--glass-border);
+    -webkit-mask-image: radial-gradient(118% 128% at 50% 42%, #000 58%, rgba(0, 0, 0, 0.5) 82%, transparent 100%);
+    mask-image: radial-gradient(118% 128% at 50% 42%, #000 58%, rgba(0, 0, 0, 0.5) 82%, transparent 100%);
+  }
+
   /* Thin amber hairline used to separate sections */
   .rule-gradient {
     height: 1px;
