@@ -17,16 +17,16 @@ export const personalInfo = {
   // twitter: "",
   university: "Leading University, Sylhet",
   degree: "B.Sc. in Computer Science & Engineering (2024 – 2029)",
-  gpa: "3.85 / 4.00",
+  gpa: "0.00 / 4.00",
   semester: "Currently in 4th Semester",
   bio: "Undergraduate Computer Science student with a strong passion for problem-solving, algorithms, Object-Oriented Programming, and building scalable modern web applications. Active competitive programmer and tech community volunteer."
 };
 
 export const stats = [
-  { label: "Current CGPA", value: 3.85, suffix: " / 4.00" },
-  { label: "Problems Solved", value: 150, suffix: "+" },
+  { label: "Current CGPA", value:0.00, suffix: " / 4.00" },
+  { label: "Problems Solved", value: 500, suffix: "+" },
   { label: "Contests & Events", value: 3, suffix: "+" },
-  { label: "Projects Built", value: 6, suffix: "" }
+  { label: "Projects Built", value: 8, suffix: "" }
 ];
 
 export const skills = {
@@ -48,7 +48,7 @@ export const skills = {
 export const skillGroups = [
   {
     title: "Core CS skills",
-    items: ["C/C++", "DSA", "OOP", "Python", "JavaScript", "Database", "HTML/CSS"]
+    items: ["C/C++", "DSA", "OOP", "Python", "JavaScript", "Database", "HTML", "React.js", "Tailwind CSS", "FastAPI"]
   },
   {
     title: "Soft Skills",
@@ -59,11 +59,11 @@ export const skillGroups = [
 export const projects = [
   {
     id: "nonet",
-    title: "Nonet — Sudoku Practice Studio",
+    title: "Sudoku Practice Studio",
     category: "Web App",
     tech: ["React", "Vite", "Tailwind CSS", "Zustand"],
     summary: "A standalone Sudoku studio that doesn't just serve puzzles — it reads how you actually solve and helps you get better: play, measure, and train.",
-    details: "Every puzzle comes from a verified generator that carves to a single solution, so difficulty and hints are always sound. Three systems sit on top of the game: a Coach that analyses your real solves — pace, accuracy, recurring mistakes — and recommends what to practise next; a move-by-move Replay that reconstructs any solve from its log; and a transparent skill rating that bands you from Novice to Master. Everything shown is derived from your own history, never faked. Built with React, Vite and Tailwind, with a persisted local store and a full light/dark theme.",
+    details: "Every puzzle comes from a verified generator that carves to a single solution, so difficulty and hints are always sound. Three systems sit on top of the game: a Coach that analyses your real solves  pace, accuracy, recurring mistakes and recommends what to practise next; a move-by-move Replay that reconstructs any solve from its log; and a transparent skill rating that bands you from Novice to Master. Everything shown is derived from your own history, never faked. Built with React, Vite and Tailwind, with a persisted local store and a full light/dark theme.",
     liveUrl: "/nonet/",
     alwaysShow: true
   },
@@ -274,7 +274,7 @@ export const competitiveProgramming = [
     logoClass: "p-1.5",
     // Lifetime solved count shown on the card as "132+" (manual override); set to
     // null to show the live distinct-solved tally from the API instead.
-    solvedOverride: 132,
+    solvedOverride: 170,
     // `{handle}` is interpolated by the UI, but the link stays suppressed while
     // `unlisted` is true (kept here so re-enabling the link is one flag away).
     profileUrl: "https://codeforces.com/profile/{handle}"
@@ -292,7 +292,7 @@ export const competitiveProgramming = [
     profileUrl: "https://leetcode.com/u/{handle}/",
     // From the LeetCode profile's submission heatmap (LeetCode has no
     // browser-readable API, so these are entered by hand, not fetched live).
-    stats: { submissions: 21, activeDays: 7, maxStreak: 1 }
+    stats: { submissions: 70, activeDays: 24, maxStreak: 14 }
   },
   {
     key: "atcoder",
