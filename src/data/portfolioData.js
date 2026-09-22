@@ -17,15 +17,15 @@ export const personalInfo = {
   // twitter: "",
   university: "Leading University, Sylhet",
   degree: "B.Sc. in Computer Science & Engineering (2024 – 2029)",
-  gpa: "0.00 / 4.00",
+  gpa: "3.85 / 4.00",
   semester: "Currently in 4th Semester",
   bio: "Undergraduate Computer Science student with a strong passion for problem-solving, algorithms, Object-Oriented Programming, and building scalable modern web applications. Active competitive programmer and tech community volunteer."
 };
 
 export const stats = [
-  { label: "Current CGPA", value:0.00, suffix: " / 4.00" },
+  { label: "Current CGPA", value:3.85, suffix: " / 4.00" },
   { label: "Problems Solved", value: 500, suffix: "+" },
-  { label: "Contests & Events", value: 3, suffix: "+" },
+  { label: "Contests & Events", value: 10, suffix: "+" },
   { label: "Projects Built", value: 8, suffix: "" }
 ];
 
