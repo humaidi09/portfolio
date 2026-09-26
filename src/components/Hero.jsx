@@ -4,11 +4,10 @@ import { ArrowUpRight, Award, Download, GraduationCap, Zap } from 'lucide-react'
 import { useToast } from '../context/ToastContext'
 import { api, cvUrl } from '../lib/api'
 import { useCollection } from '../hooks/useCollection'
+import { useProfile } from '../hooks/useProfile'
 import CodeTerminal from './ui/CodeTerminal'
 import {
-  personalInfo,
   stats as staticStats,
-  skills,
   projects,
   experiences,
   certifications,
@@ -49,31 +48,32 @@ const fadeUp = {
   }),
 }
 
-/** Builds a plain-text CV from the portfolio data and triggers a download. */
-function buildResume() {
+/** Builds a plain-text CV from the live profile + portfolio data and triggers a
+    download. `profile` carries the identity fields and the CV skill lists. */
+function buildResume(profile) {
   const line = '='.repeat(60)
   const parts = [
-    personalInfo.name.toUpperCase(),
-    personalInfo.role,
-    personalInfo.tagline,
+    (profile.name || '').toUpperCase(),
+    profile.role,
+    profile.tagline,
     line,
-    `Phone   : ${personalInfo.phone}`,
-    `Email   : ${personalInfo.email}`,
-    `GitHub  : ${personalInfo.github}`,
-    `LinkedIn: ${personalInfo.linkedin}`,
+    `Phone   : ${profile.phone}`,
+    `Email   : ${profile.email}`,
+    `GitHub  : ${profile.github}`,
+    `LinkedIn: ${profile.linkedin}`,
     '',
     'PROFILE',
-    personalInfo.bio,
+    profile.bio,
     '',
     'EDUCATION',
-    `- ${personalInfo.degree}`,
-    `  ${personalInfo.university}`,
-    `  CGPA: ${personalInfo.gpa}`,
+    `- ${profile.degree}`,
+    `  ${profile.university}`,
+    `  CGPA: ${profile.gpa}`,
     '',
     'SKILLS',
-    `- Languages : ${skills.languages.join(', ')}`,
-    `- Core CS   : ${skills.coreCS.join(', ')}`,
-    `- Tools & DB: ${skills.toolsAndDB.join(', ')}`,
+    `- Languages : ${profile.skillLanguages.join(', ')}`,
+    `- Core CS   : ${profile.skillCoreCS.join(', ')}`,
+    `- Tools & DB: ${profile.skillTools.join(', ')}`,
     '',
     'PROJECTS',
     ...projects.flatMap((p) => [`- ${p.title} (${p.category})`, `  ${p.summary}`, `  ${p.github}`]),
@@ -85,7 +85,7 @@ function buildResume() {
     ...certifications.map((c) => `- ${c.title} — ${c.issuer} (${c.date})`),
     '',
     line,
-    `Generated from ${personalInfo.github}`,
+    `Generated from ${profile.github}`,
   ]
   return parts.join('\n')
 }
@@ -103,6 +103,11 @@ const FOCUS_PHRASES = [
 export default function Hero() {
   const reduce = useReducedMotion()
   const { toast } = useToast()
+  const { profile } = useProfile()
+  // Split the display name so the surname keeps its animated gradient, while the
+  // whole name stays editable from the DB.
+  const [firstName, ...restName] = (profile.name || '').trim().split(/\s+/)
+  const lastName = restName.join(' ')
   const phrases = FOCUS_PHRASES
   const typed = useTypewriter(phrases)
   const focusLine = reduce ? phrases[0] : typed
@@ -132,16 +137,17 @@ export default function Hero() {
   }, [])
 
   const downloadTextCV = () => {
-    const blob = new Blob([buildResume()], { type: 'text/plain;charset=utf-8' })
+    const fileName = `${(profile.name || 'CV').replace(/\s+/g, '_')}_CV.txt`
+    const blob = new Blob([buildResume(profile)], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'Hussain_Ahmed_CV.txt'
+    a.download = fileName
     document.body.appendChild(a)
     a.click()
     a.remove()
     URL.revokeObjectURL(url)
-    toast({ type: 'success', title: 'CV downloaded', message: 'Saved Hussain_Ahmed_CV.txt' })
+    toast({ type: 'success', title: 'CV downloaded', message: `Saved ${fileName}` })
   }
 
   const primaryBtn =
@@ -174,7 +180,7 @@ export default function Hero() {
             custom={1}
             className="mt-2 font-display text-[2.25rem] font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-[3.25rem] md:text-[4rem]"
           >
-            Hussain <span className="text-gradient-animate">Ahmed</span>
+            {firstName} <span className="text-gradient-animate">{lastName}</span>
           </motion.h1>
 
           {/* Typed focus line — a single running caret, mono */}
@@ -246,8 +252,8 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
           className="flex min-w-0 items-stretch gap-3 sm:gap-5"
         >
-          <Portrait />
-          <NowCard />
+          <Portrait profile={profile} />
+          <NowCard profile={profile} />
         </motion.div>
       </div>
 
@@ -268,7 +274,7 @@ export default function Hero() {
     feathered with a soft radial mask so the rectangle dissolves into the page
     background (works in dark and light — it fades to whatever's behind, no hard
     hairline). Falls back to a framed monogram if /profile.jpg is missing. */
-function Portrait() {
+function Portrait({ profile }) {
   const [ok, setOk] = useState(true)
   // Bias the opaque core slightly high (face sits near the top on object-top)
   // so only the outer rim melts away, never the face.
@@ -278,8 +284,8 @@ function Portrait() {
     <figure className="w-[96px] shrink-0 min-[360px]:w-[116px] sm:w-[136px] lg:w-[172px]">
       {ok ? (
         <img
-          src={personalInfo.photo}
-          alt={`Portrait of ${personalInfo.name}`}
+          src={profile.photo}
+          alt={`Portrait of ${profile.name}`}
           onError={() => setOk(false)}
           style={{ WebkitMaskImage: fade, maskImage: fade }}
           className="aspect-[4/5] w-full rounded-2xl object-cover object-top"
@@ -295,10 +301,10 @@ function Portrait() {
 
 /** A compact "currently" card that sits beside the portrait — quick facts that
     tie the hero to the rest of the portfolio (education, location, focus). */
-function NowCard() {
+function NowCard({ profile }) {
   const rows = [
     { Icon: GraduationCap, label: 'Studying', value: 'B.Sc. in CSE' },
-    { Icon: Award, label: 'CGPA', value: '3.85 / 4.00' },
+    { Icon: Award, label: 'CGPA', value: profile.gpa },
     { Icon: Zap, label: 'Focus', value: 'DSA · OOP · CP' },
   ]
   return (

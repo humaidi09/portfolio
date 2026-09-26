@@ -65,6 +65,7 @@ export const projects = [
     summary: "A standalone Sudoku studio that doesn't just serve puzzles — it reads how you actually solve and helps you get better: play, measure, and train.",
     details: "Every puzzle comes from a verified generator that carves to a single solution, so difficulty and hints are always sound. Three systems sit on top of the game: a Coach that analyses your real solves  pace, accuracy, recurring mistakes and recommends what to practise next; a move-by-move Replay that reconstructs any solve from its log; and a transparent skill rating that bands you from Novice to Master. Everything shown is derived from your own history, never faked. Built with React, Vite and Tailwind, with a persisted local store and a full light/dark theme.",
     liveUrl: "/nonet/",
+    sourceUrl: "https://github.com/humaidi09/nonet",
     alwaysShow: true
   },
   {
@@ -76,6 +77,7 @@ export const projects = [
     details: "Person is the base class; Player extends it with a career ledger; and Goalkeeper, Defender, Midfielder and Forward each extend Player with their own statistics. Every position overrides play_match() but calls up through super(), so shared bookkeeping runs once while each object behaves like itself — polymorphism in action. A Team owns the squad, captaincy and competition record. 102 tests and CI on Linux, macOS and Windows across Python 3.10 to 3.13.",
     liveUrl: "/worldcup/",
     github: "https://github.com/humaidi09/World-Cup-2026",
+    sourceUrl: "https://github.com/humaidi09/worldcup",
     alwaysShow: true
   },
   {
@@ -87,6 +89,7 @@ export const projects = [
     details: "Money is exact two-decimal Decimal that refuses floats outright, so receipts always add up. Orders are a state machine (OPEN to PLACED to SERVED to PAID, or CANCELLED) that rejects illegal moves, and editing is only allowed while open. Billing applies discount then service charge then tax in a fixed, rounded order. State persists to JSON via write-temp-then-rename so an interrupted save cannot corrupt data. 60 tests run on Linux, macOS and Windows across Python 3.10 to 3.13.",
     liveUrl: "/restaurant/",
     github: "https://github.com/humaidi09/Restaurant-Management-System",
+    sourceUrl: "https://github.com/humaidi09/restaurant",
     alwaysShow: true
   },
   {
@@ -98,6 +101,7 @@ export const projects = [
     details: "Takes the number of courses, then each course's grade and credit hours. Computes total credits and total grade points (grade point × credit hours), derives the semester GPA, and rolls the results up into an overall CGPA. Prints a clear per-course breakdown alongside the final CGPA.",
     liveUrl: "/cgpa/",
     github: "https://github.com/humaidi09/CGPA-Calculator",
+    sourceUrl: "https://github.com/humaidi09/cgpa",
     alwaysShow: true
   },
   {
@@ -109,6 +113,7 @@ export const projects = [
     details: "Registration enforces a password strength policy and rejects duplicate usernames; credentials are stored as a per-user salt plus a SHA-256 hash stretched over 120,000 iterations, never plain text. Login uses constant-time comparison, locks an account after repeated failures, and returns identical messages for unknown users and wrong passwords to prevent username enumeration. Zero dependencies, 36 unit tests, and CI on Linux, macOS and Windows.",
     liveUrl: "/login/",
     github: "https://github.com/humaidi09/Login-Registration-System",
+    sourceUrl: "https://github.com/humaidi09/login",
     alwaysShow: true
   },
   {
@@ -129,6 +134,7 @@ export const projects = [
     details: "Money is stored as an exact integer count of minor units (never a float, eliminating the 0.1 + 0.2 bug) with checked arithmetic that reports overflow instead of wrapping. Each account keeps an immutable ledger from which its balance is derived; a stored balance that does not match its history is rejected on load, so a tampered file cannot pass silently. Transfers are atomic — everything that could fail is checked before either leg moves — and saves are written via temp-then-rename so a crash cannot corrupt the data. 29 unit tests and CI on Linux, macOS and Windows.",
     liveUrl: "/banking/",
     github: "https://github.com/humaidi09/Banking-System",
+    sourceUrl: "https://github.com/humaidi09/banking",
     alwaysShow: true
   }
 ];

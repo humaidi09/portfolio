@@ -41,6 +41,7 @@ export const cvUrl = `${BASE}/api/cv`
 export const api = {
   // Public
   listProjects: () => request('/api/projects'),
+  getProfile: () => request('/api/profile'),
   sendMessage: (msg) => request('/api/messages', { method: 'POST', body: msg }),
   cvMeta: () => request('/api/cv/meta'),
   listPuzzles: () => request('/api/puzzles'),
@@ -66,6 +67,9 @@ export const api = {
   // Admin — CV
   uploadCv: (payload, token) => request('/api/cv', { method: 'PUT', body: payload, token }),
   deleteCv: (token) => request('/api/cv', { method: 'DELETE', token }),
+
+  // Admin — profile (site identity singleton)
+  updateProfile: (body, token) => request('/api/profile', { method: 'PUT', body, token }),
 
   // Admin — media uploads (Cloudinary signed direct-to-cloud). `signUpload`
   // returns the short-lived fields the browser POSTs with the file straight to

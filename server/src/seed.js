@@ -43,7 +43,7 @@ async function main() {
       summary: p.summary || '',
       details: p.details || '',
       github: p.github || '',
-      demo: p.demo && p.demo !== '#' ? p.demo : '',
+      sourceUrl: p.sourceUrl || '',
       liveUrl: p.liveUrl || '',
       alwaysShow: !!p.alwaysShow,
       order: i,

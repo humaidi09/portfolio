@@ -4,7 +4,8 @@ import { GraduationCap, Rocket, Target, Trophy } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import TiltCard from './ui/TiltCard'
-import { personalInfo, stats } from '../data/portfolioData'
+import { useProfile } from '../hooks/useProfile'
+import { stats } from '../data/portfolioData'
 
 /** Animates 0 → target once the element scrolls into view (rAF, eased). */
 function useCountUp(target, { duration = 1600 } = {}) {
@@ -79,6 +80,7 @@ function StatCard({ stat, accent, Icon }) {
 }
 
 export default function About() {
+  const { profile } = useProfile()
   return (
     <section id="about" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
@@ -105,7 +107,7 @@ export default function About() {
             <div className="relative flex h-full flex-col justify-center gap-6 p-6 sm:p-8">
               <p className="hyphens-auto text-justify text-lg leading-relaxed text-ink/90">
                 I&rsquo;m a Computer Science undergraduate at{' '}
-                <span className="font-semibold text-ink">{personalInfo.university}</span>, drawn to
+                <span className="font-semibold text-ink">{profile.university}</span>, drawn to
                 the parts of software where clean thinking pays off: data structures, algorithms,
                 and object-oriented design.
               </p>

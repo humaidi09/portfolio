@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import {
   Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
   ImagePlus, Images, Inbox, Layers, LogOut, Mail, Newspaper, Pencil, Plus, Swords, Terminal, Trash2,
-  TriangleAlert, Upload, X,
+  TriangleAlert, Upload, UserCircle, X,
 } from 'lucide-react'
 import { api, auth, cvUrl } from '../lib/api'
 import { uploadToCloudinary } from '../lib/upload'
 import { LETTERS } from '../data/puzzles'
+import { personalInfo, skills } from '../data/portfolioData'
 import { useToast } from '../context/ToastContext'
 
 /**
@@ -91,6 +92,7 @@ function Login({ onAuthed }) {
 }
 
 const TABS = [
+  { id: 'profile', label: 'Profile', Icon: UserCircle },
   { id: 'projects', label: 'Projects', Icon: FolderKanban },
   { id: 'skills', label: 'Skills', Icon: Layers },
   { id: 'experiences', label: 'Experience', Icon: Briefcase },
@@ -309,6 +311,7 @@ function Dashboard({ token, onLogout }) {
       </div>
 
       <div className="mt-8">
+        {tab === 'profile' && <ProfileTab token={token} onLogout={onLogout} />}
         {tab === 'projects' && <ProjectsTab token={token} onLogout={onLogout} />}
         {COLLECTIONS[tab] && (
           <CollectionTab key={tab} config={COLLECTIONS[tab]} token={token} onLogout={onLogout} />
@@ -323,7 +326,7 @@ function Dashboard({ token, onLogout }) {
 
 /* ─────────────────────────── Projects ─────────────────────────── */
 
-const EMPTY = { slug: '', title: '', category: '', tech: '', summary: '', details: '', github: '', demo: '', liveUrl: '', alwaysShow: false, order: 0 }
+const EMPTY = { slug: '', title: '', category: '', tech: '', summary: '', details: '', github: '', sourceUrl: '', liveUrl: '', alwaysShow: false, order: 0 }
 
 function ProjectsTab({ token, onLogout }) {
   const { toast } = useToast()
@@ -423,6 +426,7 @@ function ProjectForm({ initial, onCancel, onSave }) {
   const [form, setForm] = useState(initial)
   const [busy, setBusy] = useState(false)
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
+  const toggle = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.checked }))
 
   async function submit(e) {
     e.preventDefault()
@@ -479,8 +483,8 @@ function ProjectForm({ initial, onCancel, onSave }) {
             <input id="github" value={form.github} onChange={set('github')} className={field} placeholder="https://github.com/…" />
           </div>
           <div>
-            <label className={label} htmlFor="demo">Demo URL</label>
-            <input id="demo" value={form.demo} onChange={set('demo')} className={field} placeholder="https://… (optional)" />
+            <label className={label} htmlFor="sourceUrl">Web app source URL</label>
+            <input id="sourceUrl" value={form.sourceUrl || ''} onChange={set('sourceUrl')} className={field} placeholder="https://github.com/… (web app repo, optional)" />
           </div>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
@@ -1449,6 +1453,210 @@ function CvTab({ token, onLogout }) {
         <p className="mt-2 font-mono text-[11px] text-muted">PDF only, up to 8 MB.</p>
       </div>
     </div>
+  )
+}
+
+/* ─────────────────────────── Profile (site identity) ─────────────────────────── */
+
+// The bundled identity, shaped like the API document, so the form always opens on
+// the site's effective content — even before a Profile doc exists in the DB. This
+// makes an accidental empty save impossible: what you see is what is already live.
+const STATIC_PROFILE = {
+  name: personalInfo.name || '',
+  photo: personalInfo.photo || '',
+  role: personalInfo.role || '',
+  tagline: personalInfo.tagline || '',
+  phone: personalInfo.phone || '',
+  email: personalInfo.email || '',
+  github: personalInfo.github || '',
+  linkedin: personalInfo.linkedin || '',
+  whatsapp: personalInfo.whatsapp || '',
+  facebook: personalInfo.facebook || '',
+  instagram: personalInfo.instagram || '',
+  twitter: personalInfo.twitter || '',
+  university: personalInfo.university || '',
+  degree: personalInfo.degree || '',
+  gpa: personalInfo.gpa || '',
+  semester: personalInfo.semester || '',
+  bio: personalInfo.bio || '',
+  skillLanguages: skills.languages || [],
+  skillCoreCS: skills.coreCS || [],
+  skillTools: skills.toolsAndDB || [],
+}
+
+const splitList = (s) => String(s || '').split(',').map((x) => x.trim()).filter(Boolean)
+
+// A profile doc (or null) → form state. Missing keys fall back to the static
+// identity (mirrors useProfile's merge); the 3 skill arrays become comma strings
+// for editing and are split back to arrays on save.
+function profileToForm(doc) {
+  const d = doc && typeof doc === 'object' ? doc : {}
+  const merged = { ...STATIC_PROFILE, ...d }
+  const form = {}
+  for (const key of Object.keys(STATIC_PROFILE)) {
+    if (key === 'skillLanguages' || key === 'skillCoreCS' || key === 'skillTools') continue
+    form[key] = merged[key] ?? ''
+  }
+  const arr = (docArr, staticArr) => (Array.isArray(docArr) && docArr.length ? docArr : staticArr) || []
+  form.skillLanguages = arr(d.skillLanguages, STATIC_PROFILE.skillLanguages).join(', ')
+  form.skillCoreCS = arr(d.skillCoreCS, STATIC_PROFILE.skillCoreCS).join(', ')
+  form.skillTools = arr(d.skillTools, STATIC_PROFILE.skillTools).join(', ')
+  return form
+}
+
+function ProfileTab({ token, onLogout }) {
+  const { toast } = useToast()
+  const run = useAuthedAction(onLogout)
+  const [form, setForm] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [busy, setBusy] = useState(false)
+  const photoRef = useRef(null)
+
+  useEffect(() => {
+    let alive = true
+    ;(async () => {
+      try {
+        const doc = await api.getProfile()
+        if (alive) setForm(profileToForm(doc))
+      } catch {
+        if (alive) setForm(profileToForm(null))
+      } finally {
+        if (alive) setLoading(false)
+      }
+    })()
+    return () => { alive = false }
+  }, [])
+
+  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
+
+  async function onPhoto(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      toast({ type: 'error', title: 'Image only', message: 'Please choose an image file.' })
+      return
+    }
+    try {
+      const dataUrl = await imageToDataUrl(file)
+      setForm((f) => ({ ...f, photo: dataUrl }))
+      toast({ type: 'success', title: 'Photo ready', message: 'Click Save to apply it to the site.' })
+    } catch {
+      toast({ type: 'error', title: 'Could not read image', message: 'Try a different file.' })
+    } finally {
+      if (photoRef.current) photoRef.current.value = ''
+    }
+  }
+
+  async function submit(e) {
+    e.preventDefault()
+    setBusy(true)
+    const body = {
+      ...form,
+      skillLanguages: splitList(form.skillLanguages),
+      skillCoreCS: splitList(form.skillCoreCS),
+      skillTools: splitList(form.skillTools),
+    }
+    await run(async () => {
+      await api.updateProfile(body, token)
+      toast({ type: 'success', title: 'Saved', message: 'Your profile is live.' })
+    }).catch(() => {})
+    setBusy(false)
+  }
+
+  if (loading || !form) return <p className="text-muted">Loading…</p>
+
+  const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
+  const label = 'block text-sm font-medium text-ink'
+
+  return (
+    <form onSubmit={submit} className="space-y-6">
+      {/* Identity */}
+      <section className="glass rounded-2xl p-6">
+        <h2 className="font-display text-xl font-bold text-ink">Identity</h2>
+        <p className="mt-1 text-sm text-muted">Your name, role and headshot as they appear across the site.</p>
+
+        <div className="mt-5 flex flex-wrap items-start gap-5">
+          <div className="shrink-0">
+            <div className="h-24 w-24 overflow-hidden rounded-2xl border border-hair bg-fill">
+              {form.photo
+                ? <img src={form.photo} alt="" className="h-full w-full object-cover" />
+                : <span className="grid h-full w-full place-items-center text-muted"><UserCircle className="h-8 w-8" /></span>}
+            </div>
+            <input ref={photoRef} type="file" accept="image/*" onChange={onPhoto} className="hidden" id="profile-photo" />
+            <button type="button" onClick={() => photoRef.current?.click()} className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-hair bg-fill px-3 py-1.5 text-xs font-medium text-ink hover:bg-fill-strong">
+              <ImagePlus className="h-3.5 w-3.5" /> Photo
+            </button>
+          </div>
+          <div className="min-w-[220px] flex-1 space-y-4">
+            <div>
+              <label className={label} htmlFor="p-name">Name</label>
+              <input id="p-name" value={form.name} onChange={set('name')} className={field} />
+            </div>
+            <div>
+              <label className={label} htmlFor="p-role">Role</label>
+              <input id="p-role" value={form.role} onChange={set('role')} className={field} placeholder="CSE Student & Aspiring Software Engineer" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <label className={label} htmlFor="p-tagline">Tagline</label>
+          <input id="p-tagline" value={form.tagline} onChange={set('tagline')} className={field} />
+        </div>
+        <div className="mt-4">
+          <label className={label} htmlFor="p-photo">Photo URL <span className="font-normal text-muted">(or upload above)</span></label>
+          <input id="p-photo" value={form.photo} onChange={set('photo')} className={field} placeholder="/profile.jpg" />
+        </div>
+        <div className="mt-4">
+          <label className={label} htmlFor="p-bio">Bio</label>
+          <textarea id="p-bio" rows={4} value={form.bio} onChange={set('bio')} className={field} />
+        </div>
+      </section>
+
+      {/* Academic */}
+      <section className="glass rounded-2xl p-6">
+        <h2 className="font-display text-xl font-bold text-ink">Academic</h2>
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div><label className={label} htmlFor="p-university">University</label><input id="p-university" value={form.university} onChange={set('university')} className={field} /></div>
+          <div><label className={label} htmlFor="p-degree">Degree</label><input id="p-degree" value={form.degree} onChange={set('degree')} className={field} /></div>
+          <div><label className={label} htmlFor="p-gpa">GPA / CGPA</label><input id="p-gpa" value={form.gpa} onChange={set('gpa')} className={field} /></div>
+          <div><label className={label} htmlFor="p-semester">Semester</label><input id="p-semester" value={form.semester} onChange={set('semester')} className={field} /></div>
+        </div>
+      </section>
+
+      {/* Contact & social */}
+      <section className="glass rounded-2xl p-6">
+        <h2 className="font-display text-xl font-bold text-ink">Contact & Social</h2>
+        <p className="mt-1 text-sm text-muted">Leave a field blank to hide that link on the site.</p>
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div><label className={label} htmlFor="p-email">Email</label><input id="p-email" value={form.email} onChange={set('email')} className={field} /></div>
+          <div><label className={label} htmlFor="p-phone">Phone</label><input id="p-phone" value={form.phone} onChange={set('phone')} className={field} /></div>
+          <div><label className={label} htmlFor="p-github">GitHub URL</label><input id="p-github" value={form.github} onChange={set('github')} className={field} placeholder="https://github.com/…" /></div>
+          <div><label className={label} htmlFor="p-linkedin">LinkedIn URL</label><input id="p-linkedin" value={form.linkedin} onChange={set('linkedin')} className={field} /></div>
+          <div><label className={label} htmlFor="p-whatsapp">WhatsApp</label><input id="p-whatsapp" value={form.whatsapp} onChange={set('whatsapp')} className={field} placeholder="https://wa.me/…" /></div>
+          <div><label className={label} htmlFor="p-facebook">Facebook URL</label><input id="p-facebook" value={form.facebook} onChange={set('facebook')} className={field} /></div>
+          <div><label className={label} htmlFor="p-instagram">Instagram URL</label><input id="p-instagram" value={form.instagram} onChange={set('instagram')} className={field} /></div>
+          <div><label className={label} htmlFor="p-twitter">Twitter / X URL</label><input id="p-twitter" value={form.twitter} onChange={set('twitter')} className={field} /></div>
+        </div>
+      </section>
+
+      {/* Hero terminal-CV skill lists */}
+      <section className="glass rounded-2xl p-6">
+        <h2 className="font-display text-xl font-bold text-ink">Hero CV skills</h2>
+        <p className="mt-1 text-sm text-muted">The typed résumé lists in the hero terminal. Comma-separated.</p>
+        <div className="mt-5 space-y-4">
+          <div><label className={label} htmlFor="p-langs">Languages</label><input id="p-langs" value={form.skillLanguages} onChange={set('skillLanguages')} className={field} placeholder="C, C++, Python, JavaScript" /></div>
+          <div><label className={label} htmlFor="p-core">Core CS</label><input id="p-core" value={form.skillCoreCS} onChange={set('skillCoreCS')} className={field} placeholder="Data Structures, Algorithms, OOP" /></div>
+          <div><label className={label} htmlFor="p-tools">Tools & DB</label><input id="p-tools" value={form.skillTools} onChange={set('skillTools')} className={field} placeholder="Git, MongoDB, Linux" /></div>
+        </div>
+      </section>
+
+      <div className="flex gap-3">
+        <button type="submit" disabled={busy} className="rounded-xl bg-neonCyan px-6 py-2.5 font-semibold text-void transition-opacity hover:opacity-90 disabled:opacity-50">
+          {busy ? 'Saving…' : 'Save profile'}
+        </button>
+      </div>
+    </form>
   )
 }
 

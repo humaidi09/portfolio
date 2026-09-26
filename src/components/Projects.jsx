@@ -311,6 +311,17 @@ function ProjectModal({ project, onClose }) {
 
   const live = project?.liveUrl ? { el: 'a', props: { href: project.liveUrl }, label: 'Open the app' } : null
 
+  // When a card carries both code links, `github` is the C++/Python engine repo
+  // and `sourceUrl` is the web-app repo — so relabel the engine link by language
+  // to tell the two apart. With only `github`, keep the plain "View on GitHub".
+  const engineLang =
+    /c\+\+/i.test(project?.category || '') || project?.tech?.includes('C++')
+      ? 'C++'
+      : /python/i.test(project?.category || '') || project?.tech?.includes('Python')
+        ? 'Python'
+        : null
+  const githubLabel = project?.sourceUrl && engineLang ? `${engineLang} source` : 'View on GitHub'
+
   return (
     <AnimatePresence>
       {project && (
@@ -420,7 +431,18 @@ function ProjectModal({ project, onClose }) {
                   className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-5 py-2.5 font-semibold text-ink transition-colors hover:bg-fill-strong"
                 >
                   <GithubIcon className="h-4 w-4" />
-                  View on GitHub
+                  {githubLabel}
+                </a>
+              )}
+              {project.sourceUrl && (
+                <a
+                  href={project.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-5 py-2.5 font-semibold text-ink transition-colors hover:bg-fill-strong"
+                >
+                  <GithubIcon className="h-4 w-4" />
+                  Web app source
                 </a>
               )}
             </div>

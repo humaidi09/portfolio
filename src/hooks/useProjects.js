@@ -31,15 +31,17 @@ export function useProjects() {
       .listProjects()
       .then((data) => {
         if (!alive || !Array.isArray(data) || !data.length) return
-        // Backfill liveUrl/alwaysShow from the bundled static entry by slug when
-        // a doc predates those fields, then float always-show apps to the front.
-        // Array.prototype.sort is stable, so relative `order` is preserved within
-        // each group.
+        // Backfill liveUrl/sourceUrl/alwaysShow from the bundled static entry by
+        // slug when a doc predates those fields, then float always-show apps to
+        // the front. `??` (not `||`) is deliberate: a value the admin cleared to
+        // '' must stick, not silently revert to the static default. Array.sort is
+        // stable, so relative `order` is preserved within each group.
         const merged = data.map((p) => {
           const s = STATIC_BY_KEY.get(p.slug || p.id)
           return withKey({
             ...p,
-            liveUrl: p.liveUrl || s?.liveUrl || '',
+            liveUrl: p.liveUrl ?? s?.liveUrl ?? '',
+            sourceUrl: p.sourceUrl ?? s?.sourceUrl ?? '',
             alwaysShow: p.alwaysShow ?? s?.alwaysShow ?? false,
           })
         })

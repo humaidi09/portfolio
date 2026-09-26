@@ -14,7 +14,9 @@ const projectSchema = new mongoose.Schema(
     summary: { type: String, default: '' },
     details: { type: String, default: '' },
     github: { type: String, default: '' },
-    demo: { type: String, default: '' },
+    // The web-app source repo (github.com/humaidi09/<app>), shown as a second
+    // code link beside `github` (the C++/Python engine repo).
+    sourceUrl: { type: String, default: '' },
     // The standalone app's live URL under the portfolio (e.g. "/banking/") and
     // whether it must always lead the grid ahead of the rest.
     liveUrl: { type: String, default: '' },

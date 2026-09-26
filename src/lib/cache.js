@@ -9,22 +9,28 @@
 
 const PREFIX = 'pf_cache_'
 
-/** Last cached list for `key`, or null if none / empty / storage unavailable. */
+/** Last cached value for `key`, or null if none / empty / storage unavailable.
+    Accepts both lists (collections) and plain objects (singletons like the
+    profile) — an empty array is treated as "nothing cached". */
 export function readCache(key) {
   if (!key) return null
   try {
     const raw = localStorage.getItem(PREFIX + key)
     if (!raw) return null
     const data = JSON.parse(raw)
-    return Array.isArray(data) && data.length ? data : null
+    if (Array.isArray(data)) return data.length ? data : null
+    if (data && typeof data === 'object') return data
+    return null
   } catch {
     return null
   }
 }
 
-/** Persist a non-empty list for `key`. No-ops on empty data or storage errors. */
+/** Persist a non-empty value for `key`. Accepts a list or a plain object;
+    no-ops on empty arrays, non-objects, or storage errors. */
 export function writeCache(key, data) {
-  if (!key || !Array.isArray(data) || !data.length) return
+  if (!key || !data || typeof data !== 'object') return
+  if (Array.isArray(data) && !data.length) return
   try {
     localStorage.setItem(PREFIX + key, JSON.stringify(data))
   } catch {

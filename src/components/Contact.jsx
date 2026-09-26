@@ -5,7 +5,7 @@ import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from './ui/BrandIcons'
 import { useToast } from '../context/ToastContext'
-import { personalInfo } from '../data/portfolioData'
+import { useProfile } from '../hooks/useProfile'
 import { api } from '../lib/api'
 
 // Social links rendered as icon buttons; `key` maps to a personalInfo field.
@@ -55,6 +55,7 @@ function Field({ id, label, icon: Icon, error, touched, valid, children }) {
 
 export default function Contact() {
   const { toast } = useToast()
+  const { profile } = useProfile()
   const [values, setValues] = useState({ name: '', email: '', message: '' })
   const [touched, setTouched] = useState({})
   const [sending, setSending] = useState(false)
@@ -79,12 +80,12 @@ export default function Contact() {
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(personalInfo.email)
+      await navigator.clipboard.writeText(profile.email)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
       toast({ type: 'success', title: 'Copied!', message: 'Email address is on your clipboard.' })
     } catch {
-      toast({ type: 'error', title: 'Copy failed', message: personalInfo.email })
+      toast({ type: 'error', title: 'Copy failed', message: profile.email })
     }
   }
 
@@ -142,7 +143,7 @@ export default function Contact() {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="font-mono text-xs text-muted">Email</p>
-                <p className="truncate font-medium text-ink">{personalInfo.email}</p>
+                <p className="truncate font-medium text-ink">{profile.email}</p>
               </div>
               <button
                 type="button"
@@ -156,7 +157,7 @@ export default function Contact() {
 
             {/* Phone — click to call */}
             <a
-              href={`tel:${personalInfo.phone}`}
+              href={`tel:${profile.phone}`}
               className="group flex items-center gap-4 rounded-2xl glass glass-glow p-5 transition-colors hover:border-neonCyan/30"
             >
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-hair bg-fill text-neonPurple">
@@ -164,7 +165,7 @@ export default function Contact() {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="font-mono text-xs text-muted">Phone — tap to call</p>
-                <p className="truncate font-medium text-ink">{personalInfo.phone}</p>
+                <p className="truncate font-medium text-ink">{profile.phone}</p>
               </div>
               <Send className="h-4 w-4 shrink-0 -rotate-45 text-muted transition-colors group-hover:text-neonPurple" />
             </a>
@@ -174,7 +175,7 @@ export default function Contact() {
               {SOCIALS.map(({ key, label, Icon }) => (
                 <a
                   key={key}
-                  href={personalInfo[key]}
+                  href={profile[key]}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, Moon, Sun, X } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './ui/BrandIcons'
 import { useTheme } from '../context/ThemeContext'
-import { personalInfo } from '../data/portfolioData'
+import { useProfile } from '../hooks/useProfile'
 import { Link, useRoute } from '../lib/router'
 
 // Anchor items scroll to a section on the home page; items with `to` are real
@@ -54,6 +54,11 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('top')
   const rafRef = useRef(0)
+  const { profile } = useProfile()
+  // Split the display name so the surname keeps its accent colour (e.g.
+  // "Hussain Ahmed" → "Hussain" + accented "Ahmed"), while staying DB-driven.
+  const [firstName, ...restName] = (profile.name || '').trim().split(/\s+/)
+  const lastName = restName.join(' ')
 
   const pathname = useRoute()
   const path = pathname.replace(/\/+$/, '') || '/'
@@ -145,13 +150,13 @@ export default function Navbar() {
           <a href={offHome ? '/' : '#top'} className="flex items-center gap-2.5 font-mono text-sm font-semibold">
             <span className="rounded-full bg-gradient-to-br from-neonCyan to-neonPurple p-[1.5px] shadow-[0_0_16px_-4px_rgba(242,180,61,0.55)]">
               <img
-                src={personalInfo.photo}
-                alt={personalInfo.name}
+                src={profile.photo}
+                alt={profile.name}
                 className="h-8 w-8 rounded-full object-cover object-top"
               />
             </span>
             <span className="text-ink">
-              Hussain <span className="text-neonCyan">Ahmed</span>
+              {firstName} <span className="text-neonCyan">{lastName}</span>
             </span>
           </a>
 
@@ -184,10 +189,10 @@ export default function Navbar() {
           </ul>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={iconLink}>
+            <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={iconLink}>
               <GithubIcon className="h-4 w-4" />
             </a>
-            <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={iconLink}>
+            <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={iconLink}>
               <LinkedinIcon className="h-4 w-4" />
             </a>
             <ThemeToggle />
@@ -242,12 +247,12 @@ export default function Navbar() {
                 <span className="flex items-center gap-2 font-mono text-sm font-semibold text-ink">
                   <span className="rounded-full bg-gradient-to-br from-neonCyan to-neonPurple p-[1.5px]">
                     <img
-                      src={personalInfo.photo}
-                      alt={personalInfo.name}
+                      src={profile.photo}
+                      alt={profile.name}
                       className="h-7 w-7 rounded-full object-cover object-top"
                     />
                   </span>
-                  Hussain <span className="text-neonCyan">Ahmed</span>
+                  {firstName} <span className="text-neonCyan">{lastName}</span>
                 </span>
                 <button
                   onClick={() => setOpen(false)}
@@ -293,10 +298,10 @@ export default function Navbar() {
               </a>
 
               <div className="mt-auto flex items-center gap-2 pt-6">
-                <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={iconLink}>
+                <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={iconLink}>
                   <GithubIcon className="h-4 w-4" />
                 </a>
-                <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={iconLink}>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={iconLink}>
                   <LinkedinIcon className="h-4 w-4" />
                 </a>
                 <span className="ml-1 font-mono text-xs text-muted">// let&rsquo;s connect</span>

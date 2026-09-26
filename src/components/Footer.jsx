@@ -1,6 +1,6 @@
 import { ArrowUp, Mail } from 'lucide-react'
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from './ui/BrandIcons'
-import { personalInfo } from '../data/portfolioData'
+import { useProfile } from '../hooks/useProfile'
 
 // Only verified handles. To add Facebook / Instagram / X, add the URL to
 // personalInfo and a matching entry here (icons: FacebookIcon, etc.).
@@ -11,6 +11,7 @@ const SOCIALS = [
 ]
 
 export default function Footer() {
+  const { profile } = useProfile()
   const year = new Date().getFullYear()
 
   const toTop = () =>
@@ -50,7 +51,7 @@ export default function Footer() {
             {SOCIALS.map(({ key, label, Icon }) => (
               <a
                 key={key}
-                href={personalInfo[key]}
+                href={profile[key]}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={label}
@@ -59,7 +60,7 @@ export default function Footer() {
                 <Icon className="h-[18px] w-[18px]" />
               </a>
             ))}
-            <a href={`mailto:${personalInfo.email}`} aria-label="Email" className={socialBtn}>
+            <a href={`mailto:${profile.email}`} aria-label="Email" className={socialBtn}>
               <Mail className="h-[18px] w-[18px]" />
             </a>
           </div>
@@ -67,7 +68,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col-reverse items-center gap-3 border-t border-hair pt-6 sm:flex-row sm:justify-between">
-          <p className="font-mono text-xs text-muted">© {year} {personalInfo.name}. All rights reserved.</p>
+          <p className="font-mono text-xs text-muted">© {year} {profile.name}. All rights reserved.</p>
           <a href="/admin" className="font-mono text-xs text-muted/50 transition-colors hover:text-neonCyan">
             Admin
           </a>
