@@ -17,9 +17,15 @@ name: Keep API warm
 
 on:
   schedule:
-    # Every 10 minutes, offset off :00 — GitHub delays cron most at the top of
-    # the hour, so firing at :03,:13,:23,… lands closer to on-time.
-    - cron: '3-59/10 * * * *'
+    # Every 5 minutes, offset off :00. GitHub throttles free-tier scheduled runs
+    # HARD — in practice they fire every few hours, not on the requested cadence
+    # (check the Actions run history), which is why the instance still sleeps.
+    # Asking every 5 min (vs 10) improves the odds a run lands inside Render's
+    # 15-min idle window, but the reliable fix is app-side: the client now
+    # retries cold-start responses (src/lib/api.js) and /admin warms the API on
+    # open. For punctual pinging, add an external monitor (cron-job.org,
+    # UptimeRobot) hitting /api/health every 10 min — those are not throttled.
+    - cron: '2-59/5 * * * *'
   workflow_dispatch: {} # allow a manual run from the Actions tab
 
 jobs:

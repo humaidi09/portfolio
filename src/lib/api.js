@@ -10,22 +10,60 @@ export const auth = {
   clear: () => localStorage.removeItem(TOKEN_KEY),
 }
 
-/** Core fetch wrapper: JSON in/out, bearer token, readable errors. */
+// The API runs on Render's free tier, which spins the instance down after ~15
+// min idle; the next request then waits ~20-50s for a cold start. While waking,
+// Render returns 502/503/504 (or the socket fails outright) BEFORE our Express
+// app sees the request — so retrying is safe even for POST/PUT: the server never
+// processed it. We retry those "server not ready" signals on a ~60s budget so a
+// save fired at a sleeping backend transparently waits for it to wake, instead
+// of surfacing as an error. A real 4xx/5xx from the app itself is not retried.
+const COLD_START_STATUSES = new Set([502, 503, 504])
+const RETRY_DELAYS_MS = [2000, 4000, 6000, 8000, 10000, 12000, 15000] // ~57s total
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
+/** Core fetch wrapper: JSON in/out, bearer token, readable errors, cold-start retry. */
 async function request(path, { method = 'GET', body, token } = {}) {
-  const res = await fetch(`${BASE}${path}`, {
+  const init = {
     method,
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
-  })
-
-  const data = await res.json().catch(() => null)
-  if (!res.ok) {
-    throw new Error(data?.error || `Request failed (${res.status}).`)
   }
-  return data
+
+  for (let attempt = 0; ; attempt++) {
+    let res
+    try {
+      res = await fetch(`${BASE}${path}`, init)
+    } catch (err) {
+      // Network-level failure (server asleep / unreachable). Retry within budget.
+      if (attempt < RETRY_DELAYS_MS.length) {
+        await sleep(RETRY_DELAYS_MS[attempt])
+        continue
+      }
+      throw new Error('Could not reach the server. Please try again.')
+    }
+
+    // Render is still waking — retry rather than fail the user's action.
+    if (COLD_START_STATUSES.has(res.status) && attempt < RETRY_DELAYS_MS.length) {
+      await sleep(RETRY_DELAYS_MS[attempt])
+      continue
+    }
+
+    const data = await res.json().catch(() => null)
+    if (!res.ok) {
+      throw new Error(data?.error || `Request failed (${res.status}).`)
+    }
+    return data
+  }
+}
+
+// Fire-and-forget wake-up ping. Called when the admin panel mounts so the free-
+// tier backend starts its cold start while the user is still typing/logging in,
+// making the first real save land on an already-awake server.
+export function warmApi() {
+  fetch(`${BASE}/api/health`).catch(() => {})
 }
 
 /** Build a `?a=1&b=2` query string, dropping empty/null values. */

@@ -4,7 +4,7 @@ import {
   ImagePlus, Images, Inbox, Layers, LogOut, Mail, Newspaper, Pencil, Plus, Swords, Terminal, Trash2,
   TriangleAlert, Upload, UserCircle, X,
 } from 'lucide-react'
-import { api, auth, cvUrl } from '../lib/api'
+import { api, auth, cvUrl, warmApi } from '../lib/api'
 import { uploadToCloudinary } from '../lib/upload'
 import { LETTERS } from '../data/puzzles'
 import { personalInfo, skills } from '../data/portfolioData'
@@ -16,6 +16,10 @@ import { useToast } from '../context/ToastContext'
  */
 export default function Admin() {
   const [token, setToken] = useState(() => auth.get())
+
+  // Wake the free-tier backend the moment the panel opens, so it finishes its
+  // cold start while the admin is signing in — the first save then lands fast.
+  useEffect(() => { warmApi() }, [])
 
   if (!token) return <Login onAuthed={(t) => setToken(t)} />
   return <Dashboard token={token} onLogout={() => { auth.clear(); setToken(null) }} />
