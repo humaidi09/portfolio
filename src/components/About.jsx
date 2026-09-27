@@ -4,8 +4,10 @@ import { GraduationCap, Rocket, Target, Trophy } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import TiltCard from './ui/TiltCard'
+import { api } from '../lib/api'
 import { useProfile } from '../hooks/useProfile'
-import { stats } from '../data/portfolioData'
+import { useCollection } from '../hooks/useCollection'
+import { stats as staticStats } from '../data/portfolioData'
 
 /** Animates 0 → target once the element scrolls into view (rAF, eased). */
 function useCountUp(target, { duration = 1600 } = {}) {
@@ -45,8 +47,9 @@ function useCountUp(target, { duration = 1600 } = {}) {
   return [ref, val]
 }
 
+// Accents and icons are cycled by position (modulo), so the section renders any
+// number of DB-managed stats — add or remove rows in /admin and it just works.
 const ACCENTS = ['cyan', 'violet', 'magenta', 'cyan']
-// Icons keyed to the stat order: CGPA, Problems Solved, Contests, Projects.
 const ICONS = [GraduationCap, Target, Trophy, Rocket]
 const ICON_COLOR = {
   cyan: 'text-neonCyan',
@@ -57,9 +60,14 @@ const ICON_COLOR = {
 /** A 3D glass stat card built on the shared TiltCard: the number and icon are
     lifted onto their own plane so they float above the frosted body. */
 function StatCard({ stat, accent, Icon }) {
-  const isFloat = !Number.isInteger(stat.value)
-  const [countRef, val] = useCountUp(stat.value)
-  const display = isFloat ? val.toFixed(2) : Math.round(val).toString()
+  // The DB stores value as a string ("3.85", "500"); the static file uses raw
+  // numbers. Coerce so the count-up animation and integer/float formatting work
+  // for both. A non-numeric value (e.g. "N/A") falls back to showing it verbatim.
+  const num = Number(stat.value)
+  const numeric = stat.value !== '' && !Number.isNaN(num)
+  const isFloat = numeric && !Number.isInteger(num)
+  const [countRef, val] = useCountUp(numeric ? num : 0)
+  const display = !numeric ? String(stat.value) : isFloat ? val.toFixed(2) : Math.round(val).toString()
 
   return (
     <TiltCard accent={accent} className="h-full p-6">
@@ -81,6 +89,9 @@ function StatCard({ stat, accent, Icon }) {
 
 export default function About() {
   const { profile } = useProfile()
+  // Stats are DB-managed (editable at /admin → Stats); the bundled list is the
+  // offline fallback. Shares the 'stats' cache key with Hero so both stay in sync.
+  const { items: stats } = useCollection(api.listStats, staticStats, 'stats')
   return (
     <section id="about" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-12 sm:px-6 md:py-16">
       <SectionHeading
@@ -128,7 +139,7 @@ export default function About() {
         <div className="grid auto-rows-fr gap-5 self-start sm:grid-cols-2">
           {stats.map((stat, i) => (
             <Reveal key={stat.label} className="h-full" delay={(i % 2) * 0.08 + Math.floor(i / 2) * 0.08}>
-              <StatCard stat={stat} accent={ACCENTS[i]} Icon={ICONS[i]} />
+              <StatCard stat={stat} accent={ACCENTS[i % ACCENTS.length]} Icon={ICONS[i % ICONS.length]} />
             </Reveal>
           ))}
         </div>
