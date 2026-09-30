@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  Award, ArrowLeft, BarChart3, Briefcase, CalendarDays, FileText, FolderKanban,
+  Award, ArrowLeft, BarChart3, Boxes, Briefcase, CalendarDays, FileText, FolderKanban,
   ImagePlus, Images, Inbox, Layers, LogOut, Mail, Newspaper, Pencil, Plus, Swords, Terminal, Trash2,
   TriangleAlert, Upload, UserCircle, X,
 } from 'lucide-react'
@@ -110,6 +110,7 @@ const TABS = [
   { id: 'wrong', label: 'Wrong answers', Icon: TriangleAlert },
   { id: 'messages', label: 'Messages', Icon: Inbox },
   { id: 'cv', label: 'CV', Icon: FileText },
+  { id: 'apps', label: 'Apps', Icon: Boxes },
 ]
 
 /**
@@ -323,6 +324,7 @@ function Dashboard({ token, onLogout }) {
         {tab === 'wrong' && <WrongAnswersTab token={token} onLogout={onLogout} />}
         {tab === 'messages' && <MessagesTab token={token} onLogout={onLogout} onUnread={setUnread} />}
         {tab === 'cv' && <CvTab token={token} onLogout={onLogout} />}
+        {tab === 'apps' && <AppDataTab token={token} onLogout={onLogout} />}
       </div>
     </main>
   )
@@ -1661,6 +1663,312 @@ function ProfileTab({ token, onLogout }) {
         </button>
       </div>
     </form>
+  )
+}
+
+/* ─────────────────────────── Apps (standalone app content) ─────────────────────────── */
+
+// The six standalone apps, in display order. The key is the storage key each
+// app fetches its datasets by (GET /api/app-data/:app); the label is cosmetic.
+const APP_LABELS = {
+  worldcup: 'World Cup 2026',
+  restaurant: 'Restaurant',
+  cgpa: 'CGPA Calculator',
+  nonet: 'Sudoku',
+  banking: 'Banking',
+  login: 'Login / Auth',
+}
+const APP_ORDER = ['worldcup', 'restaurant', 'cgpa', 'nonet', 'banking', 'login']
+
+const fieldTypeOf = (types, key) => (types && types[key]) || 'string'
+
+// A stored value → an editable draft. Strings/numbers edit as text, booleans as
+// a checkbox, nested arrays/objects as compact JSON in a mono textarea.
+function toDraft(value, type) {
+  if (type === 'boolean') return Boolean(value)
+  if (type === 'json') return value === undefined ? '' : JSON.stringify(value)
+  return value == null ? '' : String(value)
+}
+// A draft → the value to persist, coerced by field type. A `json` field may
+// throw (invalid JSON); the caller catches it and blocks the save with a note.
+function fromDraft(draft, type) {
+  if (type === 'boolean') return Boolean(draft)
+  if (type === 'number') { const n = Number(draft); return Number.isFinite(n) ? n : 0 }
+  if (type === 'json') return String(draft).trim() === '' ? null : JSON.parse(draft)
+  return String(draft)
+}
+
+// Build the working draft for a dataset: an array of row-drafts (list) or one
+// draft object (singleton), holding only the declared fields.
+function buildDraft(ds) {
+  const types = ds.fieldTypes || {}
+  const fields = ds.fields || []
+  if (ds.kind === 'singleton') {
+    const obj = ds.data && typeof ds.data === 'object' && !Array.isArray(ds.data) ? ds.data : {}
+    const d = {}
+    for (const f of fields) d[f] = toDraft(obj[f], fieldTypeOf(types, f))
+    return d
+  }
+  const rows = Array.isArray(ds.data) ? ds.data : []
+  return rows.map((row) => {
+    const d = {}
+    for (const f of fields) d[f] = toDraft(row?.[f], fieldTypeOf(types, f))
+    return d
+  })
+}
+
+// A blank row-draft (booleans false, everything else empty).
+function blankRow(ds) {
+  const types = ds.fieldTypes || {}
+  const d = {}
+  for (const f of ds.fields || []) d[f] = fieldTypeOf(types, f) === 'boolean' ? false : ''
+  return d
+}
+
+// The editable-data tab: pick an app, pick one of its datasets, edit the rows
+// (a card each) or the settings object, and save the whole dataset in one PUT.
+// The datasets themselves are created by the seed script; this edits them live.
+function AppDataTab({ token, onLogout }) {
+  const { toast } = useToast()
+  const run = useAuthedAction(onLogout)
+  const [datasets, setDatasets] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [app, setApp] = useState(null)
+  const [slug, setSlug] = useState(null)
+  const [draft, setDraft] = useState(null)
+  const [busy, setBusy] = useState(false)
+
+  async function load() {
+    setLoading(true)
+    try {
+      setDatasets(await api.listAppData())
+    } catch (err) {
+      toast({ type: 'error', title: 'Could not load app data', message: err.message })
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => { load() }, [])
+
+  const current = datasets.find((d) => d.app === app && d.slug === slug) || null
+
+  // Apps that actually have datasets, in canonical order.
+  const apps = APP_ORDER.filter((a) => datasets.some((d) => d.app === a))
+  const appSets = app ? datasets.filter((d) => d.app === app).sort((a, b) => (a.order || 0) - (b.order || 0)) : []
+
+  function openApp(a) {
+    setApp(a)
+    const first = datasets.filter((d) => d.app === a).sort((x, y) => (x.order || 0) - (y.order || 0))[0]
+    if (first) { setSlug(first.slug); setDraft(buildDraft(first)) }
+    else { setSlug(null); setDraft(null) }
+  }
+  function openSet(ds) {
+    setSlug(ds.slug)
+    setDraft(buildDraft(ds))
+  }
+
+  async function save() {
+    if (!current) return
+    let data
+    try {
+      const types = current.fieldTypes || {}
+      const fields = current.fields || []
+      if (current.kind === 'singleton') {
+        data = {}
+        for (const f of fields) data[f] = fromDraft(draft[f], fieldTypeOf(types, f))
+      } else {
+        data = draft.map((row) => {
+          const out = {}
+          for (const f of fields) out[f] = fromDraft(row[f], fieldTypeOf(types, f))
+          return out
+        })
+      }
+    } catch {
+      toast({ type: 'error', title: 'Invalid JSON', message: 'A JSON field could not be parsed — fix it and save again.' })
+      return
+    }
+    setBusy(true)
+    await run(async () => {
+      const body = {
+        kind: current.kind,
+        label: current.label,
+        fields: current.fields,
+        fieldTypes: current.fieldTypes,
+        order: current.order,
+        data,
+      }
+      await api.updateAppDataset(current.app, current.slug, body, token)
+      toast({ type: 'success', title: 'Saved', message: `${APP_LABELS[current.app] || current.app} · ${current.label || current.slug} is live.` })
+      const fresh = await api.listAppData()
+      setDatasets(fresh)
+    }).catch(() => {})
+    setBusy(false)
+  }
+
+  if (loading) return <p className="text-muted">Loading…</p>
+
+  if (!datasets.length) {
+    return (
+      <div className="glass rounded-2xl p-6">
+        <h2 className="font-display text-xl font-bold text-ink">No app data yet</h2>
+        <p className="mt-2 text-sm text-muted">
+          The standalone apps’ editable content lives here once it has been seeded into the database.
+          Each app still runs on its bundled defaults until then.
+        </p>
+      </div>
+    )
+  }
+
+  const field = 'mt-1.5 w-full rounded-xl border border-hair bg-fill px-4 py-2.5 text-ink outline-none transition-colors focus:border-neonCyan'
+  const label = 'block text-xs font-medium text-muted'
+  const pill = (active) =>
+    `rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+      active ? 'border-transparent bg-neonCyan text-void' : 'border-hair bg-fill text-muted hover:text-ink'
+    }`
+
+  return (
+    <div className="space-y-6">
+      {/* App picker */}
+      <div className="flex flex-wrap gap-2">
+        {apps.map((a) => (
+          <button key={a} type="button" onClick={() => openApp(a)} className={pill(a === app)}>
+            {APP_LABELS[a] || a}
+          </button>
+        ))}
+      </div>
+
+      {!app && <p className="text-sm text-muted">Pick an app to edit its content.</p>}
+
+      {/* Dataset picker */}
+      {app && (
+        <div className="flex flex-wrap gap-2 border-t border-hair pt-4">
+          {appSets.map((ds) => (
+            <button key={ds.slug} type="button" onClick={() => openSet(ds)} className={pill(ds.slug === slug)}>
+              {ds.label || ds.slug}
+              {ds.kind === 'list' && Array.isArray(ds.data) && (
+                <span className="ml-1.5 opacity-70">{ds.data.length}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Editor */}
+      {current && draft != null && (
+        <AppDatasetEditor
+          ds={current}
+          draft={draft}
+          setDraft={setDraft}
+          onSave={save}
+          busy={busy}
+          field={field}
+          label={label}
+        />
+      )}
+    </div>
+  )
+}
+
+// One field control, chosen by field type.
+function DraftInput({ type, value, onChange, field }) {
+  if (type === 'boolean') {
+    return (
+      <label className="mt-1.5 inline-flex cursor-pointer items-center gap-2 text-sm text-ink">
+        <input type="checkbox" checked={Boolean(value)} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-neonCyan" />
+        {value ? 'Yes' : 'No'}
+      </label>
+    )
+  }
+  if (type === 'json') {
+    return (
+      <textarea
+        rows={3}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`${field} font-mono text-xs`}
+        spellCheck={false}
+        placeholder='e.g. [{"h":"Title","p":"Body"}]'
+      />
+    )
+  }
+  if (type === 'number') {
+    return <input type="number" value={value} onChange={(e) => onChange(e.target.value)} className={field} />
+  }
+  return <input value={value} onChange={(e) => onChange(e.target.value)} className={field} />
+}
+
+// The list (cards) or singleton (form) editor for one dataset.
+function AppDatasetEditor({ ds, draft, setDraft, onSave, busy, field, label }) {
+  const types = ds.fieldTypes || {}
+  const fields = ds.fields || []
+
+  const setSingleton = (key) => (val) => setDraft((d) => ({ ...d, [key]: val }))
+  const setCell = (i, key) => (val) => setDraft((rows) => rows.map((r, idx) => (idx === i ? { ...r, [key]: val } : r)))
+  const addRow = () => setDraft((rows) => [...rows, blankRow(ds)])
+  const removeRow = (i) => setDraft((rows) => rows.filter((_, idx) => idx !== i))
+
+  const saveBar = (
+    <div className="flex items-center gap-3">
+      <button type="button" onClick={onSave} disabled={busy} className="rounded-xl bg-neonCyan px-6 py-2.5 font-semibold text-void transition-opacity hover:opacity-90 disabled:opacity-50">
+        {busy ? 'Saving…' : 'Save changes'}
+      </button>
+      {ds.kind === 'list' && (
+        <button type="button" onClick={addRow} className="inline-flex items-center gap-2 rounded-xl border border-hair bg-fill px-4 py-2.5 text-sm font-medium text-ink hover:bg-fill-strong">
+          <Plus className="h-4 w-4" /> Add row
+        </button>
+      )}
+    </div>
+  )
+
+  if (ds.kind === 'singleton') {
+    return (
+      <div className="space-y-5">
+        <section className="glass rounded-2xl p-6">
+          <h2 className="font-display text-lg font-bold text-ink">{ds.label || ds.slug}</h2>
+          <p className="mt-1 text-sm text-muted">Settings for {APP_LABELS[ds.app] || ds.app}. Saved as one object.</p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {fields.map((f) => (
+              <div key={f} className={fieldTypeOf(types, f) === 'json' ? 'sm:col-span-2' : ''}>
+                <label className={label}>{f} <span className="opacity-60">· {fieldTypeOf(types, f)}</span></label>
+                <DraftInput type={fieldTypeOf(types, f)} value={draft[f]} onChange={setSingleton(f)} field={field} />
+              </div>
+            ))}
+          </div>
+        </section>
+        {saveBar}
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-5">
+      <p className="text-sm text-muted">{draft.length} {draft.length === 1 ? 'row' : 'rows'} · {APP_LABELS[ds.app] || ds.app} · {ds.label || ds.slug}</p>
+      <ul className="space-y-3">
+        {draft.map((row, i) => (
+          <li key={i} className="glass rounded-xl p-4">
+            <div className="flex items-start justify-between gap-4">
+              <div className="grid flex-1 gap-3 sm:grid-cols-2">
+                {fields.map((f) => (
+                  <div key={f} className={fieldTypeOf(types, f) === 'json' ? 'sm:col-span-2' : ''}>
+                    <label className={label}>{f} <span className="opacity-60">· {fieldTypeOf(types, f)}</span></label>
+                    <DraftInput type={fieldTypeOf(types, f)} value={row[f]} onChange={setCell(i, f)} field={field} />
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => removeRow(i)}
+                aria-label={`Delete row ${i + 1}`}
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hair bg-fill text-muted hover:text-red-400"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {saveBar}
+    </div>
   )
 }
 

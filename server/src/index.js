@@ -24,6 +24,7 @@ import mediaRoutes from './routes/media.js'
 import blogRoutes from './routes/blog.js'
 import skillGroupRoutes from './routes/skillGroups.js'
 import profileRoutes from './routes/profile.js'
+import appDataRoutes from './routes/appData.js'
 
 const app = express()
 
@@ -60,6 +61,7 @@ app.use('/api/media', mediaRoutes)
 app.use('/api/blog', blogRoutes)
 app.use('/api/skill-groups', skillGroupRoutes)
 app.use('/api/profile', profileRoutes)
+app.use('/api/app-data', appDataRoutes)
 
 // Fallback 404 for unknown API routes.
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found.' }))

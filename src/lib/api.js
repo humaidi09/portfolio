@@ -109,6 +109,16 @@ export const api = {
   // Admin — profile (site identity singleton)
   updateProfile: (body, token) => request('/api/profile', { method: 'PUT', body, token }),
 
+  // App content — the editable data behind the standalone apps. Reads are public
+  // (each app fetches its own datasets at boot); the write is admin-only and
+  // upserts a whole dataset (a list table or a settings object) in one request.
+  listAppData: () => request('/api/app-data'),
+  listAppDataFor: (app) => request(`/api/app-data/${app}`),
+  updateAppDataset: (app, slug, body, token) =>
+    request(`/api/app-data/${app}/${slug}`, { method: 'PUT', body, token }),
+  deleteAppDataset: (app, slug, token) =>
+    request(`/api/app-data/${app}/${slug}`, { method: 'DELETE', token }),
+
   // Admin — media uploads (Cloudinary signed direct-to-cloud). `signUpload`
   // returns the short-lived fields the browser POSTs with the file straight to
   // Cloudinary (see src/lib/upload.js); `destroyAsset` removes an asset by its
